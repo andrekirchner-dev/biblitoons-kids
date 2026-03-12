@@ -1,4 +1,4 @@
-import { } from "react";
+import React from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, Settings, User, LogOut, Clock } from "lucide-react";
 import bibiMascot from "@/assets/bibi-mascot.png";

@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { ShoppingBag } from "lucide-react";
-import bibiMascot from "@/assets/bibi-mascot.png";
+
 
 const shopItems = [
   { id: "1", name: "Bíblia Ilustrada Bibloo", price: "R$ 49,90", emoji: "📖" },

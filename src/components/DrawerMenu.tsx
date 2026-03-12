@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, Settings, User, LogOut, Clock } from "lucide-react";
 import bibiMascot from "@/assets/bibi-mascot.png";

@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useRef } from "react";
 import { motion } from "framer-motion";
 import { Play } from "lucide-react";
 import storyNoah from "@/assets/story-noah.jpg";

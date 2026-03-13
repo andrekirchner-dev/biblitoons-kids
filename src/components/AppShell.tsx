@@ -47,7 +47,10 @@ const AppShell = () => {
   }
 
   return (
-    <div className="min-h-screen bg-background relative overflow-hidden">
+    <div
+      className="min-h-screen relative overflow-hidden bg-cover bg-center bg-fixed"
+      style={{ backgroundImage: `url(${splashBg})` }}
+    >
       <DrawerMenu
         isOpen={drawerOpen}
         onClose={() => setDrawerOpen(false)}

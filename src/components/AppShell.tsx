@@ -10,13 +10,14 @@ import StoriesPage from "@/pages/StoriesPage";
 import DevotionalPage from "@/pages/DevotionalPage";
 import ShopPage from "@/pages/ShopPage";
 import SplashScreen from "@/components/SplashScreen";
+import SignupPage from "@/pages/SignupPage";
 
 const AppShell = () => {
-  const [currentPage, setCurrentPage] = useState("home");
+  const [currentPage, setCurrentPage] = useState("splash");
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [showSplash, setShowSplash] = useState(true);
 
-  const showBottomNav = !["home"].includes(currentPage) && !showSplash;
+  const showBottomNav = !["home", "splash", "signup"].includes(currentPage) && !showSplash;
 
   const pageVariants = {
     initial: { opacity: 0, y: 20 },
@@ -24,10 +25,16 @@ const AppShell = () => {
     exit: { opacity: 0, y: -20 },
   };
 
+  const handleNavigate = (page: string) => {
+    setCurrentPage(page);
+  };
+
   const renderPage = () => {
     switch (currentPage) {
+      case "signup":
+        return <SignupPage onNavigate={handleNavigate} />;
       case "home":
-        return <HomePage onNavigate={setCurrentPage} onOpenDrawer={() => setDrawerOpen(true)} />;
+        return <HomePage onNavigate={handleNavigate} onOpenDrawer={() => setDrawerOpen(true)} />;
       case "bible":
         return <BiblePage />;
       case "bibliaflix":
@@ -39,12 +46,19 @@ const AppShell = () => {
       case "shop":
         return <ShopPage />;
       default:
-        return <HomePage onNavigate={setCurrentPage} onOpenDrawer={() => setDrawerOpen(true)} />;
+        return <HomePage onNavigate={handleNavigate} onOpenDrawer={() => setDrawerOpen(true)} />;
     }
   };
 
   if (showSplash) {
-    return <SplashScreen onComplete={() => setShowSplash(false)} />;
+    return (
+      <div
+        className="min-h-screen bg-cover bg-center bg-fixed"
+        style={{ backgroundImage: `url(${splashBg})` }}
+      >
+        <SplashScreen onComplete={() => { setShowSplash(false); setCurrentPage("signup"); }} />
+      </div>
+    );
   }
 
   return (

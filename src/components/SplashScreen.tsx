@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import splashBg from "@/assets/splash-bg.png";
+
 import logoRainbow from "@/assets/logo-bibloo-rainbow.png";
 import { AnimatedSpinner } from "@/components/ui/animated-spinner";
 

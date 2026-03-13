@@ -18,7 +18,7 @@ const SignupPage = ({ onNavigate }: SignupPageProps) => {
       <motion.img
         src={logoRainbow}
         alt="Bibloo"
-        className="w-48 h-auto drop-shadow-2xl mb-4"
+        className="w-48 h-auto drop-shadow-2xl mb-2"
         initial={{ y: -30, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ type: "spring", damping: 12 }}
@@ -26,7 +26,11 @@ const SignupPage = ({ onNavigate }: SignupPageProps) => {
 
       {/* Title banner */}
       <motion.div
-        className="w-full max-w-sm bg-bibloo-parchment/90 rounded-full py-3 px-6 shadow-cartoon text-center mb-5"
+        className="w-full max-w-sm rounded-full py-3 px-6 text-center mb-4 border-2 border-bibloo-brown/20"
+        style={{
+          background: "linear-gradient(135deg, hsl(38 55% 88% / 0.95), hsl(35 50% 82% / 0.9))",
+          boxShadow: "0 4px 12px hsl(25 45% 20% / 0.25), inset 0 1px 0 hsl(40 60% 95% / 0.5), 0 2px 0 hsl(25 40% 30% / 0.15)",
+        }}
         initial={{ scale: 0.8, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
         transition={{ delay: 0.15 }}
@@ -38,7 +42,11 @@ const SignupPage = ({ onNavigate }: SignupPageProps) => {
 
       {/* Google button */}
       <motion.button
-        className="w-full max-w-sm bg-bibloo-parchment/90 rounded-2xl py-3.5 px-5 shadow-cartoon flex items-center gap-3 mb-3 btn-press"
+        className="w-full max-w-sm rounded-2xl py-3.5 px-5 flex items-center gap-3 mb-3 btn-press border-2 border-bibloo-brown/20"
+        style={{
+          background: "linear-gradient(145deg, hsl(38 55% 88% / 0.95), hsl(33 45% 80% / 0.9))",
+          boxShadow: "0 4px 12px hsl(25 45% 20% / 0.25), inset 0 1px 0 hsl(40 60% 95% / 0.5), 0 2px 0 hsl(25 40% 30% / 0.15)",
+        }}
         initial={{ x: -40, opacity: 0 }}
         animate={{ x: 0, opacity: 1 }}
         transition={{ delay: 0.25 }}
@@ -57,7 +65,11 @@ const SignupPage = ({ onNavigate }: SignupPageProps) => {
 
       {/* Phone input */}
       <motion.div
-        className="w-full max-w-sm bg-bibloo-parchment/90 rounded-2xl py-3 px-5 shadow-cartoon flex items-center gap-3 mb-3"
+        className="w-full max-w-sm rounded-2xl py-3 px-5 flex items-center gap-3 mb-3 border-2 border-bibloo-brown/20"
+        style={{
+          background: "linear-gradient(145deg, hsl(38 55% 88% / 0.95), hsl(33 45% 80% / 0.9))",
+          boxShadow: "0 4px 12px hsl(25 45% 20% / 0.25), inset 0 1px 0 hsl(40 60% 95% / 0.5), 0 2px 0 hsl(25 40% 30% / 0.15)",
+        }}
         initial={{ x: -40, opacity: 0 }}
         animate={{ x: 0, opacity: 1 }}
         transition={{ delay: 0.35 }}
@@ -78,7 +90,11 @@ const SignupPage = ({ onNavigate }: SignupPageProps) => {
 
       {/* Email input */}
       <motion.div
-        className="w-full max-w-sm bg-bibloo-parchment/90 rounded-2xl py-3 px-5 shadow-cartoon flex items-center gap-3 mb-5"
+        className="w-full max-w-sm rounded-2xl py-3 px-5 flex items-center gap-3 mb-5 border-2 border-bibloo-brown/20"
+        style={{
+          background: "linear-gradient(145deg, hsl(38 55% 88% / 0.95), hsl(33 45% 80% / 0.9))",
+          boxShadow: "0 4px 12px hsl(25 45% 20% / 0.25), inset 0 1px 0 hsl(40 60% 95% / 0.5), 0 2px 0 hsl(25 40% 30% / 0.15)",
+        }}
         initial={{ x: -40, opacity: 0 }}
         animate={{ x: 0, opacity: 1 }}
         transition={{ delay: 0.45 }}
@@ -133,7 +149,11 @@ const SignupPage = ({ onNavigate }: SignupPageProps) => {
 
       {/* Back button */}
       <motion.button
-        className="absolute bottom-6 left-5 bg-bibloo-parchment/90 rounded-full py-2.5 px-5 shadow-cartoon flex items-center gap-2 btn-press"
+        className="absolute bottom-6 left-5 rounded-full py-2.5 px-5 flex items-center gap-2 btn-press border-2 border-bibloo-brown/20"
+        style={{
+          background: "linear-gradient(145deg, hsl(38 55% 88% / 0.95), hsl(33 45% 80% / 0.9))",
+          boxShadow: "0 4px 12px hsl(25 45% 20% / 0.25), inset 0 1px 0 hsl(40 60% 95% / 0.5), 0 2px 0 hsl(25 40% 30% / 0.15)",
+        }}
         initial={{ x: -30, opacity: 0 }}
         animate={{ x: 0, opacity: 1 }}
         transition={{ delay: 0.6 }}

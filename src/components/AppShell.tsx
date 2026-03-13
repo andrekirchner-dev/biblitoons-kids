@@ -1,4 +1,5 @@
 import { useState } from "react";
+import splashBg from "@/assets/splash-bg.png";
 import { motion, AnimatePresence } from "framer-motion";
 import DrawerMenu from "@/components/DrawerMenu";
 import BottomNav from "@/components/BottomNav";

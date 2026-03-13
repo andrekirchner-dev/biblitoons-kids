@@ -137,6 +137,13 @@
     @apply transition-all duration-100 active:translate-y-1 active:shadow-none;
   }
 
+  .jelly-btn {
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  .jelly-btn:active {
+    transform: scaleX(1.08) scaleY(0.88);
+  }
+
   .scrollbar-hide {
     -ms-overflow-style: none;
     scrollbar-width: none;

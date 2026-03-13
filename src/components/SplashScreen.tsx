@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import splashBg from "@/assets/splash-bg.png";
+
 import logoRainbow from "@/assets/logo-bibloo-rainbow.png";
 import { AnimatedSpinner } from "@/components/ui/animated-spinner";
 
@@ -26,13 +26,6 @@ const SplashScreen = ({ onComplete }: SplashScreenProps) => {
       animate={phase === "done" ? { opacity: 0 } : { opacity: 1 }}
       transition={{ duration: 0.5 }}
     >
-      {/* Background image */}
-      <img
-        src={splashBg}
-        alt=""
-        className="absolute inset-0 w-full h-full object-cover"
-      />
-
       {/* Content overlay - logo pushed up into blue sky area */}
       <div className="relative z-10 flex flex-col items-center w-full pt-[18vh]">
         {/* Logo with ambient glow */}

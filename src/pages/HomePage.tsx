@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import { Book, Film, Baby, Sun, ShoppingBag, Menu } from "lucide-react";
 import logoBibloo from "@/assets/logo-bibloo.jpeg";
 import bibiMascot from "@/assets/bibi-mascot.png";
-import bgMeadow from "@/assets/bg-meadow.jpg";
+
 
 interface HomePageProps {
   onNavigate: (page: string) => void;

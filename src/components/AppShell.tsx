@@ -1,4 +1,5 @@
 import { useState } from "react";
+import splashBg from "@/assets/splash-bg.png";
 import { motion, AnimatePresence } from "framer-motion";
 import DrawerMenu from "@/components/DrawerMenu";
 import BottomNav from "@/components/BottomNav";
@@ -47,7 +48,10 @@ const AppShell = () => {
   }
 
   return (
-    <div className="min-h-screen bg-background relative overflow-hidden">
+    <div
+      className="min-h-screen relative overflow-hidden bg-cover bg-center bg-fixed"
+      style={{ backgroundImage: `url(${splashBg})` }}
+    >
       <DrawerMenu
         isOpen={drawerOpen}
         onClose={() => setDrawerOpen(false)}

@@ -26,7 +26,11 @@ const SignupPage = ({ onNavigate }: SignupPageProps) => {
 
       {/* Title banner */}
       <motion.div
-        className="w-full max-w-sm bg-bibloo-parchment/90 rounded-full py-3 px-6 shadow-cartoon text-center mb-5"
+        className="w-full max-w-sm rounded-full py-3 px-6 text-center mb-4 border-2 border-bibloo-brown/20"
+        style={{
+          background: "linear-gradient(135deg, hsl(38 55% 88% / 0.95), hsl(35 50% 82% / 0.9))",
+          boxShadow: "0 4px 12px hsl(25 45% 20% / 0.25), inset 0 1px 0 hsl(40 60% 95% / 0.5), 0 2px 0 hsl(25 40% 30% / 0.15)",
+        }}
         initial={{ scale: 0.8, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
         transition={{ delay: 0.15 }}

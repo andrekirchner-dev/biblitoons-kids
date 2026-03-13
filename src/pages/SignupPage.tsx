@@ -134,18 +134,18 @@ const SignupPage = ({ onNavigate }: SignupPageProps) => {
       </motion.p>
 
       {/* Bibi mascot */}
-      <motion.div
-        className="flex-1 flex items-end justify-center w-full"
-        initial={{ y: 40, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ delay: 0.7, type: "spring", damping: 10 }}>
-        
-        
+      
 
 
 
-        
-      </motion.div>
+
+
+
+
+
+
+
+      
 
       {/* Back button */}
       <motion.button

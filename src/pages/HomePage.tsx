@@ -30,14 +30,6 @@ const itemVariants = {
 const HomePage = ({ onNavigate, onOpenDrawer }: HomePageProps) => {
   return (
     <div className="min-h-screen relative">
-      {/* Background */}
-      <div
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-        style={{ backgroundImage: `url(${bgMeadow})` }}
-      >
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-background/30 to-background/80" />
-      </div>
-
       {/* Content */}
       <div className="relative z-10 px-4 pt-6 pb-8">
         {/* Top Bar */}

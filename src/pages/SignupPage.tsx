@@ -42,7 +42,11 @@ const SignupPage = ({ onNavigate }: SignupPageProps) => {
 
       {/* Google button */}
       <motion.button
-        className="w-full max-w-sm bg-bibloo-parchment/90 rounded-2xl py-3.5 px-5 shadow-cartoon flex items-center gap-3 mb-3 btn-press"
+        className="w-full max-w-sm rounded-2xl py-3.5 px-5 flex items-center gap-3 mb-3 btn-press border-2 border-bibloo-brown/20"
+        style={{
+          background: "linear-gradient(145deg, hsl(38 55% 88% / 0.95), hsl(33 45% 80% / 0.9))",
+          boxShadow: "0 4px 12px hsl(25 45% 20% / 0.25), inset 0 1px 0 hsl(40 60% 95% / 0.5), 0 2px 0 hsl(25 40% 30% / 0.15)",
+        }}
         initial={{ x: -40, opacity: 0 }}
         animate={{ x: 0, opacity: 1 }}
         transition={{ delay: 0.25 }}

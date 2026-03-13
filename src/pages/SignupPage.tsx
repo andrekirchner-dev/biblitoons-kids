@@ -18,7 +18,7 @@ const SignupPage = ({ onNavigate }: SignupPageProps) => {
       <motion.img
         src={logoRainbow}
         alt="Bibloo"
-        className="w-48 h-auto drop-shadow-2xl mb-4"
+        className="w-48 h-auto drop-shadow-2xl mb-2"
         initial={{ y: -30, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ type: "spring", damping: 12 }}

@@ -33,7 +33,7 @@ const SplashScreen = ({ onComplete }: SplashScreenProps) => {
           initial={{ scale: 0.5, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           transition={{ type: "spring", damping: 12, stiffness: 150, delay: 0.2 }}
-          className="relative mb-6"
+          className="relative mb-2"
         >
           {/* Outer glow - ambient light matching sky tones */}
           <div

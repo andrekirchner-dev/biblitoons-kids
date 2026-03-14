@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 
-import logoRainbow from "@/assets/logo-bibloo-rainbow.png";
+import LogoApp1 from "@/assets/LogoApp1.png";
 import { AnimatedSpinner } from "@/components/ui/animated-spinner";
 
 interface SplashScreenProps {

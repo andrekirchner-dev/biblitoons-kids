@@ -11,7 +11,7 @@ const WelcomePage = ({ onNavigate }: WelcomePageProps) => {
       style={{
         backgroundImage: `url(${BG3})`,
         backgroundSize: "cover",
-        backgroundPosition: "42% top",
+        backgroundPosition: "38% center",
         width: "100%",
         height: "100dvh",
       }}

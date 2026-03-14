@@ -11,13 +11,17 @@ import DevotionalPage from "@/pages/DevotionalPage";
 import ShopPage from "@/pages/ShopPage";
 import SplashScreen from "@/components/SplashScreen";
 import SignupPage from "@/pages/SignupPage";
+import GenderSelectionPage from "@/pages/GenderSelectionPage";
+import AgeSelectionPage from "@/pages/AgeSelectionPage";
 
 const AppShell = () => {
   const [currentPage, setCurrentPage] = useState("splash");
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [showSplash, setShowSplash] = useState(true);
+  const [gender, setGender] = useState<"menina" | "menino">("menina");
+  const [age, setAge] = useState<string>("");
 
-  const showBottomNav = !["home", "splash", "signup"].includes(currentPage) && !showSplash;
+  const showBottomNav = !["home", "splash", "signup", "gender", "age"].includes(currentPage) && !showSplash;
 
   const pageVariants = {
     initial: { opacity: 0, y: 20 },
@@ -33,6 +37,21 @@ const AppShell = () => {
     switch (currentPage) {
       case "signup":
         return <SignupPage onNavigate={handleNavigate} />;
+      case "gender":
+        return (
+          <GenderSelectionPage
+            onNavigate={handleNavigate}
+            onSelectGender={setGender}
+          />
+        );
+      case "age":
+        return (
+          <AgeSelectionPage
+            gender={gender}
+            onNavigate={handleNavigate}
+            onSelectAge={setAge}
+          />
+        );
       case "home":
         return <HomePage onNavigate={handleNavigate} onOpenDrawer={() => setDrawerOpen(true)} />;
       case "bible":

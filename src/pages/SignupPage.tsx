@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { Mail, Phone, ArrowLeft } from "lucide-react";
-import logoRainbow from "@/assets/logo-bibloo-rainbow.png";
+import { Mail, Phone } from "lucide-react";
+import LogoApp1 from "@/assets/LogoApp1.png";
 import bibiWaving from "@/assets/bibi-waving.png";
 
 interface SignupPageProps {

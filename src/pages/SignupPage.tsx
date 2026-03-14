@@ -11,6 +11,12 @@ interface SignupPageProps {
 const SignupPage = ({ onNavigate }: SignupPageProps) => {
   const [phoneValue, setPhoneValue] = useState("");
   const [emailValue, setEmailValue] = useState("");
+  const [showForm, setShowForm] = useState(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setShowForm(true), 800);
+    return () => clearTimeout(timer);
+  }, []);
 
   return (
     <div className="min-h-screen flex-col px-5 pt-6 pb-8 relative flex items-center justify-center">

@@ -10,6 +10,7 @@ import StoriesPage from "@/pages/StoriesPage";
 import DevotionalPage from "@/pages/DevotionalPage";
 import ShopPage from "@/pages/ShopPage";
 import SplashScreen from "@/components/SplashScreen";
+import WelcomePage from "@/pages/WelcomePage";
 import SignupPage from "@/pages/SignupPage";
 import GenderSelectionPage from "@/pages/GenderSelectionPage";
 import AgeSelectionPage from "@/pages/AgeSelectionPage";
@@ -21,7 +22,8 @@ const AppShell = () => {
   const [gender, setGender] = useState<"menina" | "menino">("menina");
   const [age, setAge] = useState<string>("");
 
-  const showBottomNav = !["home", "splash", "signup", "gender", "age"].includes(currentPage) && !showSplash;
+  const hideBottomNav = ["splash", "welcome", "signup", "gender", "age"];
+  const showBottomNav = !hideBottomNav.includes(currentPage) && !showSplash;
 
   const pageVariants = {
     initial: { opacity: 0, y: 20 },
@@ -35,6 +37,8 @@ const AppShell = () => {
 
   const renderPage = () => {
     switch (currentPage) {
+      case "welcome":
+        return <WelcomePage onNavigate={handleNavigate} />;
       case "signup":
         return <SignupPage onNavigate={handleNavigate} />;
       case "gender":
@@ -53,7 +57,7 @@ const AppShell = () => {
           />
         );
       case "home":
-        return <HomePage onNavigate={handleNavigate} onOpenDrawer={() => setDrawerOpen(true)} />;
+        return <HomePage onNavigate={handleNavigate} onOpenDrawer={() => setDrawerOpen(true)} age={age} />;
       case "bible":
         return <BiblePage />;
       case "bibliaflix":
@@ -65,7 +69,7 @@ const AppShell = () => {
       case "shop":
         return <ShopPage />;
       default:
-        return <HomePage onNavigate={handleNavigate} onOpenDrawer={() => setDrawerOpen(true)} />;
+        return <HomePage onNavigate={handleNavigate} onOpenDrawer={() => setDrawerOpen(true)} age={age} />;
     }
   };
 
@@ -75,7 +79,7 @@ const AppShell = () => {
         className="min-h-screen bg-cover bg-center bg-fixed"
         style={{ backgroundImage: `url(${splashBg})` }}
       >
-        <SplashScreen onComplete={() => { setShowSplash(false); setCurrentPage("signup"); }} />
+        <SplashScreen onComplete={() => { setShowSplash(false); setCurrentPage("welcome"); }} />
       </div>
     );
   }

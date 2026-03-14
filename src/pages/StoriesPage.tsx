@@ -33,7 +33,7 @@ const StoriesPage = () => {
           📚 Histórias para Crianças
         </h1>
         <p className="font-body text-sm text-primary-foreground/80 mt-1">
-          Histórias bíblicas para crianças até 4 anos
+          Histórias bíblicas para crianças
         </p>
       </div>
 

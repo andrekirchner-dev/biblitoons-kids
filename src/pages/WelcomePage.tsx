@@ -10,22 +10,32 @@ const WelcomePage = ({ onNavigate }: WelcomePageProps) => {
     <div
       style={{
         backgroundImage: `url(${BG3})`,
-        backgroundSize: "cover",
-        backgroundPosition: "38% center",
-        width: "100%",
+        backgroundSize: "110%",
+        backgroundPosition: "center top",
+        width: "100vw",
+        maxWidth: 428,
         height: "100dvh",
+        overflow: "hidden",
+        position: "relative",
+        margin: "0 auto",
       }}
-      className="relative overflow-hidden"
     >
       <motion.button
         className="font-penmanship font-bold text-white text-center"
         style={{
           position: "fixed",
-          bottom: 48,
-          left: "50%",
-          transform: "translateX(-50%)",
-          width: "min(300px, 80vw)",
+          bottom: 40,
+          left: 0,
+          right: 0,
+          marginLeft: "auto",
+          marginRight: "auto",
+          width: "fit-content",
+          minWidth: 200,
+          maxWidth: "80vw",
           whiteSpace: "nowrap",
+          display: "block",
+          textAlign: "center",
+          zIndex: 10,
           background: "#F5A623",
           borderBottom: "4px solid #C47D0E",
           borderRadius: 50,

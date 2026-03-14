@@ -14,6 +14,8 @@ import WelcomePage from "@/pages/WelcomePage";
 import SignupPage from "@/pages/SignupPage";
 import GenderSelectionPage from "@/pages/GenderSelectionPage";
 import AgeSelectionPage from "@/pages/AgeSelectionPage";
+import MiniGamesPage from "@/pages/MiniGamesPage";
+import ParentalAreaPage from "@/pages/ParentalAreaPage";
 
 const AppShell = () => {
   const [currentPage, setCurrentPage] = useState("splash");
@@ -22,8 +24,8 @@ const AppShell = () => {
   const [gender, setGender] = useState<"menina" | "menino">("menina");
   const [age, setAge] = useState<string>("");
 
-  const hideBottomNav = ["splash", "welcome", "signup", "gender", "age"];
-  const showBottomNav = !hideBottomNav.includes(currentPage) && !showSplash;
+  const showNavPages = ["home", "bible", "bibliaflix", "stories", "search"];
+  const showBottomNav = showNavPages.includes(currentPage) && !showSplash;
 
   const pageVariants = {
     initial: { opacity: 0, y: 20 },
@@ -59,7 +61,7 @@ const AppShell = () => {
       case "home":
         return <HomePage onNavigate={handleNavigate} onOpenDrawer={() => setDrawerOpen(true)} age={age} />;
       case "bible":
-        return <BiblePage />;
+        return <BiblePage onNavigate={handleNavigate} />;
       case "bibliaflix":
         return <BibliaFlixPage />;
       case "stories":
@@ -68,6 +70,10 @@ const AppShell = () => {
         return <DevotionalPage />;
       case "shop":
         return <ShopPage />;
+      case "miniGames":
+        return <MiniGamesPage onNavigate={handleNavigate} />;
+      case "parentalArea":
+        return <ParentalAreaPage onNavigate={handleNavigate} />;
       default:
         return <HomePage onNavigate={handleNavigate} onOpenDrawer={() => setDrawerOpen(true)} age={age} />;
     }

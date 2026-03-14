@@ -7,25 +7,35 @@ interface WelcomePageProps {
 
 const WelcomePage = ({ onNavigate }: WelcomePageProps) => {
   return (
-    <div className="relative w-full h-screen overflow-hidden">
-      <img
-        src={BG3}
-        alt="Welcome Background"
-        className="absolute inset-0 w-full h-full object-cover object-center"
-      />
-
-      {/* Bottom button */}
+    <div
+      style={{
+        backgroundImage: `url(${BG3})`,
+        backgroundSize: "cover",
+        backgroundPosition: "42% top",
+        width: "100%",
+        height: "100dvh",
+      }}
+      className="relative overflow-hidden"
+    >
       <motion.button
-        className="absolute left-1/2 -translate-x-1/2 bottom-[48px] rounded-full py-4 px-12 font-bold text-white text-lg"
+        className="font-penmanship font-bold text-white text-center"
         style={{
+          position: "fixed",
+          bottom: 48,
+          left: "50%",
+          transform: "translateX(-50%)",
+          width: "min(320px, 85vw)",
           background: "#F5A623",
           borderBottom: "4px solid #C47D0E",
+          borderRadius: 50,
+          padding: "16px 48px",
+          fontSize: "clamp(16px, 4vw, 20px)",
+          minHeight: 44,
           boxShadow: "0 6px 20px rgba(0,0,0,0.25)",
-          fontFamily: "'Holidays Homework', serif",
         }}
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 1, duration: 0.5 }}
+        transition={{ delay: 0.5, duration: 0.5 }}
         whileTap={{ scaleX: 1.1, scaleY: 0.85 }}
         onClick={() => onNavigate("signup")}
       >

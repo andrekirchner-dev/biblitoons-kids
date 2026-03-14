@@ -11,7 +11,7 @@ const WelcomePage = ({ onNavigate }: WelcomePageProps) => {
       style={{
         backgroundImage: `url(${BG3})`,
         backgroundSize: "cover",
-        backgroundPosition: "42% top",
+        backgroundPosition: "38% center",
         width: "100%",
         height: "100dvh",
       }}
@@ -24,7 +24,8 @@ const WelcomePage = ({ onNavigate }: WelcomePageProps) => {
           bottom: 48,
           left: "50%",
           transform: "translateX(-50%)",
-          width: "min(320px, 85vw)",
+          width: "min(300px, 80vw)",
+          whiteSpace: "nowrap",
           background: "#F5A623",
           borderBottom: "4px solid #C47D0E",
           borderRadius: 50,

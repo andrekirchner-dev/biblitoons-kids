@@ -1,134 +1,165 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft } from "lucide-react";
 
 const oldTestamentBooks = [
   "Gênesis", "Êxodo", "Levítico", "Números", "Deuteronômio",
-  "Josué", "Juízes", "Rute", "1 Samuel", "2 Samuel",
-  "1 Reis", "2 Reis", "1 Crônicas", "2 Crônicas",
 ];
 
 const newTestamentBooks = [
   "Mateus", "Marcos", "Lucas", "João", "Atos",
-  "Romanos", "1 Coríntios", "2 Coríntios", "Gálatas",
-  "Efésios", "Filipenses", "Colossenses",
 ];
 
-const BiblePage = () => {
-  const [testament, setTestament] = useState<"old" | "new">("old");
+interface BiblePageProps {
+  onNavigate?: (page: string) => void;
+}
+
+const BiblePage = ({ onNavigate }: BiblePageProps) => {
   const [selectedBook, setSelectedBook] = useState<string | null>(null);
   const [chapter, setChapter] = useState(1);
 
-  const books = testament === "old" ? oldTestamentBooks : newTestamentBooks;
-
   if (selectedBook) {
     return (
-      <div className="min-h-screen bg-bibloo-parchment">
-        {/* Reader Header */}
-        <div className="bg-gradient-wood p-4 pt-8 flex items-center gap-3">
+      <div
+        className="mx-auto overflow-x-hidden"
+        style={{ width: "100%", maxWidth: 428, minHeight: "100dvh", paddingBottom: 80 }}
+      >
+        <div className="flex items-center px-4 pt-6 mb-4">
           <button
             onClick={() => setSelectedBook(null)}
-            className="w-8 h-8 rounded-full bg-primary-foreground/20 flex items-center justify-center btn-press"
+            className="flex items-center justify-center"
+            style={{ minHeight: 44, minWidth: 44 }}
           >
-            <ChevronLeft className="w-5 h-5 text-primary-foreground" />
+            <ChevronLeft className="text-white" size={24} />
           </button>
-          <h1 className="font-display text-lg text-primary-foreground font-bold">{selectedBook}</h1>
-          <span className="font-body text-sm text-primary-foreground/70 ml-auto">Cap. {chapter}</span>
+          <h1
+            className="font-penmanship font-bold text-white flex-1 text-center mr-11"
+            style={{ fontSize: "clamp(18px, 5vw, 24px)" }}
+          >
+            {selectedBook}
+          </h1>
         </div>
 
-        {/* Bible Text Area */}
         <motion.div
           key={chapter}
-          initial={{ rotateY: 90, opacity: 0 }}
-          animate={{ rotateY: 0, opacity: 1 }}
-          transition={{ duration: 0.4 }}
-          className="p-6 max-w-lg mx-auto"
-          style={{ perspective: "1000px" }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          className="px-4"
         >
-          <div className="bg-primary-foreground/80 rounded-2xl p-6 shadow-card border border-border min-h-[60vh]">
-            <h2 className="font-display text-xl text-foreground mb-4">{selectedBook} {chapter}</h2>
-            <div className="font-body text-foreground/80 leading-relaxed space-y-3 text-sm">
-              <p><span className="font-bold text-primary">1.</span> No princípio, Deus criou os céus e a terra.</p>
-              <p><span className="font-bold text-primary">2.</span> E a terra era sem forma e vazia; e havia trevas sobre a face do abismo.</p>
-              <p><span className="font-bold text-primary">3.</span> E disse Deus: "Haja luz"; e houve luz.</p>
-              <p><span className="font-bold text-primary">4.</span> E viu Deus que a luz era boa; e fez Deus separação entre a luz e as trevas.</p>
-              <p className="text-center text-muted-foreground text-xs mt-8 italic">
-                (Conteúdo da Bíblia será carregado via API)
-              </p>
-            </div>
+          <div
+            style={{
+              background: "rgba(255,255,255,0.9)",
+              borderRadius: 20,
+              padding: 20,
+              minHeight: "60vh",
+            }}
+          >
+            <h2 className="font-penmanship font-bold mb-4" style={{ color: "#4A2C0A" }}>
+              {selectedBook} {chapter}
+            </h2>
+            <p style={{ color: "#6B4C2A", fontSize: "clamp(13px, 3.5vw, 16px)", lineHeight: 1.8 }}>
+              <span className="font-bold" style={{ color: "#FF8C00" }}>1.</span> No princípio, Deus criou os céus e a terra.
+            </p>
+            <p className="text-center mt-8 italic" style={{ color: "#9CA3AF", fontSize: 12 }}>
+              (Conteúdo será carregado via API)
+            </p>
           </div>
         </motion.div>
-
-        {/* Chapter Navigation */}
-        <div className="fixed bottom-28 left-0 right-0 flex justify-center gap-4 px-6">
-          <button
-            onClick={() => setChapter(Math.max(1, chapter - 1))}
-            disabled={chapter === 1}
-            className="flex items-center gap-1 bg-gradient-gold rounded-full px-5 py-2.5 shadow-button btn-press font-display text-sm text-primary-foreground disabled:opacity-40"
-          >
-            <ChevronLeft className="w-4 h-4" /> Anterior
-          </button>
-          <button
-            onClick={() => setChapter(chapter + 1)}
-            className="flex items-center gap-1 bg-gradient-gold rounded-full px-5 py-2.5 shadow-button btn-press font-display text-sm text-primary-foreground"
-          >
-            Próximo <ChevronRight className="w-4 h-4" />
-          </button>
-        </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-sky">
-      {/* Header */}
-      <div className="bg-gradient-wood p-4 pt-8 pb-6 text-center">
-        <h1 className="font-display text-2xl text-primary-foreground font-bold">📖 Bíblia</h1>
-        <p className="font-body text-sm text-primary-foreground/70 mt-1">Selecione um livro para ler</p>
-      </div>
-
-      {/* Testament Toggle */}
-      <div className="flex gap-2 px-4 -mt-4 max-w-md mx-auto">
-        <button
-          onClick={() => setTestament("old")}
-          className={`flex-1 py-2.5 rounded-xl font-display text-sm font-bold btn-press shadow-cartoon transition-colors ${
-            testament === "old"
-              ? "bg-gradient-gold text-primary-foreground"
-              : "bg-bibloo-parchment text-foreground"
-          }`}
-        >
-          Velho Testamento
-        </button>
-        <button
-          onClick={() => setTestament("new")}
-          className={`flex-1 py-2.5 rounded-xl font-display text-sm font-bold btn-press shadow-cartoon transition-colors ${
-            testament === "new"
-              ? "bg-gradient-gold text-primary-foreground"
-              : "bg-bibloo-parchment text-foreground"
-          }`}
-        >
-          Novo Testamento
-        </button>
-      </div>
-
-      {/* Books Grid */}
-      <motion.div
-        key={testament}
-        initial={{ opacity: 0, x: testament === "old" ? -20 : 20 }}
-        animate={{ opacity: 1, x: 0 }}
-        className="grid grid-cols-2 gap-2.5 p-4 max-w-md mx-auto"
-      >
-        {books.map((book) => (
-          <motion.button
-            key={book}
-            onClick={() => { setSelectedBook(book); setChapter(1); }}
-            className="bg-bibloo-parchment/90 rounded-xl py-3 px-4 shadow-card btn-press text-left border border-border hover:border-primary transition-colors"
-            whileTap={{ scale: 0.95 }}
+    <div
+      className="mx-auto overflow-x-hidden"
+      style={{ width: "100%", maxWidth: 428, minHeight: "100dvh", paddingBottom: 80 }}
+    >
+      <div className="flex items-center px-4 pt-6 mb-4">
+        {onNavigate && (
+          <button
+            onClick={() => onNavigate("home")}
+            className="flex items-center justify-center"
+            style={{ minHeight: 44, minWidth: 44 }}
           >
-            <span className="font-display text-sm font-semibold text-foreground">{book}</span>
-          </motion.button>
-        ))}
-      </motion.div>
+            <ChevronLeft className="text-white" size={24} />
+          </button>
+        )}
+        <h1
+          className="font-penmanship font-bold text-white flex-1 text-center"
+          style={{ fontSize: "clamp(20px, 5.5vw, 28px)", marginRight: onNavigate ? 44 : 0 }}
+        >
+          Ler a Bíblia
+        </h1>
+      </div>
+
+      {/* Two columns */}
+      <div className="flex px-4 gap-3" style={{ minHeight: 0 }}>
+        {/* Old Testament */}
+        <div className="flex-1 flex flex-col">
+          <h2
+            className="font-penmanship font-bold text-white text-center mb-2"
+            style={{ fontSize: "clamp(13px, 3.5vw, 16px)", color: "#4CAF50" }}
+          >
+            Velho Testamento
+          </h2>
+          <div
+            className="overflow-y-auto flex flex-col gap-2"
+            style={{ maxHeight: "60dvh" }}
+          >
+            {oldTestamentBooks.map((book) => (
+              <button
+                key={book}
+                onClick={() => { setSelectedBook(book); setChapter(1); }}
+                className="font-penmanship text-white font-bold"
+                style={{
+                  background: "#4CAF50",
+                  borderRadius: 12,
+                  padding: "10px 8px",
+                  fontSize: "clamp(12px, 3.2vw, 14px)",
+                  minHeight: 44,
+                  borderBottom: "3px solid #2E7D32",
+                  cursor: "pointer",
+                }}
+              >
+                {book}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* New Testament */}
+        <div className="flex-1 flex flex-col">
+          <h2
+            className="font-penmanship font-bold text-white text-center mb-2"
+            style={{ fontSize: "clamp(13px, 3.5vw, 16px)", color: "#4A90D9" }}
+          >
+            Novo Testamento
+          </h2>
+          <div
+            className="overflow-y-auto flex flex-col gap-2"
+            style={{ maxHeight: "60dvh" }}
+          >
+            {newTestamentBooks.map((book) => (
+              <button
+                key={book}
+                onClick={() => { setSelectedBook(book); setChapter(1); }}
+                className="font-penmanship text-white font-bold"
+                style={{
+                  background: "#4A90D9",
+                  borderRadius: 12,
+                  padding: "10px 8px",
+                  fontSize: "clamp(12px, 3.2vw, 14px)",
+                  minHeight: 44,
+                  borderBottom: "3px solid #2B65A8",
+                  cursor: "pointer",
+                }}
+              >
+                {book}
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

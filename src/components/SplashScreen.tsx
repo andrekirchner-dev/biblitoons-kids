@@ -43,8 +43,8 @@ const SplashScreen = ({ onComplete }: SplashScreenProps) => {
             }}
           />
           <img
-            src={logoRainbow}
-            alt="Bibloo"
+            src={LogoApp1}
+            alt="Bibloo Logo"
             className="relative w-64 h-auto drop-shadow-2xl"
           />
         </motion.div>

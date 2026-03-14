@@ -147,22 +147,12 @@ const SignupPage = ({ onNavigate }: SignupPageProps) => {
           <span className="underline text-accent">Política de Privacidade</span>.
         </motion.p>
 
+      </motion.div>
+
       {/* Bibi mascot */}
-      
 
-
-
-
-
-
-
-
-
-
-      
-
-    </div>);
-
+    </div>
+  );
 };
 
 export default SignupPage;

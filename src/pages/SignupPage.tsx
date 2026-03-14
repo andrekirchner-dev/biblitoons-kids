@@ -135,17 +135,17 @@ const SignupPage = ({ onNavigate }: SignupPageProps) => {
           Continuar
         </motion.button>
 
-      {/* Terms */}
-      <motion.p
-        className="text-center text-xs font-body text-muted-foreground max-w-xs mb-6 bg-inherit my-[5px]"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.65 }}>
-        
-        Ao continuar, você aceita os{" "}
-        <span className="underline text-foreground">Termos de Uso</span> e a{" "}
-        <span className="underline text-accent">Política de Privacidade</span>.
-      </motion.p>
+        {/* Terms */}
+        <motion.p
+          className="text-center text-xs font-body text-muted-foreground max-w-xs mb-6 bg-inherit my-[5px]"
+          initial={{ opacity: 0 }}
+          animate={showForm ? { opacity: 1 } : { opacity: 0 }}
+          transition={{ delay: 0.65 }}>
+
+          Ao continuar, você aceita os{" "}
+          <span className="underline text-foreground">Termos de Uso</span> e a{" "}
+          <span className="underline text-accent">Política de Privacidade</span>.
+        </motion.p>
 
       {/* Bibi mascot */}
       

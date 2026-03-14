@@ -13,15 +13,15 @@ const SignupPage = ({ onNavigate }: SignupPageProps) => {
   const [emailValue, setEmailValue] = useState("");
 
   return (
-    <div className="min-h-screen flex flex-col items-center px-5 pt-6 pb-8 relative">
+    <div className="min-h-screen flex-col px-5 pt-6 pb-8 relative flex items-center justify-center">
       {/* Logo */}
       <motion.img
-        src={logoRainbow}
+
         alt="Bibloo"
         className="w-48 h-auto drop-shadow-2xl mb-2"
         initial={{ y: -30, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
-        transition={{ type: "spring", damping: 12 }} />
+        transition={{ type: "spring", damping: 12 }} src="/lovable-uploads/3aeda5ec-b951-4f8a-a239-072528c3c0b0.png" />
       
 
       {/* Title banner */}

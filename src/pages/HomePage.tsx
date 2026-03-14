@@ -1,102 +1,180 @@
 import { motion } from "framer-motion";
-import { Book, Film, Baby, Sun, ShoppingBag, Menu } from "lucide-react";
-import logoBibloo from "@/assets/logo-bibloo.jpeg";
+import { Menu } from "lucide-react";
+import LogoApp1 from "@/assets/LogoApp1.png";
 import bibiMascot from "@/assets/bibi-mascot.png";
-
 
 interface HomePageProps {
   onNavigate: (page: string) => void;
   onOpenDrawer: () => void;
+  age?: string;
+  name?: string;
 }
 
-const menuButtons = [
-  { id: "bible", label: "Ler a Bíblia", icon: Book, color: "from-amber-500 to-amber-600" },
-  { id: "devotional", label: "Devocional do Dia", icon: Sun, color: "from-yellow-400 to-orange-400" },
-  { id: "bibliaflix", label: "BíbliaFlix", icon: Film, color: "from-red-400 to-red-500" },
-  { id: "stories", label: "Histórias", icon: Baby, color: "from-green-400 to-green-500" },
-  { id: "shop", label: "Lojinha Bibloo", icon: ShoppingBag, color: "from-sky-400 to-sky-500" },
-];
+const HomePage = ({ onNavigate, onOpenDrawer, age, name = "Maria" }: HomePageProps) => {
+  const ageNum = parseInt(age || "6");
 
-const containerVariants = {
-  hidden: {},
-  show: { transition: { staggerChildren: 0.1 } },
-};
-
-const itemVariants = {
-  hidden: { scale: 0.8, opacity: 0 },
-  show: { scale: 1, opacity: 1 },
-};
-
-const HomePage = ({ onNavigate, onOpenDrawer }: HomePageProps) => {
   return (
     <div className="min-h-screen relative">
-      {/* Content */}
       <div className="relative z-10 px-4 pt-6 pb-8">
         {/* Top Bar */}
         <div className="flex items-center justify-between mb-4">
           <button
             onClick={onOpenDrawer}
-            className="w-10 h-10 rounded-full bg-bibloo-parchment/90 shadow-cartoon flex items-center justify-center btn-press"
+            className="w-10 h-10 rounded-full flex items-center justify-center"
+            style={{ background: "rgba(0,0,0,0.15)" }}
           >
-            <Menu className="w-5 h-5 text-foreground" />
+            <Menu className="w-6 h-6 text-white" />
           </button>
-          <img src={logoBibloo} alt="Bibloo" className="h-12 rounded-xl shadow-card" />
-          <div className="w-10 h-10 rounded-full border-2 border-primary overflow-hidden shadow-cartoon">
-            <img src={bibiMascot} alt="Perfil" className="w-full h-full object-cover" />
+
+          <img src={LogoApp1} alt="Bibloo" className="h-14 drop-shadow-lg" style={{ width: "55%" }} />
+
+          {/* BiblooCoins */}
+          <div
+            className="flex items-center gap-1.5 rounded-full px-3 py-1.5 font-bold text-white text-sm"
+            style={{ background: "rgba(0,0,0,0.3)" }}
+          >
+            🪙 <span>27</span>
           </div>
         </div>
 
-        {/* Greeting */}
+        {/* Greeting + Bibi */}
         <motion.div
-          initial={{ y: 20, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
+          className="flex items-center gap-3 mb-6"
+          initial={{ opacity: 0, y: 15 }}
+          animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
-          className="text-center mb-6"
         >
-          <h1 className="font-display text-2xl md:text-3xl font-bold text-foreground text-shadow-cartoon">
-            Bom dia, Maria! 🌞
-          </h1>
-          <p className="font-body text-sm text-muted-foreground mt-1">
-            O que vamos aprender hoje?
-          </p>
+          <div
+            className="flex-1 rounded-2xl px-5 py-4"
+            style={{
+              background: "#F5E6C8",
+              border: "2px solid #D4B896",
+            }}
+          >
+            <h1
+              className="text-xl font-bold"
+              style={{ color: "#4A2C0A", fontFamily: "'Holidays Homework', serif" }}
+            >
+              Bom dia, {name}! 🌞
+            </h1>
+            <p className="text-sm mt-1" style={{ color: "#7A5C3A" }}>
+              O que vamos aprender hoje?
+            </p>
+          </div>
+          <motion.img
+            src={bibiMascot}
+            alt="Bibi"
+            className="w-20 h-20 drop-shadow-lg"
+            initial={{ scale: 0 }}
+            animate={{ scale: 1 }}
+            transition={{ type: "spring", damping: 10, stiffness: 200, delay: 0.3 }}
+          />
         </motion.div>
 
-        {/* Bibi floating */}
+        {/* Quick access row */}
         <motion.div
-          className="flex justify-center mb-6"
-          initial={{ scale: 0 }}
-          animate={{ scale: 1 }}
-          transition={{ type: "spring", damping: 10, stiffness: 200, delay: 0.3 }}
+          className="flex gap-3 mb-5"
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.35 }}
         >
-          <img src={bibiMascot} alt="Bibi" className="w-28 h-28 md:w-36 md:h-36 animate-float drop-shadow-lg" />
+          <button
+            className="flex-1 rounded-full py-3 font-bold text-white text-sm text-center"
+            style={{ background: "#8B7355", boxShadow: "0 3px 0 #6B5540" }}
+            onClick={() => onNavigate("devotional")}
+          >
+            ☀️ Devocional do Dia
+          </button>
+          <button
+            className="flex-1 rounded-full py-3 font-bold text-white text-sm text-center"
+            style={{ background: "#7C3AED", boxShadow: "0 3px 0 #5B21B6" }}
+            onClick={() => onNavigate("bibliaflix")}
+          >
+            ★ BibliaFlix ★
+          </button>
         </motion.div>
 
-        {/* Main Buttons */}
+        {/* Ler a Bíblia card */}
         <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          animate="show"
-          className="grid grid-cols-2 gap-3 md:gap-4 max-w-lg mx-auto"
+          className="rounded-2xl p-5 mb-4"
+          style={{
+            background: "#FFFBEE",
+            border: "3px solid #D4B896",
+            width: "92%",
+            margin: "0 auto 16px",
+          }}
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ delay: 0.45 }}
         >
-          {menuButtons.map((btn) => {
-            const Icon = btn.icon;
-            return (
-              <motion.button
-                key={btn.id}
-                variants={itemVariants}
-                onClick={() => onNavigate(btn.id)}
-                className={`bg-gradient-to-br ${btn.color} rounded-2xl p-4 md:p-5 shadow-button btn-press flex flex-col items-center gap-2 text-center`}
-                whileTap={{ scale: 0.95 }}
-              >
-                <div className="w-12 h-12 md:w-14 md:h-14 rounded-xl bg-primary-foreground/20 flex items-center justify-center">
-                  <Icon className="w-6 h-6 md:w-7 md:h-7 text-primary-foreground" />
-                </div>
-                <span className="font-display text-sm md:text-base font-bold text-primary-foreground">
-                  {btn.label}
-                </span>
-              </motion.button>
-            );
-          })}
+          <h2
+            className="text-lg font-bold text-center mb-4"
+            style={{ color: "#4A2C0A", fontFamily: "'Holidays Homework', serif" }}
+          >
+            📖 Ler a Bíblia
+          </h2>
+          <div className="flex gap-3">
+            <button
+              className="flex-1 rounded-xl py-3 font-bold text-white text-sm"
+              style={{ background: "#4CAF50", borderBottom: "3px solid #2E7D32" }}
+              onClick={() => onNavigate("bible")}
+            >
+              Velho Testamento
+            </button>
+            <button
+              className="flex-1 rounded-xl py-3 font-bold text-white text-sm"
+              style={{ background: "#4A90D9", borderBottom: "3px solid #2B65A8" }}
+              onClick={() => onNavigate("bible")}
+            >
+              Novo Testamento 🕊
+            </button>
+          </div>
+        </motion.div>
+
+        {/* Bottom cards */}
+        <motion.div
+          className="space-y-3"
+          style={{ width: "92%", margin: "0 auto" }}
+          initial={{ opacity: 0, y: 15 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.55 }}
+        >
+          {ageNum >= 4 && (
+            <button
+              className="w-full rounded-2xl py-4 font-bold text-white text-base text-center"
+              style={{
+                background: "#4CAF50",
+                border: "3px solid #2E7D32",
+                boxShadow: "0 4px 0 #1B5E20",
+              }}
+              onClick={() => onNavigate("stories")}
+            >
+              📚 Histórias para Pequenos
+            </button>
+          )}
+
+          <button
+            className="w-full rounded-2xl py-4 font-bold text-white text-base text-center"
+            style={{
+              background: "#3D1F00",
+              border: "3px solid #D4B896",
+              boxShadow: "0 4px 0 #2A1500",
+            }}
+            onClick={() => onNavigate("shop")}
+          >
+            🎁 Lojinha Bibloo
+          </button>
+
+          <button
+            className="w-full rounded-2xl py-3 font-bold text-sm text-center"
+            style={{
+              background: "transparent",
+              border: "2px solid #D4B896",
+              color: "#8B7355",
+            }}
+          >
+            👨‍👩‍👧 Área dos Pais
+          </button>
         </motion.div>
       </div>
     </div>

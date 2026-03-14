@@ -17,27 +17,32 @@ const GenderSelectionPage = ({ onNavigate, onSelectGender }: GenderSelectionPage
   };
 
   return (
-    <div className="relative w-full h-screen overflow-hidden">
-      <img
-        src={Imagem2}
-        alt="Gender Selection"
-        className="absolute inset-0 w-full h-full object-cover object-top"
-      />
-
-      {/* Menina button */}
+    <div
+      style={{
+        backgroundImage: `url(${Imagem2})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center top",
+        width: "100%",
+        height: "100dvh",
+        position: "relative",
+        overflow: "hidden",
+      }}
+    >
       <motion.button
-        className={`absolute font-bold text-white text-center ${
+        className={`absolute font-penmanship font-bold text-white text-center ${
           selected === "menina" ? "ring-4 ring-white/50" : ""
         }`}
         style={{
-          left: "10%",
-          bottom: "18%",
+          left: "6%",
+          bottom: "15%",
           background: "#F0477A",
-          fontSize: "20px",
-          borderRadius: "50px",
-          padding: "14px 40px",
+          fontSize: "clamp(16px, 4.5vw, 20px)",
+          borderRadius: 50,
+          padding: "14px 0",
           borderBottom: "4px solid #C0305A",
-          minWidth: "130px",
+          width: "38%",
+          minHeight: 44,
+          cursor: "pointer",
         }}
         whileTap={{ scaleX: 1.1, scaleY: 0.85 }}
         onClick={() => handleSelect("menina")}
@@ -45,20 +50,21 @@ const GenderSelectionPage = ({ onNavigate, onSelectGender }: GenderSelectionPage
         Menina
       </motion.button>
 
-      {/* Menino button */}
       <motion.button
-        className={`absolute font-bold text-white text-center ${
+        className={`absolute font-penmanship font-bold text-white text-center ${
           selected === "menino" ? "ring-4 ring-white/50" : ""
         }`}
         style={{
-          right: "10%",
-          bottom: "18%",
+          right: "6%",
+          bottom: "15%",
           background: "#4A90D9",
-          fontSize: "20px",
-          borderRadius: "50px",
-          padding: "14px 40px",
+          fontSize: "clamp(16px, 4.5vw, 20px)",
+          borderRadius: 50,
+          padding: "14px 0",
           borderBottom: "4px solid #2B65A8",
-          minWidth: "130px",
+          width: "38%",
+          minHeight: 44,
+          cursor: "pointer",
         }}
         whileTap={{ scaleX: 1.1, scaleY: 0.85 }}
         onClick={() => handleSelect("menino")}

@@ -16,6 +16,7 @@ export default {
       fontFamily: {
         display: ["Fredoka", "sans-serif"],
         body: ["Nunito", "sans-serif"],
+        penmanship: ["KGPerfectPenmanship", "cursive"],
       },
       colors: {
         border: "hsl(var(--border))",

@@ -31,21 +31,28 @@ const SignupPage = ({ onNavigate }: SignupPageProps) => {
       />
       
 
-      {/* Title banner */}
+      {/* Form container with staggered animation */}
       <motion.div
-        className="w-full max-w-sm py-3 px-6 text-center mb-4 border-sidebar-ring rounded-none border-none border-0"
-        style={{
-          background: "linear-gradient(135deg, hsl(38 55% 88% / 0.95), hsl(35 50% 82% / 0.9))",
-          boxShadow: "0 4px 12px hsl(25 45% 20% / 0.25), inset 0 1px 0 hsl(40 60% 95% / 0.5), 0 2px 0 hsl(25 40% 30% / 0.15)"
-        }}
-        initial={{ scale: 0.8, opacity: 0 }}
-        animate={{ scale: 1, opacity: 1 }}
-        transition={{ delay: 0.15 }}>
-        
-        <h1 className="font-serif text-foreground bg-transparent font-extralight text-xl mx-0 py-0 px-0">
-          CRIE SUA CONTA  
-        </h1>
-      </motion.div>
+        className="w-full max-w-sm flex flex-col items-center"
+        initial={{ opacity: 0, y: 20 }}
+        animate={showForm ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+        transition={{ duration: 0.4, delay: 0.1 }}
+      >
+        {/* Title banner */}
+        <motion.div
+          className="w-full max-w-sm py-3 px-6 text-center mb-4 border-sidebar-ring rounded-none border-none border-0"
+          style={{
+            background: "linear-gradient(135deg, hsl(38 55% 88% / 0.95), hsl(35 50% 82% / 0.9))",
+            boxShadow: "0 4px 12px hsl(25 45% 20% / 0.25), inset 0 1px 0 hsl(40 60% 95% / 0.5), 0 2px 0 hsl(25 40% 30% / 0.15)"
+          }}
+          initial={{ scale: 0.8, opacity: 0 }}
+          animate={showForm ? { scale: 1, opacity: 1 } : { scale: 0.8, opacity: 0 }}
+          transition={{ delay: 0.15 }}>
+
+          <h1 className="font-serif text-foreground bg-transparent font-extralight text-xl mx-0 py-0 px-0">
+            CRIE SUA CONTA
+          </h1>
+        </motion.div>
 
       {/* Google button */}
       <motion.button

@@ -26,7 +26,7 @@ const SignupPage = ({ onNavigate }: SignupPageProps) => {
 
       {/* Title banner */}
       <motion.div
-        className="w-full max-w-sm rounded-full py-3 px-6 text-center mb-4 border-2 border-bibloo-brown/20"
+        className="w-full max-w-sm py-3 px-6 text-center mb-4 border-sidebar-ring rounded-none border-none border-0"
         style={{
           background: "linear-gradient(135deg, hsl(38 55% 88% / 0.95), hsl(35 50% 82% / 0.9))",
           boxShadow: "0 4px 12px hsl(25 45% 20% / 0.25), inset 0 1px 0 hsl(40 60% 95% / 0.5), 0 2px 0 hsl(25 40% 30% / 0.15)"
@@ -35,8 +35,8 @@ const SignupPage = ({ onNavigate }: SignupPageProps) => {
         animate={{ scale: 1, opacity: 1 }}
         transition={{ delay: 0.15 }}>
         
-        <h1 className="font-display text-xl font-bold text-foreground">
-          Crie sua conta
+        <h1 className="font-serif text-foreground bg-transparent font-extralight text-xl mx-0 py-0 px-0">
+          CRIE SUA CONTA  
         </h1>
       </motion.div>
 
@@ -123,7 +123,7 @@ const SignupPage = ({ onNavigate }: SignupPageProps) => {
 
       {/* Terms */}
       <motion.p
-        className="text-center text-xs font-body text-muted-foreground max-w-xs mb-6"
+        className="text-center text-xs font-body text-muted-foreground max-w-xs mb-6 bg-inherit my-[5px]"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.65 }}>

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 
-import logoRainbow from "@/assets/logo-bibloo-rainbow.png";
+import LogoApp1 from "@/assets/LogoApp1.png";
 import { AnimatedSpinner } from "@/components/ui/animated-spinner";
 
 interface SplashScreenProps {
@@ -43,8 +43,8 @@ const SplashScreen = ({ onComplete }: SplashScreenProps) => {
             }}
           />
           <img
-            src={logoRainbow}
-            alt="Bibloo"
+            src={LogoApp1}
+            alt="Bibloo Logo"
             className="relative w-64 h-auto drop-shadow-2xl"
           />
         </motion.div>

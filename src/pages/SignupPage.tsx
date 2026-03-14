@@ -123,17 +123,17 @@ const SignupPage = ({ onNavigate }: SignupPageProps) => {
 
         </motion.div>
 
-      {/* Continue button - jelly effect */}
-      <motion.button
-        className="w-full max-w-sm jelly-btn bg-gradient-gold rounded-full py-3.5 px-8 shadow-button font-display text-lg font-bold text-primary-foreground mb-4"
-        initial={{ y: 20, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ delay: 0.55 }}
-        whileTap={{ scaleX: 1.1, scaleY: 0.85 }}
-        onClick={() => onNavigate("home")}>
-        
-        Continuar
-      </motion.button>
+        {/* Continue button - jelly effect */}
+        <motion.button
+          className="w-full max-w-sm jelly-btn bg-gradient-gold rounded-full py-3.5 px-8 shadow-button font-display text-lg font-bold text-primary-foreground mb-4"
+          initial={{ y: 20, opacity: 0 }}
+          animate={showForm ? { y: 0, opacity: 1 } : { y: 20, opacity: 0 }}
+          transition={{ delay: 0.55 }}
+          whileTap={{ scaleX: 1.1, scaleY: 0.85 }}
+          onClick={() => onNavigate("home")}>
+
+          Continuar
+        </motion.button>
 
       {/* Terms */}
       <motion.p

@@ -22,12 +22,13 @@ const SignupPage = ({ onNavigate }: SignupPageProps) => {
     <div className="min-h-screen flex-col px-5 pt-6 pb-8 relative flex items-center justify-center">
       {/* Logo */}
       <motion.img
-
-        alt="Bibloo"
+        src={LogoApp1}
+        alt="Bibloo Logo"
         className="w-48 h-auto drop-shadow-2xl mb-2"
-        initial={{ y: -30, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ type: "spring", damping: 12 }} src="/lovable-uploads/3aeda5ec-b951-4f8a-a239-072528c3c0b0.png" />
+        initial={{ opacity: 0, scale: 0.9 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.3 }}
+      />
       
 
       {/* Title banner */}

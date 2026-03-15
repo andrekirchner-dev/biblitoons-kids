@@ -81,7 +81,7 @@ const BiblePage = ({ onNavigate }: BiblePageProps) => {
           <button
             onClick={() => onNavigate("home")}
             className="flex items-center justify-center"
-            style={{ minHeight: 44, minWidth: 44 }}
+            style={{ minHeight: 44, minWidth: 44, filter: GLOW_FILTER }}
           >
             <ChevronLeft className="text-white" size={24} />
           </button>

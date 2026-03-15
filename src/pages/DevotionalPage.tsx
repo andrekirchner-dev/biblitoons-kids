@@ -1,17 +1,46 @@
 import { motion } from "framer-motion";
+import { ChevronLeft } from "lucide-react";
 import bibiMascot from "@/assets/bibi-mascot.png";
 import storyJesus from "@/assets/story-jesus-children.jpg";
 
-const DevotionalPage = () => {
+const GLOW_FILTER = "drop-shadow(0 0 6px rgba(255,215,0,0.85)) drop-shadow(0 0 12px rgba(255,165,0,0.5))";
+
+interface DevotionalPageProps {
+  onNavigate?: (page: string) => void;
+}
+
+const DevotionalPage = ({ onNavigate }: DevotionalPageProps) => {
   return (
     <div className="min-h-screen bg-gradient-sky">
+      {/* Back button */}
+      {onNavigate && (
+        <button
+          onClick={() => onNavigate("home")}
+          className="flex items-center justify-center"
+          style={{
+            position: "absolute",
+            top: 16,
+            left: 16,
+            minHeight: 44,
+            minWidth: 44,
+            borderRadius: "50%",
+            background: "rgba(255,255,255,0.2)",
+            border: "none",
+            cursor: "pointer",
+            filter: GLOW_FILTER,
+            zIndex: 10,
+          }}
+        >
+          <ChevronLeft className="text-white" size={24} />
+        </button>
+      )}
+
       <div className="bg-gradient-gold p-4 pt-8 pb-6 text-center shadow-cartoon">
         <h1 className="font-display text-2xl text-primary-foreground font-bold">🌅 Devocional do Dia</h1>
         <p className="font-body text-sm text-primary-foreground/80 mt-1">Mensagens de Jesus</p>
       </div>
 
       <div className="p-4 max-w-lg mx-auto space-y-4">
-        {/* Daily Card */}
         <motion.div
           initial={{ scale: 0.9, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
@@ -19,9 +48,7 @@ const DevotionalPage = () => {
         >
           <img src={storyJesus} alt="Devocional" className="w-full aspect-video object-cover" />
           <div className="p-5">
-            <h2 className="font-display text-lg text-foreground font-bold mb-2">
-              Mensagem de Hoje
-            </h2>
+            <h2 className="font-display text-lg text-foreground font-bold mb-2">Mensagem de Hoje</h2>
             <p className="font-body text-sm text-foreground/80 leading-relaxed italic">
               "O meu mandamento é este: amem-se uns aos outros como eu os amei."
             </p>
@@ -29,7 +56,6 @@ const DevotionalPage = () => {
           </div>
         </motion.div>
 
-        {/* Bibi says */}
         <motion.div
           initial={{ x: -20, opacity: 0 }}
           animate={{ x: 0, opacity: 1 }}
@@ -45,7 +71,6 @@ const DevotionalPage = () => {
           </div>
         </motion.div>
 
-        {/* Actions */}
         <div className="flex gap-3">
           <button className="flex-1 bg-gradient-gold rounded-xl py-3 font-display text-sm text-primary-foreground font-bold shadow-button btn-press">
             Refletir e Orar
@@ -55,7 +80,6 @@ const DevotionalPage = () => {
           </button>
         </div>
 
-        {/* 365 Challenge */}
         <motion.div
           initial={{ y: 20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}

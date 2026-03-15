@@ -16,6 +16,7 @@ import GenderSelectionPage from "@/pages/GenderSelectionPage";
 import AgeSelectionPage from "@/pages/AgeSelectionPage";
 import MiniGamesPage from "@/pages/MiniGamesPage";
 import ParentalAreaPage from "@/pages/ParentalAreaPage";
+import BiblooCoinsPage from "@/pages/BiblooCoinsPage";
 
 const AppShell = () => {
   const [currentPage, setCurrentPage] = useState("splash");
@@ -24,7 +25,7 @@ const AppShell = () => {
   const [gender, setGender] = useState<"menina" | "menino">("menina");
   const [age, setAge] = useState<string>("");
 
-  const showNavPages = ["home", "bible", "bibliaflix", "stories", "search"];
+  const showNavPages = ["home", "bible", "bibliaflix", "miniGames", "search"];
   const showBottomNav = showNavPages.includes(currentPage) && !showSplash;
 
   const pageVariants = {
@@ -41,6 +42,7 @@ const AppShell = () => {
     switch (currentPage) {
       case "welcome":
         return <WelcomePage onNavigate={handleNavigate} />;
+      case "login":
       case "signup":
         return <SignupPage onNavigate={handleNavigate} />;
       case "gender":
@@ -59,7 +61,14 @@ const AppShell = () => {
           />
         );
       case "home":
-        return <HomePage onNavigate={handleNavigate} onOpenDrawer={() => setDrawerOpen(true)} age={age} />;
+        return (
+          <HomePage
+            onNavigate={handleNavigate}
+            onOpenDrawer={() => setDrawerOpen(true)}
+            age={age}
+            gender={gender}
+          />
+        );
       case "bible":
         return <BiblePage onNavigate={handleNavigate} />;
       case "bibliaflix":
@@ -67,15 +76,24 @@ const AppShell = () => {
       case "stories":
         return <StoriesPage />;
       case "devotional":
-        return <DevotionalPage />;
+        return <DevotionalPage onNavigate={handleNavigate} />;
       case "shop":
-        return <ShopPage />;
+        return <ShopPage onNavigate={handleNavigate} />;
       case "miniGames":
         return <MiniGamesPage onNavigate={handleNavigate} />;
       case "parentalArea":
         return <ParentalAreaPage onNavigate={handleNavigate} />;
+      case "biblooCoins":
+        return <BiblooCoinsPage onNavigate={handleNavigate} />;
       default:
-        return <HomePage onNavigate={handleNavigate} onOpenDrawer={() => setDrawerOpen(true)} age={age} />;
+        return (
+          <HomePage
+            onNavigate={handleNavigate}
+            onOpenDrawer={() => setDrawerOpen(true)}
+            age={age}
+            gender={gender}
+          />
+        );
     }
   };
 

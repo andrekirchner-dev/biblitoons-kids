@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
-import { ShoppingBag } from "lucide-react";
+import { ShoppingBag, ChevronLeft } from "lucide-react";
 
+const GLOW_FILTER = "drop-shadow(0 0 6px rgba(255,215,0,0.85)) drop-shadow(0 0 12px rgba(255,165,0,0.5))";
 
 const shopItems = [
   { id: "1", name: "Bíblia Ilustrada Bibloo", price: "R$ 49,90", emoji: "📖" },
@@ -11,9 +12,35 @@ const shopItems = [
   { id: "6", name: "Caneca Bibi", price: "R$ 24,90", emoji: "☕" },
 ];
 
-const ShopPage = () => {
+interface ShopPageProps {
+  onNavigate?: (page: string) => void;
+}
+
+const ShopPage = ({ onNavigate }: ShopPageProps) => {
   return (
     <div className="min-h-screen bg-gradient-sky">
+      {onNavigate && (
+        <button
+          onClick={() => onNavigate("home")}
+          className="flex items-center justify-center"
+          style={{
+            position: "absolute",
+            top: 16,
+            left: 16,
+            minHeight: 44,
+            minWidth: 44,
+            borderRadius: "50%",
+            background: "rgba(255,255,255,0.2)",
+            border: "none",
+            cursor: "pointer",
+            filter: GLOW_FILTER,
+            zIndex: 10,
+          }}
+        >
+          <ChevronLeft className="text-white" size={24} />
+        </button>
+      )}
+
       <div className="bg-gradient-to-r from-sky-400 to-sky-500 p-4 pt-8 pb-6 text-center shadow-cartoon">
         <h1 className="font-display text-2xl text-primary-foreground font-bold">🛍️ Lojinha Bibloo</h1>
         <p className="font-body text-sm text-primary-foreground/80 mt-1">Produtos especiais para você!</p>

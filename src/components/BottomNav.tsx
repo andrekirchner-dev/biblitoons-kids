@@ -1,18 +1,24 @@
 import { useRef, useState, useEffect, useCallback } from "react";
 import { motion } from "framer-motion";
-import { Play, BookOpen, Home, BookMarked, Search } from "lucide-react";
+import playIcon from "@/assets/play.png";
+import bibleIcon from "@/assets/bible.png";
+import houseIcon from "@/assets/house.png";
+import gameIcon from "@/assets/game.png";
+import searchIcon from "@/assets/search.png";
 
 interface BottomNavProps {
   currentPage: string;
   onNavigate: (page: string) => void;
 }
 
+const GLOW_FILTER = "drop-shadow(0 0 6px rgba(255,215,0,0.85)) drop-shadow(0 0 12px rgba(255,165,0,0.5))";
+
 const tabs = [
-  { id: "bibliaflix", label: "BibliaFlix", Icon: Play, color: "#E50000" },
-  { id: "bible", label: "Bíblia", Icon: BookOpen, color: "#8B4513" },
-  { id: "home", label: "Início", Icon: Home, color: "#4CAF50" },
-  { id: "stories", label: "Histórias", Icon: BookMarked, color: "#FF8C00" },
-  { id: "search", label: "Buscar", Icon: Search, color: "#4A90D9" },
+  { id: "bibliaflix", label: "BibliaFlix", icon: playIcon, color: "#E50000" },
+  { id: "bible", label: "Bíblia", icon: bibleIcon, color: "#8B4513" },
+  { id: "home", label: "Início", icon: houseIcon, color: "#4CAF50" },
+  { id: "miniGames", label: "Mini-games", icon: gameIcon, color: "#FF8C00" },
+  { id: "search", label: "Buscar", icon: searchIcon, color: "#4A90D9" },
 ];
 
 const BottomNav = ({ currentPage, onNavigate }: BottomNavProps) => {
@@ -21,7 +27,6 @@ const BottomNav = ({ currentPage, onNavigate }: BottomNavProps) => {
   const [indicator, setIndicator] = useState({ left: 0, width: 0 });
 
   const activeIndex = tabs.findIndex((t) => t.id === currentPage);
-  const activeTab = tabs[activeIndex >= 0 ? activeIndex : 2];
 
   const updateIndicator = useCallback(() => {
     const idx = activeIndex >= 0 ? activeIndex : 2;
@@ -39,6 +44,8 @@ const BottomNav = ({ currentPage, onNavigate }: BottomNavProps) => {
     window.addEventListener("resize", updateIndicator);
     return () => window.removeEventListener("resize", updateIndicator);
   }, [updateIndicator]);
+
+  const activeTab = tabs[activeIndex >= 0 ? activeIndex : 2];
 
   return (
     <nav
@@ -69,7 +76,6 @@ const BottomNav = ({ currentPage, onNavigate }: BottomNavProps) => {
         {tabs.map((tab, i) => {
           const isActive = currentPage === tab.id;
           const isCenter = tab.id === "home";
-          const iconColor = isActive ? tab.color : "#9CA3AF";
 
           return (
             <button
@@ -92,16 +98,36 @@ const BottomNav = ({ currentPage, onNavigate }: BottomNavProps) => {
                     border: "2px solid #E5E7EB",
                   }}
                 >
-                  <tab.Icon size={28} color={iconColor} />
+                  <img
+                    src={tab.icon}
+                    alt={tab.label}
+                    style={{
+                      width: 28,
+                      height: 28,
+                      objectFit: "contain",
+                      opacity: isActive ? 1 : 0.45,
+                      filter: isActive ? GLOW_FILTER : "none",
+                    }}
+                  />
                 </div>
               ) : (
-                <tab.Icon size={22} color={iconColor} />
+                <img
+                  src={tab.icon}
+                  alt={tab.label}
+                  style={{
+                    width: 22,
+                    height: 22,
+                    objectFit: "contain",
+                    opacity: isActive ? 1 : 0.45,
+                    filter: isActive ? GLOW_FILTER : "none",
+                  }}
+                />
               )}
               <span
                 className="font-penmanship"
                 style={{
                   fontSize: 10,
-                  color: iconColor,
+                  color: isActive ? "#F5A623" : "#9CA3AF",
                   marginTop: isCenter ? 0 : 2,
                 }}
               >

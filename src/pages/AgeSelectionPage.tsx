@@ -8,8 +8,23 @@ interface AgeSelectionPageProps {
   onSelectAge: (age: string) => void;
 }
 
+const meninaColors = [
+  { bg: "#F56FBD", border: "#C44A96" },
+  { bg: "#EF13AB", border: "#B00C80" },
+  { bg: "#7400A3", border: "#4D006B" },
+];
+
+const meninoColors = [
+  { bg: "#4A90D9", border: "#2B65A8" },
+  { bg: "#4900EF", border: "#3100A0" },
+  { bg: "#2736E5", border: "#1A22A0" },
+];
+
+const ages = ["3-4 anos", "5-9 anos", "10-12 anos"];
+
 const AgeSelectionPage = ({ gender, onNavigate, onSelectAge }: AgeSelectionPageProps) => {
   const bgImage = gender === "menino" ? bgMenino : bgMenina;
+  const colors = gender === "menina" ? meninaColors : meninoColors;
 
   const handleSelect = (age: string) => {
     onSelectAge(age);
@@ -27,7 +42,7 @@ const AgeSelectionPage = ({ gender, onNavigate, onSelectAge }: AgeSelectionPageP
     width: "clamp(80px, 26vw, 110px)",
     textAlign: "center",
     cursor: "pointer",
-    position: "absolute",
+    border: "none",
   };
 
   return (
@@ -42,47 +57,53 @@ const AgeSelectionPage = ({ gender, onNavigate, onSelectAge }: AgeSelectionPageP
         overflow: "hidden",
       }}
     >
+      {/* Left button */}
       <motion.button
         style={{
           ...buttonBase,
+          position: "absolute",
           left: "8%",
           bottom: "12%",
-          background: "#4CAF50",
-          borderBottom: "4px solid #2E7D32",
+          background: colors[0].bg,
+          borderBottom: `4px solid ${colors[0].border}`,
         }}
         whileTap={{ scaleX: 1.08, scaleY: 0.88 }}
-        onClick={() => handleSelect("3-5 anos")}
+        onClick={() => handleSelect(ages[0])}
       >
-        3-5 anos
+        {ages[0]}
       </motion.button>
 
+      {/* Center button — uses motion x to avoid drift */}
       <motion.button
         style={{
           ...buttonBase,
+          position: "absolute",
           left: "50%",
-          transform: "translateX(-50%)",
           bottom: "12%",
-          background: "#FF8C00",
-          borderBottom: "4px solid #CC6600",
+          background: colors[1].bg,
+          borderBottom: `4px solid ${colors[1].border}`,
         }}
-        whileTap={{ scaleX: 1.08, scaleY: 0.88 }}
-        onClick={() => handleSelect("6-10 anos")}
+        initial={{ x: "-50%" }}
+        whileTap={{ scale: 0.95, x: "-50%" }}
+        onClick={() => handleSelect(ages[1])}
       >
-        6-10 anos
+        {ages[1]}
       </motion.button>
 
+      {/* Right button */}
       <motion.button
         style={{
           ...buttonBase,
+          position: "absolute",
           right: "8%",
           bottom: "12%",
-          background: "#4A90D9",
-          borderBottom: "4px solid #2B65A8",
+          background: colors[2].bg,
+          borderBottom: `4px solid ${colors[2].border}`,
         }}
         whileTap={{ scaleX: 1.08, scaleY: 0.88 }}
-        onClick={() => handleSelect("10-12 anos")}
+        onClick={() => handleSelect(ages[2])}
       >
-        10-12 anos
+        {ages[2]}
       </motion.button>
     </div>
   );

@@ -122,7 +122,7 @@ const HomePage = ({ onNavigate, onOpenDrawer, gender = "menina", name }: HomePag
               cursor: "pointer",
             }}
           >
-            <img src={coinbibloo} alt="coin" style={{ width: 24, height: 24 }} />
+            <img src={coinbibloo} alt="coin" style={{ width: 22, height: 22 }} />
             <span style={{ color: "#FFD700" }}>27</span>
           </button>
         </div>

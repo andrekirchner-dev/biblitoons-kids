@@ -59,6 +59,30 @@ const AgeSelectionPage = ({ gender, onNavigate, onSelectAge }: AgeSelectionPageP
         paddingTop: "env(safe-area-inset-top, 0px)",
       }}
     >
+      {/* Back button */}
+      <motion.button
+        onClick={() => onNavigate('gender')}
+        whileTap={{ scale: 0.88 }}
+        style={{
+          position: 'absolute',
+          top: 'calc(env(safe-area-inset-top, 16px) + 12px)',
+          left: '16px',
+          width: '44px',
+          height: '44px',
+          borderRadius: '50%',
+          background: 'rgba(255, 255, 255, 0.25)',
+          border: 'none',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          cursor: 'pointer',
+          zIndex: 10,
+          filter: 'drop-shadow(0 0 6px rgba(255,215,0,0.85)) drop-shadow(0 0 12px rgba(255,165,0,0.5))',
+        }}
+      >
+        <ChevronLeft size={24} color="white" />
+      </motion.button>
+
       {/* Left button */}
       <motion.button
         style={{

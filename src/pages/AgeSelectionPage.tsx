@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { ChevronLeft } from "lucide-react";
 import bgMenina from "@/assets/BG5.png";
 import bgMenino from "@/assets/BG6.png";
 

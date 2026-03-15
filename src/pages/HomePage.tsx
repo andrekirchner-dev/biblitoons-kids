@@ -184,7 +184,7 @@ const HomePage = ({ onNavigate, onOpenDrawer, gender = "menina", name }: HomePag
             style={{ width: "92%", maxWidth: 380, cursor: "pointer", borderRadius: 12, overflow: "hidden", position: "relative" }}
             onClick={() => onNavigate("bible")}
           >
-            <img src={lerImg} alt="Ler a Bíblia" style={{ width: "100%", height: "auto", objectFit: "contain", display: "block", borderRadius: 12 }} />
+            <img src={lerImg} alt="Ler a Bíblia" style={{ width: "100%", height: "auto", maxHeight: 100, objectFit: "contain", display: "block", borderRadius: 12 }} />
             <div
               onClick={(e) => { e.stopPropagation(); onNavigate("bible"); }}
               style={{ position: "absolute", bottom: 0, left: 0, width: "50%", height: "35%", cursor: "pointer" }}

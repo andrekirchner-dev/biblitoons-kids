@@ -214,7 +214,7 @@ const HomePage = ({ onNavigate, onOpenDrawer, gender = "menina", name }: HomePag
               onClick={() => onNavigate("shop")}
               style={{ flex: 1, cursor: "pointer", borderRadius: 12, overflow: "hidden" }}
             >
-              <img src={lojinhaImg} alt="Lojinha Bibloo" style={{ width: "100%", height: "auto", maxHeight: "calc((100vh - 52px - 80px - 68px) * 0.22)", objectFit: "contain", display: "block", borderRadius: 12 }} />
+              <img src={lojinhaImg} alt="Lojinha Bibloo" style={{ width: "100%", height: "auto", maxHeight: "calc((100vh - 52px - 80px - 68px) * 0.19)", objectFit: "contain", display: "block", borderRadius: 12 }} />
             </motion.div>
           </div>
 

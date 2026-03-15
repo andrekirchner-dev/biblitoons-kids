@@ -1,5 +1,7 @@
 import { ChevronLeft } from "lucide-react";
 
+const GLOW_FILTER = "drop-shadow(0 0 6px rgba(255,215,0,0.85)) drop-shadow(0 0 12px rgba(255,165,0,0.5))";
+
 interface MiniGamesPageProps {
   onNavigate: (page: string) => void;
 }
@@ -14,7 +16,7 @@ const MiniGamesPage = ({ onNavigate }: MiniGamesPageProps) => {
         <button
           onClick={() => onNavigate("home")}
           className="flex items-center justify-center"
-          style={{ minHeight: 44, minWidth: 44 }}
+          style={{ minHeight: 44, minWidth: 44, filter: GLOW_FILTER }}
         >
           <ChevronLeft className="text-white" size={24} />
         </button>

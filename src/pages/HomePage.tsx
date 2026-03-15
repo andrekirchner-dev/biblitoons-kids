@@ -2,19 +2,38 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu } from "lucide-react";
 import LogoApp1 from "@/assets/LogoApp1.png";
-import bibiMascot from "@/assets/bibi-mascot.png";
+import bibiHomepage from "@/assets/bibiHomepage.png";
+import coinbibloo from "@/assets/coinbibloo.png";
+import devocionalImg from "@/assets/devocional.png";
+import minigamesImg from "@/assets/minigames.png";
+import lerImg from "@/assets/ler.png";
+import bibliaflixImg from "@/assets/bibliaflix.png";
+import lojinhaImg from "@/assets/lojinhabibloo.png";
 
 interface HomePageProps {
   onNavigate: (page: string) => void;
   onOpenDrawer: () => void;
   age?: string;
   name?: string;
+  gender?: "menina" | "menino";
 }
 
-const HomePage = ({ onNavigate, onOpenDrawer, name = "Maria" }: HomePageProps) => {
+const GLOW_FILTER = "drop-shadow(0 0 6px rgba(255,215,0,0.85)) drop-shadow(0 0 12px rgba(255,165,0,0.5))";
+
+function getGreeting() {
+  const h = new Date().getHours();
+  if (h >= 6 && h < 13) return "BOM DIA";
+  if (h >= 13 && h < 19) return "BOA TARDE";
+  return "BOA NOITE";
+}
+
+const HomePage = ({ onNavigate, onOpenDrawer, gender = "menina", name }: HomePageProps) => {
   const [showPinModal, setShowPinModal] = useState(false);
   const [pin, setPin] = useState("");
   const [pinError, setPinError] = useState(false);
+
+  const displayName = name || (gender === "menina" ? "Maria" : "João");
+  const greeting = getGreeting();
 
   const handlePinSubmit = () => {
     if (pin === "1234") {
@@ -27,22 +46,21 @@ const HomePage = ({ onNavigate, onOpenDrawer, name = "Maria" }: HomePageProps) =
     }
   };
 
-  const stdBtn: React.CSSProperties = {
-    width: "92%",
-    maxWidth: 380,
-    padding: "18px 0",
+  const pinBtnStyle: React.CSSProperties = {
+    width: "100%",
+    padding: "14px 0",
     borderRadius: 50,
     background: "linear-gradient(180deg, #FFB800 0%, #FF8C00 100%)",
     borderBottom: "4px solid #CC6600",
     color: "white",
     fontFamily: "KGPerfectPenmanship",
-    fontSize: "clamp(16px, 4vw, 18px)",
-    fontWeight: "bold" as const,
-    textAlign: "center" as const,
+    fontSize: 16,
+    fontWeight: "bold",
+    textAlign: "center",
     minHeight: 44,
-    boxShadow: "0 4px 8px rgba(0,0,0,0.2)",
     cursor: "pointer",
     border: "none",
+    marginTop: 16,
   };
 
   return (
@@ -58,7 +76,7 @@ const HomePage = ({ onNavigate, onOpenDrawer, name = "Maria" }: HomePageProps) =
         <button
           onClick={onOpenDrawer}
           className="flex items-center justify-center"
-          style={{ minHeight: 44, minWidth: 44 }}
+          style={{ minHeight: 44, minWidth: 44, filter: GLOW_FILTER }}
         >
           <Menu className="text-white" size={22} />
         </button>
@@ -78,19 +96,24 @@ const HomePage = ({ onNavigate, onOpenDrawer, name = "Maria" }: HomePageProps) =
           }}
         />
 
-        <div
+        {/* BiblooCoins */}
+        <button
+          onClick={() => onNavigate("biblooCoins")}
           className="flex items-center font-bold text-white"
           style={{
-            background: "rgba(0,0,0,0.3)",
+            background: "rgba(0,0,0,0.55)",
             padding: "6px 14px",
             borderRadius: 20,
             fontSize: 14,
             minHeight: 44,
-            gap: 4,
+            gap: 6,
+            border: "1px solid #FFD700",
+            cursor: "pointer",
           }}
         >
-          🪙 <span>27</span>
-        </div>
+          <img src={coinbibloo} alt="coin" style={{ width: 20, height: 20 }} />
+          <span style={{ color: "#FFD700" }}>27</span>
+        </button>
       </div>
 
       {/* Greeting Bubble */}
@@ -112,134 +135,92 @@ const HomePage = ({ onNavigate, onOpenDrawer, name = "Maria" }: HomePageProps) =
               fontFamily: "KGPerfectPenmanship",
             }}
           >
-            BOM DIA, {name.toUpperCase()}!
+            {greeting}, {displayName.toUpperCase()}!
           </p>
           <p style={{ fontSize: "clamp(11px, 3vw, 13px)", color: "#6B4C2A", marginTop: 2 }}>
             Vamos ler a Palavra do Papai do Céu?
           </p>
         </div>
         <img
-          src={bibiMascot}
+          src={bibiHomepage}
           alt="Bibi"
           loading="eager"
           decoding="async"
-          style={{ height: 90, width: "auto", objectFit: "contain", marginBottom: -8, flex: "0 0 30%" }}
+          style={{ height: 100, width: "auto", objectFit: "contain", marginBottom: -8, flex: "0 0 30%" }}
         />
       </div>
 
-      {/* Buttons Section */}
-      <div className="flex flex-col items-center" style={{ gap: 12 }}>
-        {/* 1. Devocional */}
-        <button style={stdBtn} onClick={() => onNavigate("devotional")}>
-          Devocional do Dia
-        </button>
-
-        {/* 2. BibliaFlix */}
-        <button style={stdBtn} onClick={() => onNavigate("bibliaflix")}>
-          BibliaFlix
-        </button>
-
-        {/* 3. Ler a Bíblia Card */}
-        <div
-          onClick={() => onNavigate("bible")}
-          style={{
-            width: "92%",
-            maxWidth: 380,
-            borderRadius: 20,
-            border: "3px solid #D4B896",
-            background: "#FFF8EE",
-            padding: 16,
-            boxShadow: "0 4px 8px rgba(0,0,0,0.15)",
-            cursor: "pointer",
-          }}
-        >
-          <div className="flex flex-col items-center" style={{ gap: 8 }}>
-            <p
-              className="font-bold"
-              style={{
-                color: "#4A2C0A",
-                fontSize: "clamp(18px, 5vw, 24px)",
-                fontFamily: "KGPerfectPenmanship",
-              }}
-            >
-              Ler a Bíblia
-            </p>
-            <div className="flex w-full" style={{ gap: 8 }}>
-              <button
-                className="font-bold text-white font-penmanship"
-                style={{
-                  flex: 1,
-                  background: "#4CAF50",
-                  borderRadius: 12,
-                  padding: "10px 0",
-                  fontSize: "clamp(12px, 3.2vw, 14px)",
-                  minHeight: 44,
-                  borderBottom: "3px solid #2E7D32",
-                  cursor: "pointer",
-                }}
-                onClick={(e) => {
-                  e.stopPropagation();
-                  onNavigate("bible");
-                }}
-              >
-                Velho Testamento
-              </button>
-              <button
-                className="font-bold text-white font-penmanship"
-                style={{
-                  flex: 1,
-                  background: "#4A90D9",
-                  borderRadius: 12,
-                  padding: "10px 0",
-                  fontSize: "clamp(12px, 3.2vw, 14px)",
-                  minHeight: 44,
-                  borderBottom: "3px solid #2B65A8",
-                  cursor: "pointer",
-                }}
-                onClick={(e) => {
-                  e.stopPropagation();
-                  onNavigate("bible");
-                }}
-              >
-                Novo Testamento
-              </button>
-            </div>
-          </div>
+      {/* Image Buttons */}
+      <div className="flex flex-col items-center" style={{ gap: 10, padding: "0 4%" }}>
+        {/* ROW 1 — Devocional + Mini-games */}
+        <div className="flex w-full" style={{ gap: 10 }}>
+          <motion.div
+            whileTap={{ scale: 0.96 }}
+            onClick={() => onNavigate("devotional")}
+            style={{ flex: 1, cursor: "pointer", borderRadius: 16, overflow: "hidden" }}
+          >
+            <img src={devocionalImg} alt="Devocional" style={{ width: "100%", display: "block", borderRadius: 16 }} />
+          </motion.div>
+          <motion.div
+            whileTap={{ scale: 0.96 }}
+            onClick={() => onNavigate("miniGames")}
+            style={{ flex: 1, cursor: "pointer", borderRadius: 16, overflow: "hidden" }}
+          >
+            <img src={minigamesImg} alt="Mini-games" style={{ width: "100%", display: "block", borderRadius: 16 }} />
+          </motion.div>
         </div>
 
-        {/* 4. Mini-games */}
-        <button style={stdBtn} onClick={() => onNavigate("miniGames")}>
-          Mini-games
-        </button>
-
-        {/* 5. Lojinha Bibloo */}
-        <button
-          style={{
-            ...stdBtn,
-            background: "#3D1F00",
-            borderBottom: "4px solid #1A0A00",
-          }}
-          onClick={() => onNavigate("shop")}
+        {/* ROW 2 — Ler a Bíblia (full width with overlay zones) */}
+        <motion.div
+          whileTap={{ scale: 0.98 }}
+          style={{ width: "100%", cursor: "pointer", borderRadius: 16, overflow: "hidden", position: "relative" }}
+          onClick={() => onNavigate("bible")}
         >
-          Lojinha Bibloo
-        </button>
+          <img src={lerImg} alt="Ler a Bíblia" style={{ width: "100%", display: "block", borderRadius: 16 }} />
+          {/* OT overlay zone */}
+          <div
+            onClick={(e) => { e.stopPropagation(); onNavigate("bible"); }}
+            style={{ position: "absolute", bottom: 0, left: 0, width: "50%", height: "35%", cursor: "pointer" }}
+          />
+          {/* NT overlay zone */}
+          <div
+            onClick={(e) => { e.stopPropagation(); onNavigate("bible"); }}
+            style={{ position: "absolute", bottom: 0, right: 0, width: "50%", height: "35%", cursor: "pointer" }}
+          />
+        </motion.div>
 
-        {/* 6. Área dos Pais */}
+        {/* ROW 3 — BibliaFlix + Lojinha */}
+        <div className="flex w-full" style={{ gap: 10 }}>
+          <motion.div
+            whileTap={{ scale: 0.96 }}
+            onClick={() => onNavigate("bibliaflix")}
+            style={{ flex: 1, cursor: "pointer", borderRadius: 16, overflow: "hidden" }}
+          >
+            <img src={bibliaflixImg} alt="BibliaFlix" style={{ width: "100%", display: "block", borderRadius: 16 }} />
+          </motion.div>
+          <motion.div
+            whileTap={{ scale: 0.96 }}
+            onClick={() => onNavigate("shop")}
+            style={{ flex: 1, cursor: "pointer", borderRadius: 16, overflow: "hidden" }}
+          >
+            <img src={lojinhaImg} alt="Lojinha Bibloo" style={{ width: "100%", display: "block", borderRadius: 16 }} />
+          </motion.div>
+        </div>
+
+        {/* Área dos Pais link */}
         <button
-          className="font-penmanship font-bold"
-          style={{
-            background: "transparent",
-            border: "2px solid #D4B896",
-            color: "#4A2C0A",
-            borderRadius: 50,
-            width: "92%",
-            maxWidth: 380,
-            padding: "16px 0",
-            minHeight: 44,
-            fontSize: "clamp(16px, 4vw, 18px)",
-            cursor: "pointer",
-          }}
           onClick={() => setShowPinModal(true)}
+          style={{
+            background: "none",
+            border: "none",
+            cursor: "pointer",
+            fontFamily: "KGPerfectPenmanship",
+            fontSize: 13,
+            color: "#4A2C0A",
+            textDecoration: "underline",
+            marginTop: 4,
+            minHeight: 44,
+          }}
         >
           🔒 Área dos Pais
         </button>
@@ -296,10 +277,7 @@ const HomePage = ({ onNavigate, onOpenDrawer, name = "Maria" }: HomePageProps) =
                   PIN incorreto. Tente novamente.
                 </p>
               )}
-              <button
-                style={{ ...stdBtn, width: "100%", marginTop: 16 }}
-                onClick={handlePinSubmit}
-              >
+              <button style={pinBtnStyle} onClick={handlePinSubmit}>
                 Entrar
               </button>
             </motion.div>

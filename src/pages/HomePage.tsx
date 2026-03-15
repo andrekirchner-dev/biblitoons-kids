@@ -222,7 +222,7 @@ const HomePage = ({ onNavigate, onOpenDrawer, gender = "menina", name }: HomePag
             <img
               src={areaDospaisImg}
               alt="Área dos Pais"
-              style={{ width: "100%", height: "auto", objectFit: "contain", borderRadius: 12, display: "block" }}
+              style={{ width: "100%", height: "auto", maxHeight: 80, objectFit: "contain", borderRadius: 12, display: "block" }}
             />
           </motion.div>
         </div>

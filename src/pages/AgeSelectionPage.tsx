@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import bgMenina from "@/assets/5.png";
+import bgMenina from "@/assets/BG6.png";
 import bgMenino from "@/assets/6.png";
 
 interface AgeSelectionPageProps {

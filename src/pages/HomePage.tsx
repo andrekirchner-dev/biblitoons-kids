@@ -7,7 +7,7 @@ import coinbibloo from "@/assets/coinbibloo.png";
 import devocionalImg from "@/assets/devocional.png";
 import minigamesImg from "@/assets/minigames.png";
 import lerImg from "@/assets/ler.png";
-import bibliaflixImg from "@/assets/bibliaflix.png";
+import bibliaflixImg from "@/assets/bibliaflix2.png";
 import lojinhaImg from "@/assets/lojinhabibloo.png";
 import areaDospaisImg from "@/assets/areadospais.png";
 
@@ -80,7 +80,7 @@ const HomePage = ({ onNavigate, onOpenDrawer, gender = "menina", name }: HomePag
         {/* Top Bar */}
         <div
           className="flex items-center justify-between relative"
-          style={{ height: 48, padding: "0 16px", flexShrink: 0 }}
+          style={{ height: 44, padding: "0 12px", flexShrink: 0 }}
         >
           <button
             onClick={onOpenDrawer}
@@ -125,27 +125,27 @@ const HomePage = ({ onNavigate, onOpenDrawer, gender = "menina", name }: HomePag
         </div>
 
         {/* Greeting Bubble */}
-        <div className="flex items-end px-3" style={{ gap: 6, flexShrink: 0, maxHeight: 70 }}>
+        <div className="flex items-end" style={{ gap: 6, flexShrink: 0, maxHeight: 64, padding: "6px 12px" }}>
           <div
             style={{
               flex: "0 0 65%",
               background: "#F5E6C8",
               border: "2px solid #D4B896",
               borderRadius: 16,
-              padding: "8px 12px",
+              padding: "6px 12px",
             }}
           >
             <p
               className="font-bold uppercase"
               style={{
                 color: "#4A2C0A",
-                fontSize: "clamp(13px, 3.5vw, 16px)",
+                fontSize: "clamp(12px, 3.2vw, 15px)",
                 fontFamily: "KGPerfectPenmanship",
               }}
             >
               {greeting}, {displayName.toUpperCase()}!
             </p>
-            <p style={{ fontSize: "clamp(10px, 2.8vw, 12px)", color: "#6B4C2A", marginTop: 1 }}>
+            <p style={{ fontSize: "clamp(10px, 2.6vw, 12px)", color: "#6B4C2A", marginTop: 1 }}>
               Vamos ler a Palavra do Papai do Céu?
             </p>
           </div>
@@ -154,27 +154,27 @@ const HomePage = ({ onNavigate, onOpenDrawer, gender = "menina", name }: HomePag
             alt="Bibi"
             loading="eager"
             decoding="async"
-            style={{ height: 70, width: "auto", objectFit: "contain", marginBottom: -4, flex: "0 0 30%" }}
+            style={{ height: 75, width: "auto", objectFit: "contain", marginBottom: -4, flex: "0 0 30%" }}
           />
         </div>
 
         {/* Image Buttons */}
-        <div className="flex flex-col items-center" style={{ gap: 6, padding: "4px 12px 0", flex: 1, justifyContent: "flex-start" }}>
+        <div className="flex flex-col items-center" style={{ gap: 6, padding: "6px 12px 0 12px", flex: 1, justifyContent: "flex-start" }}>
           {/* ROW 1 — Devocional + BibliaFlix */}
-          <div className="flex w-full" style={{ gap: 8 }}>
+          <div className="flex" style={{ gap: 6, width: "92%" }}>
             <motion.div
               whileTap={{ scale: 0.96 }}
               onClick={() => onNavigate("devotional")}
               style={{ flex: 1, cursor: "pointer", borderRadius: 12, overflow: "hidden" }}
             >
-              <img src={devocionalImg} alt="Devocional" style={{ width: "100%", height: "auto", objectFit: "contain", display: "block", borderRadius: 12 }} />
+              <img src={devocionalImg} alt="Devocional" style={{ width: "100%", height: "auto", maxHeight: 90, objectFit: "contain", display: "block", borderRadius: 12 }} />
             </motion.div>
             <motion.div
               whileTap={{ scale: 0.96 }}
               onClick={() => onNavigate("bibliaflix")}
               style={{ flex: 1, cursor: "pointer", borderRadius: 12, overflow: "hidden" }}
             >
-              <img src={bibliaflixImg} alt="BibliaFlix" style={{ width: "100%", height: "auto", objectFit: "contain", display: "block", borderRadius: 12 }} />
+              <img src={bibliaflixImg} alt="BibliaFlix" style={{ width: "100%", height: "auto", maxHeight: 90, objectFit: "contain", display: "block", borderRadius: 12 }} />
             </motion.div>
           </div>
 
@@ -184,7 +184,7 @@ const HomePage = ({ onNavigate, onOpenDrawer, gender = "menina", name }: HomePag
             style={{ width: "92%", maxWidth: 380, cursor: "pointer", borderRadius: 12, overflow: "hidden", position: "relative" }}
             onClick={() => onNavigate("bible")}
           >
-            <img src={lerImg} alt="Ler a Bíblia" style={{ width: "100%", height: "auto", objectFit: "contain", display: "block", borderRadius: 12 }} />
+            <img src={lerImg} alt="Ler a Bíblia" style={{ width: "100%", height: "auto", maxHeight: 100, objectFit: "contain", display: "block", borderRadius: 12 }} />
             <div
               onClick={(e) => { e.stopPropagation(); onNavigate("bible"); }}
               style={{ position: "absolute", bottom: 0, left: 0, width: "50%", height: "35%", cursor: "pointer" }}
@@ -196,20 +196,20 @@ const HomePage = ({ onNavigate, onOpenDrawer, gender = "menina", name }: HomePag
           </motion.div>
 
           {/* ROW 3 — Minigames + Lojinha */}
-          <div className="flex w-full" style={{ gap: 8 }}>
+          <div className="flex" style={{ gap: 6, width: "92%" }}>
             <motion.div
               whileTap={{ scale: 0.96 }}
               onClick={() => onNavigate("miniGames")}
               style={{ flex: 1, cursor: "pointer", borderRadius: 12, overflow: "hidden" }}
             >
-              <img src={minigamesImg} alt="Mini-games" style={{ width: "100%", height: "auto", objectFit: "contain", display: "block", borderRadius: 12 }} />
+              <img src={minigamesImg} alt="Mini-games" style={{ width: "100%", height: "auto", maxHeight: 90, objectFit: "contain", display: "block", borderRadius: 12 }} />
             </motion.div>
             <motion.div
               whileTap={{ scale: 0.96 }}
               onClick={() => onNavigate("shop")}
               style={{ flex: 1, cursor: "pointer", borderRadius: 12, overflow: "hidden" }}
             >
-              <img src={lojinhaImg} alt="Lojinha Bibloo" style={{ width: "100%", height: "auto", objectFit: "contain", display: "block", borderRadius: 12 }} />
+              <img src={lojinhaImg} alt="Lojinha Bibloo" style={{ width: "100%", height: "auto", maxHeight: 90, objectFit: "contain", display: "block", borderRadius: 12 }} />
             </motion.div>
           </div>
 
@@ -222,7 +222,7 @@ const HomePage = ({ onNavigate, onOpenDrawer, gender = "menina", name }: HomePag
             <img
               src={areaDospaisImg}
               alt="Área dos Pais"
-              style={{ width: "100%", height: "auto", objectFit: "contain", borderRadius: 12, display: "block" }}
+              style={{ width: "100%", height: "auto", maxHeight: 80, objectFit: "contain", borderRadius: 12, display: "block" }}
             />
           </motion.div>
         </div>

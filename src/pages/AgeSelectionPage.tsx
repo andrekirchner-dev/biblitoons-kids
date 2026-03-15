@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
-import bgMenina from "@/assets/BG6.png";
-import bgMenino from "@/assets/6.png";
+import bgMenina from "@/assets/BG5.png";
+import bgMenino from "@/assets/BG6.png";
 
 interface AgeSelectionPageProps {
   gender: "menina" | "menino";

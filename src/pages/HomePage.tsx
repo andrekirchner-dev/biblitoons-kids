@@ -74,7 +74,7 @@ const HomePage = ({ onNavigate, onOpenDrawer, gender = "menina", name }: HomePag
         overflow: "hidden",
         display: "flex",
         flexDirection: "column",
-        paddingTop: "env(safe-area-inset-top, 44px)",
+        paddingTop: "env(safe-area-inset-top, 56px)",
         paddingBottom: "calc(68px + env(safe-area-inset-bottom, 0px))",
       }}
     >
@@ -82,7 +82,7 @@ const HomePage = ({ onNavigate, onOpenDrawer, gender = "menina", name }: HomePag
         {/* Top Bar */}
         <div
           className="flex items-center justify-between relative"
-          style={{ height: 52, padding: "0 16px", flexShrink: 0 }}
+          style={{ height: 52, padding: "0 16px", flexShrink: 0, marginTop: 8 }}
         >
           <button
             onClick={onOpenDrawer}
@@ -128,10 +128,12 @@ const HomePage = ({ onNavigate, onOpenDrawer, gender = "menina", name }: HomePag
         </div>
 
         {/* Greeting Bubble */}
-        <div className="flex items-end" style={{ gap: 8, flexShrink: 0, padding: "4px 12px 0 12px", marginTop: 4 }}>
+        <div className="flex items-end" style={{ gap: 0, flexShrink: 0, padding: "4px 12px 0 12px", marginTop: 4 }}>
           <div
             style={{
-              flex: "0 0 65%",
+              flex: "0 0 62%",
+              marginRight: -12,
+              zIndex: 2,
               background: "#F5E6C8",
               border: "2px solid #D4B896",
               borderRadius: 16,
@@ -157,7 +159,7 @@ const HomePage = ({ onNavigate, onOpenDrawer, gender = "menina", name }: HomePag
             alt="Bibi"
             loading="eager"
             decoding="async"
-            style={{ height: 72, width: "auto", objectFit: "contain", marginBottom: -4, flex: "0 0 30%" }}
+            style={{ height: 78, width: "auto", objectFit: "contain", marginBottom: -4, flex: "0 0 38%", marginLeft: 0, zIndex: 1 }}
           />
         </div>
 
@@ -187,7 +189,7 @@ const HomePage = ({ onNavigate, onOpenDrawer, gender = "menina", name }: HomePag
             style={{ width: "96%", cursor: "pointer", borderRadius: 12, overflow: "hidden", position: "relative" }}
             onClick={() => onNavigate("bible")}
           >
-            <img src={lerImg} alt="Ler a Bíblia" style={{ width: "100%", height: "auto", maxHeight: "calc((100vh - 52px - 80px - 68px) * 0.26)", objectFit: "contain", display: "block", borderRadius: 12 }} />
+            <img src={lerImg} alt="Ler a Bíblia" style={{ width: "100%", height: "auto", maxHeight: "calc((100vh - 52px - 80px - 68px) * 0.32)", objectFit: "contain", display: "block", borderRadius: 14 }} />
             <div
               onClick={(e) => { e.stopPropagation(); onNavigate("bible"); }}
               style={{ position: "absolute", bottom: 0, left: 0, width: "50%", height: "35%", cursor: "pointer" }}
@@ -205,14 +207,14 @@ const HomePage = ({ onNavigate, onOpenDrawer, gender = "menina", name }: HomePag
               onClick={() => onNavigate("miniGames")}
               style={{ flex: 1, cursor: "pointer", borderRadius: 12, overflow: "hidden" }}
             >
-              <img src={minigamesImg} alt="Mini-games" style={{ width: "100%", height: "auto", maxHeight: "calc((100vh - 52px - 80px - 68px) * 0.22)", objectFit: "contain", display: "block", borderRadius: 12 }} />
+              <img src={minigamesImg} alt="Mini-games" style={{ width: "100%", height: "auto", maxHeight: "calc((100vh - 52px - 80px - 68px) * 0.19)", objectFit: "contain", display: "block", borderRadius: 12 }} />
             </motion.div>
             <motion.div
               whileTap={{ scale: 0.96 }}
               onClick={() => onNavigate("shop")}
               style={{ flex: 1, cursor: "pointer", borderRadius: 12, overflow: "hidden" }}
             >
-              <img src={lojinhaImg} alt="Lojinha Bibloo" style={{ width: "100%", height: "auto", maxHeight: "calc((100vh - 52px - 80px - 68px) * 0.22)", objectFit: "contain", display: "block", borderRadius: 12 }} />
+              <img src={lojinhaImg} alt="Lojinha Bibloo" style={{ width: "100%", height: "auto", maxHeight: "calc((100vh - 52px - 80px - 68px) * 0.19)", objectFit: "contain", display: "block", borderRadius: 12 }} />
             </motion.div>
           </div>
 

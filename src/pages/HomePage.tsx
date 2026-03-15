@@ -167,7 +167,7 @@ const HomePage = ({ onNavigate, onOpenDrawer, gender = "menina", name }: HomePag
               onClick={() => onNavigate("devotional")}
               style={{ flex: 1, cursor: "pointer", borderRadius: 12, overflow: "hidden" }}
             >
-              <img src={devocionalImg} alt="Devocional" style={{ width: "100%", height: "auto", objectFit: "contain", display: "block", borderRadius: 12 }} />
+              <img src={devocionalImg} alt="Devocional" style={{ width: "100%", height: "auto", maxHeight: 90, objectFit: "contain", display: "block", borderRadius: 12 }} />
             </motion.div>
             <motion.div
               whileTap={{ scale: 0.96 }}

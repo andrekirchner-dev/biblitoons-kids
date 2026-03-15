@@ -159,7 +159,7 @@ const HomePage = ({ onNavigate, onOpenDrawer, gender = "menina", name }: HomePag
             alt="Bibi"
             loading="eager"
             decoding="async"
-            style={{ height: 72, width: "auto", objectFit: "contain", marginBottom: -4, flex: "0 0 30%" }}
+            style={{ height: 78, width: "auto", objectFit: "contain", marginBottom: -4, flex: "0 0 38%", marginLeft: 0, zIndex: 1 }}
           />
         </div>
 

@@ -11,7 +11,7 @@ const BiblooCoinsPage = ({ onNavigate }: BiblooCoinsPageProps) => {
   return (
     <div
       className="mx-auto overflow-x-hidden flex flex-col"
-      style={{ width: "100%", maxWidth: 428, minHeight: "100dvh" }}
+      style={{ width: "100%", maxWidth: 428, minHeight: "100dvh", paddingTop: "env(safe-area-inset-top, 0px)" }}
     >
       {/* Back button */}
       <button

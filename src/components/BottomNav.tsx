@@ -55,7 +55,8 @@ const BottomNav = ({ currentPage, onNavigate }: BottomNavProps) => {
       style={{
         width: "100%",
         maxWidth: 428,
-        height: 64,
+        height: "calc(68px + env(safe-area-inset-bottom, 0px))",
+        paddingBottom: "env(safe-area-inset-bottom, 0px)",
         background: "#FFFBEE",
         borderTop: "1px solid #E5E7EB",
       }}

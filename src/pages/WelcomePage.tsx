@@ -15,6 +15,7 @@ const WelcomePage = ({ onNavigate }: WelcomePageProps) => {
         width: "100vw",
         height: "100vh",
         overflow: "hidden",
+        paddingTop: "env(safe-area-inset-top, 0px)",
       }}
     >
       {/* Layer 1 — Background */}

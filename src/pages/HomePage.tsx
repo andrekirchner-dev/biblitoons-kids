@@ -128,10 +128,12 @@ const HomePage = ({ onNavigate, onOpenDrawer, gender = "menina", name }: HomePag
         </div>
 
         {/* Greeting Bubble */}
-        <div className="flex items-end" style={{ gap: 8, flexShrink: 0, padding: "4px 12px 0 12px", marginTop: 4 }}>
+        <div className="flex items-end" style={{ gap: 0, flexShrink: 0, padding: "4px 12px 0 12px", marginTop: 4 }}>
           <div
             style={{
-              flex: "0 0 65%",
+              flex: "0 0 62%",
+              marginRight: -12,
+              zIndex: 2,
               background: "#F5E6C8",
               border: "2px solid #D4B896",
               borderRadius: 16,

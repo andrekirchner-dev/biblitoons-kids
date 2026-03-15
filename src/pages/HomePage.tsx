@@ -125,27 +125,27 @@ const HomePage = ({ onNavigate, onOpenDrawer, gender = "menina", name }: HomePag
         </div>
 
         {/* Greeting Bubble */}
-        <div className="flex items-end px-3" style={{ gap: 6, flexShrink: 0, maxHeight: 70 }}>
+        <div className="flex items-end" style={{ gap: 6, flexShrink: 0, maxHeight: 64, padding: "6px 12px" }}>
           <div
             style={{
               flex: "0 0 65%",
               background: "#F5E6C8",
               border: "2px solid #D4B896",
               borderRadius: 16,
-              padding: "8px 12px",
+              padding: "6px 12px",
             }}
           >
             <p
               className="font-bold uppercase"
               style={{
                 color: "#4A2C0A",
-                fontSize: "clamp(13px, 3.5vw, 16px)",
+                fontSize: "clamp(12px, 3.2vw, 15px)",
                 fontFamily: "KGPerfectPenmanship",
               }}
             >
               {greeting}, {displayName.toUpperCase()}!
             </p>
-            <p style={{ fontSize: "clamp(10px, 2.8vw, 12px)", color: "#6B4C2A", marginTop: 1 }}>
+            <p style={{ fontSize: "clamp(10px, 2.6vw, 12px)", color: "#6B4C2A", marginTop: 1 }}>
               Vamos ler a Palavra do Papai do Céu?
             </p>
           </div>
@@ -154,7 +154,7 @@ const HomePage = ({ onNavigate, onOpenDrawer, gender = "menina", name }: HomePag
             alt="Bibi"
             loading="eager"
             decoding="async"
-            style={{ height: 70, width: "auto", objectFit: "contain", marginBottom: -4, flex: "0 0 30%" }}
+            style={{ height: 75, width: "auto", objectFit: "contain", marginBottom: -4, flex: "0 0 30%" }}
           />
         </div>
 

@@ -98,7 +98,7 @@ const HomePage = ({ onNavigate, onOpenDrawer, gender = "menina", name }: HomePag
             loading="eager"
             decoding="async"
             style={{
-              maxHeight: 58,
+              maxHeight: 44,
               width: "auto",
               objectFit: "contain",
               position: "absolute",

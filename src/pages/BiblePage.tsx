@@ -74,7 +74,7 @@ const BiblePage = ({ onNavigate }: BiblePageProps) => {
   return (
     <div
       className="mx-auto overflow-x-hidden"
-      style={{ width: "100%", maxWidth: 428, minHeight: "100dvh", paddingBottom: 80 }}
+      style={{ width: "100%", maxWidth: 428, minHeight: "100dvh", paddingBottom: 80, paddingTop: "env(safe-area-inset-top, 0px)" }}
     >
       <div className="flex items-center px-4 pt-6 mb-4">
         {onNavigate && (

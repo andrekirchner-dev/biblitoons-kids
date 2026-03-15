@@ -18,7 +18,7 @@ interface ShopPageProps {
 
 const ShopPage = ({ onNavigate }: ShopPageProps) => {
   return (
-    <div className="min-h-screen bg-gradient-sky">
+    <div className="min-h-screen bg-gradient-sky" style={{ paddingTop: "env(safe-area-inset-top, 0px)" }}>
       {onNavigate && (
         <button
           onClick={() => onNavigate("home")}

@@ -10,7 +10,7 @@ const MiniGamesPage = ({ onNavigate }: MiniGamesPageProps) => {
   return (
     <div
       className="mx-auto overflow-x-hidden flex flex-col"
-      style={{ width: "100%", maxWidth: 428, minHeight: "100dvh" }}
+      style={{ width: "100%", maxWidth: 428, minHeight: "100dvh", paddingTop: "env(safe-area-inset-top, 0px)" }}
     >
       <div className="flex items-center px-4 pt-6 mb-8">
         <button

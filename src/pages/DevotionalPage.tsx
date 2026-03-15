@@ -11,7 +11,7 @@ interface DevotionalPageProps {
 
 const DevotionalPage = ({ onNavigate }: DevotionalPageProps) => {
   return (
-    <div className="min-h-screen bg-gradient-sky">
+    <div className="min-h-screen bg-gradient-sky" style={{ paddingTop: "env(safe-area-inset-top, 0px)" }}>
       {/* Back button */}
       {onNavigate && (
         <button

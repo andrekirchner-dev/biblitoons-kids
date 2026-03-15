@@ -18,7 +18,7 @@ const SignupPage = ({ onNavigate }: SignupPageProps) => {
   }, []);
 
   return (
-    <div className="min-h-screen flex-col px-5 pt-6 pb-8 relative flex items-center justify-center">
+    <div className="min-h-screen flex-col px-5 pt-6 pb-8 relative flex items-center justify-center" style={{ paddingTop: "env(safe-area-inset-top, 0px)" }}>
       {/* Logo */}
       <motion.img
         src={LogoApp1}

@@ -55,6 +55,7 @@ const AgeSelectionPage = ({ gender, onNavigate, onSelectAge }: AgeSelectionPageP
         height: "100dvh",
         position: "relative",
         overflow: "hidden",
+        paddingTop: "env(safe-area-inset-top, 0px)",
       }}
     >
       {/* Left button */}

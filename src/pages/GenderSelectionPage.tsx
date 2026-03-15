@@ -26,6 +26,7 @@ const GenderSelectionPage = ({ onNavigate, onSelectGender }: GenderSelectionPage
         height: "100dvh",
         position: "relative",
         overflow: "hidden",
+        paddingTop: "env(safe-area-inset-top, 0px)",
       }}
     >
       <motion.button

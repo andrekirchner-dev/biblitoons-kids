@@ -159,9 +159,9 @@ const HomePage = ({ onNavigate, onOpenDrawer, gender = "menina", name }: HomePag
         </div>
 
         {/* Image Buttons */}
-        <div className="flex flex-col items-center" style={{ gap: 6, padding: "4px 12px 0", flex: 1, justifyContent: "flex-start" }}>
+        <div className="flex flex-col items-center" style={{ gap: 6, padding: "6px 12px 0 12px", flex: 1, justifyContent: "flex-start" }}>
           {/* ROW 1 — Devocional + BibliaFlix */}
-          <div className="flex w-full" style={{ gap: 8 }}>
+          <div className="flex" style={{ gap: 6, width: "92%" }}>
             <motion.div
               whileTap={{ scale: 0.96 }}
               onClick={() => onNavigate("devotional")}

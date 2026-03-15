@@ -74,7 +74,8 @@ const HomePage = ({ onNavigate, onOpenDrawer, gender = "menina", name }: HomePag
         overflow: "hidden",
         display: "flex",
         flexDirection: "column",
-        paddingTop: "env(safe-area-inset-top, 0px)",
+        paddingTop: "env(safe-area-inset-top, 44px)",
+        paddingBottom: "calc(68px + env(safe-area-inset-bottom, 0px))",
       }}
     >
       <div style={{ width: "100%", maxWidth: 428, margin: "0 auto", display: "flex", flexDirection: "column", flex: 1, overflow: "hidden" }}>

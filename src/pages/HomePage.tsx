@@ -196,7 +196,7 @@ const HomePage = ({ onNavigate, onOpenDrawer, gender = "menina", name }: HomePag
           </motion.div>
 
           {/* ROW 3 — Minigames + Lojinha */}
-          <div className="flex w-full" style={{ gap: 8 }}>
+          <div className="flex" style={{ gap: 6, width: "92%" }}>
             <motion.div
               whileTap={{ scale: 0.96 }}
               onClick={() => onNavigate("miniGames")}

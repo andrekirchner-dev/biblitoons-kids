@@ -9,6 +9,7 @@ import minigamesImg from "@/assets/minigames.png";
 import lerImg from "@/assets/ler.png";
 import bibliaflixImg from "@/assets/bibliaflix.png";
 import lojinhaImg from "@/assets/lojinhabibloo.png";
+import areaDospaisImg from "@/assets/areadospais.png";
 
 interface HomePageProps {
   onNavigate: (page: string) => void;
@@ -65,165 +66,166 @@ const HomePage = ({ onNavigate, onOpenDrawer, gender = "menina", name }: HomePag
 
   return (
     <div
-      className="mx-auto overflow-x-hidden overflow-y-auto"
-      style={{ width: "100%", maxWidth: 428, minHeight: "100dvh", paddingBottom: 80 }}
+      style={{
+        position: "fixed",
+        inset: 0,
+        width: "100vw",
+        height: "100vh",
+        overflow: "hidden",
+        display: "flex",
+        flexDirection: "column",
+      }}
     >
-      {/* Top Bar */}
-      <div
-        className="flex items-center justify-between relative"
-        style={{ height: 56, padding: "0 16px" }}
-      >
-        <button
-          onClick={onOpenDrawer}
-          className="flex items-center justify-center"
-          style={{ minHeight: 44, minWidth: 44, filter: GLOW_FILTER }}
-        >
-          <Menu className="text-white" size={22} />
-        </button>
-
-        <img
-          src={LogoApp1}
-          alt="Bibloo"
-          loading="eager"
-          decoding="async"
-          style={{
-            maxHeight: 48,
-            width: "auto",
-            objectFit: "contain",
-            position: "absolute",
-            left: "50%",
-            transform: "translateX(-50%)",
-          }}
-        />
-
-        {/* BiblooCoins */}
-        <button
-          onClick={() => onNavigate("biblooCoins")}
-          className="flex items-center font-bold text-white"
-          style={{
-            background: "rgba(0,0,0,0.55)",
-            padding: "6px 14px",
-            borderRadius: 20,
-            fontSize: 14,
-            minHeight: 44,
-            gap: 6,
-            border: "1px solid #FFD700",
-            cursor: "pointer",
-          }}
-        >
-          <img src={coinbibloo} alt="coin" style={{ width: 20, height: 20 }} />
-          <span style={{ color: "#FFD700" }}>27</span>
-        </button>
-      </div>
-
-      {/* Greeting Bubble */}
-      <div className="flex items-end px-4 mt-2 mb-4" style={{ gap: 8 }}>
+      <div style={{ width: "100%", maxWidth: 428, margin: "0 auto", display: "flex", flexDirection: "column", flex: 1, overflow: "hidden" }}>
+        {/* Top Bar */}
         <div
-          style={{
-            flex: "0 0 65%",
-            background: "#F5E6C8",
-            border: "2px solid #D4B896",
-            borderRadius: 20,
-            padding: "12px 16px",
-          }}
+          className="flex items-center justify-between relative"
+          style={{ height: 48, padding: "0 16px", flexShrink: 0 }}
         >
-          <p
-            className="font-bold uppercase"
+          <button
+            onClick={onOpenDrawer}
+            className="flex items-center justify-center"
+            style={{ minHeight: 44, minWidth: 44, filter: GLOW_FILTER, background: "none", border: "none", cursor: "pointer" }}
+          >
+            <Menu className="text-white" size={22} />
+          </button>
+
+          <img
+            src={LogoApp1}
+            alt="Bibloo"
+            loading="eager"
+            decoding="async"
             style={{
-              color: "#4A2C0A",
-              fontSize: "clamp(14px, 3.8vw, 18px)",
-              fontFamily: "KGPerfectPenmanship",
+              maxHeight: 40,
+              width: "auto",
+              objectFit: "contain",
+              position: "absolute",
+              left: "50%",
+              transform: "translateX(-50%)",
+            }}
+          />
+
+          <button
+            onClick={() => onNavigate("biblooCoins")}
+            className="flex items-center font-bold text-white"
+            style={{
+              background: "rgba(0,0,0,0.55)",
+              padding: "4px 12px",
+              borderRadius: 20,
+              fontSize: 13,
+              minHeight: 36,
+              gap: 5,
+              border: "1px solid #FFD700",
+              cursor: "pointer",
             }}
           >
-            {greeting}, {displayName.toUpperCase()}!
-          </p>
-          <p style={{ fontSize: "clamp(11px, 3vw, 13px)", color: "#6B4C2A", marginTop: 2 }}>
-            Vamos ler a Palavra do Papai do Céu?
-          </p>
-        </div>
-        <img
-          src={bibiHomepage}
-          alt="Bibi"
-          loading="eager"
-          decoding="async"
-          style={{ height: 100, width: "auto", objectFit: "contain", marginBottom: -8, flex: "0 0 30%" }}
-        />
-      </div>
-
-      {/* Image Buttons */}
-      <div className="flex flex-col items-center" style={{ gap: 10, padding: "0 4%" }}>
-        {/* ROW 1 — Devocional + Mini-games */}
-        <div className="flex w-full" style={{ gap: 10 }}>
-          <motion.div
-            whileTap={{ scale: 0.96 }}
-            onClick={() => onNavigate("devotional")}
-            style={{ flex: 1, cursor: "pointer", borderRadius: 16, overflow: "hidden" }}
-          >
-            <img src={devocionalImg} alt="Devocional" style={{ width: "100%", display: "block", borderRadius: 16 }} />
-          </motion.div>
-          <motion.div
-            whileTap={{ scale: 0.96 }}
-            onClick={() => onNavigate("miniGames")}
-            style={{ flex: 1, cursor: "pointer", borderRadius: 16, overflow: "hidden" }}
-          >
-            <img src={minigamesImg} alt="Mini-games" style={{ width: "100%", display: "block", borderRadius: 16 }} />
-          </motion.div>
+            <img src={coinbibloo} alt="coin" style={{ width: 18, height: 18 }} />
+            <span style={{ color: "#FFD700" }}>27</span>
+          </button>
         </div>
 
-        {/* ROW 2 — Ler a Bíblia (full width with overlay zones) */}
-        <motion.div
-          whileTap={{ scale: 0.98 }}
-          style={{ width: "100%", cursor: "pointer", borderRadius: 16, overflow: "hidden", position: "relative" }}
-          onClick={() => onNavigate("bible")}
-        >
-          <img src={lerImg} alt="Ler a Bíblia" style={{ width: "100%", display: "block", borderRadius: 16 }} />
-          {/* OT overlay zone */}
+        {/* Greeting Bubble */}
+        <div className="flex items-end px-3" style={{ gap: 6, flexShrink: 0, maxHeight: 70 }}>
           <div
-            onClick={(e) => { e.stopPropagation(); onNavigate("bible"); }}
-            style={{ position: "absolute", bottom: 0, left: 0, width: "50%", height: "35%", cursor: "pointer" }}
-          />
-          {/* NT overlay zone */}
-          <div
-            onClick={(e) => { e.stopPropagation(); onNavigate("bible"); }}
-            style={{ position: "absolute", bottom: 0, right: 0, width: "50%", height: "35%", cursor: "pointer" }}
-          />
-        </motion.div>
-
-        {/* ROW 3 — BibliaFlix + Lojinha */}
-        <div className="flex w-full" style={{ gap: 10 }}>
-          <motion.div
-            whileTap={{ scale: 0.96 }}
-            onClick={() => onNavigate("bibliaflix")}
-            style={{ flex: 1, cursor: "pointer", borderRadius: 16, overflow: "hidden" }}
+            style={{
+              flex: "0 0 65%",
+              background: "#F5E6C8",
+              border: "2px solid #D4B896",
+              borderRadius: 16,
+              padding: "8px 12px",
+            }}
           >
-            <img src={bibliaflixImg} alt="BibliaFlix" style={{ width: "100%", display: "block", borderRadius: 16 }} />
-          </motion.div>
-          <motion.div
-            whileTap={{ scale: 0.96 }}
-            onClick={() => onNavigate("shop")}
-            style={{ flex: 1, cursor: "pointer", borderRadius: 16, overflow: "hidden" }}
-          >
-            <img src={lojinhaImg} alt="Lojinha Bibloo" style={{ width: "100%", display: "block", borderRadius: 16 }} />
-          </motion.div>
+            <p
+              className="font-bold uppercase"
+              style={{
+                color: "#4A2C0A",
+                fontSize: "clamp(13px, 3.5vw, 16px)",
+                fontFamily: "KGPerfectPenmanship",
+              }}
+            >
+              {greeting}, {displayName.toUpperCase()}!
+            </p>
+            <p style={{ fontSize: "clamp(10px, 2.8vw, 12px)", color: "#6B4C2A", marginTop: 1 }}>
+              Vamos ler a Palavra do Papai do Céu?
+            </p>
+          </div>
+          <img
+            src={bibiHomepage}
+            alt="Bibi"
+            loading="eager"
+            decoding="async"
+            style={{ height: 70, width: "auto", objectFit: "contain", marginBottom: -4, flex: "0 0 30%" }}
+          />
         </div>
 
-        {/* Área dos Pais link */}
-        <button
-          onClick={() => setShowPinModal(true)}
-          style={{
-            background: "none",
-            border: "none",
-            cursor: "pointer",
-            fontFamily: "KGPerfectPenmanship",
-            fontSize: 13,
-            color: "#4A2C0A",
-            textDecoration: "underline",
-            marginTop: 4,
-            minHeight: 44,
-          }}
-        >
-          🔒 Área dos Pais
-        </button>
+        {/* Image Buttons */}
+        <div className="flex flex-col items-center" style={{ gap: 6, padding: "4px 12px 0", flex: 1, justifyContent: "flex-start" }}>
+          {/* ROW 1 — Devocional + BibliaFlix */}
+          <div className="flex w-full" style={{ gap: 8 }}>
+            <motion.div
+              whileTap={{ scale: 0.96 }}
+              onClick={() => onNavigate("devotional")}
+              style={{ flex: 1, cursor: "pointer", borderRadius: 12, overflow: "hidden" }}
+            >
+              <img src={devocionalImg} alt="Devocional" style={{ width: "100%", height: "auto", objectFit: "contain", display: "block", borderRadius: 12 }} />
+            </motion.div>
+            <motion.div
+              whileTap={{ scale: 0.96 }}
+              onClick={() => onNavigate("bibliaflix")}
+              style={{ flex: 1, cursor: "pointer", borderRadius: 12, overflow: "hidden" }}
+            >
+              <img src={bibliaflixImg} alt="BibliaFlix" style={{ width: "100%", height: "auto", objectFit: "contain", display: "block", borderRadius: 12 }} />
+            </motion.div>
+          </div>
+
+          {/* ROW 2 — Ler a Bíblia */}
+          <motion.div
+            whileTap={{ scale: 0.96 }}
+            style={{ width: "92%", maxWidth: 380, cursor: "pointer", borderRadius: 12, overflow: "hidden", position: "relative" }}
+            onClick={() => onNavigate("bible")}
+          >
+            <img src={lerImg} alt="Ler a Bíblia" style={{ width: "100%", height: "auto", objectFit: "contain", display: "block", borderRadius: 12 }} />
+            <div
+              onClick={(e) => { e.stopPropagation(); onNavigate("bible"); }}
+              style={{ position: "absolute", bottom: 0, left: 0, width: "50%", height: "35%", cursor: "pointer" }}
+            />
+            <div
+              onClick={(e) => { e.stopPropagation(); onNavigate("bible"); }}
+              style={{ position: "absolute", bottom: 0, right: 0, width: "50%", height: "35%", cursor: "pointer" }}
+            />
+          </motion.div>
+
+          {/* ROW 3 — Minigames + Lojinha */}
+          <div className="flex w-full" style={{ gap: 8 }}>
+            <motion.div
+              whileTap={{ scale: 0.96 }}
+              onClick={() => onNavigate("miniGames")}
+              style={{ flex: 1, cursor: "pointer", borderRadius: 12, overflow: "hidden" }}
+            >
+              <img src={minigamesImg} alt="Mini-games" style={{ width: "100%", height: "auto", objectFit: "contain", display: "block", borderRadius: 12 }} />
+            </motion.div>
+            <motion.div
+              whileTap={{ scale: 0.96 }}
+              onClick={() => onNavigate("shop")}
+              style={{ flex: 1, cursor: "pointer", borderRadius: 12, overflow: "hidden" }}
+            >
+              <img src={lojinhaImg} alt="Lojinha Bibloo" style={{ width: "100%", height: "auto", objectFit: "contain", display: "block", borderRadius: 12 }} />
+            </motion.div>
+          </div>
+
+          {/* ROW 4 — Área dos Pais (image button) */}
+          <motion.div
+            whileTap={{ scale: 0.96 }}
+            onClick={() => setShowPinModal(true)}
+            style={{ width: "92%", maxWidth: 380, cursor: "pointer" }}
+          >
+            <img
+              src={areaDospaisImg}
+              alt="Área dos Pais"
+              style={{ width: "100%", height: "auto", objectFit: "contain", borderRadius: 12, display: "block" }}
+            />
+          </motion.div>
+        </div>
       </div>
 
       {/* PIN Modal */}

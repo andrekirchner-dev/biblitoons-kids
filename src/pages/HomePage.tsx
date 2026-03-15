@@ -82,7 +82,7 @@ const HomePage = ({ onNavigate, onOpenDrawer, gender = "menina", name }: HomePag
         {/* Top Bar */}
         <div
           className="flex items-center justify-between relative"
-          style={{ height: 52, padding: "0 16px", flexShrink: 0 }}
+          style={{ height: 52, padding: "0 16px", flexShrink: 0, marginTop: 8 }}
         >
           <button
             onClick={onOpenDrawer}

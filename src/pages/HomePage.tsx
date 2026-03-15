@@ -7,7 +7,7 @@ import coinbibloo from "@/assets/coinbibloo.png";
 import devocionalImg from "@/assets/devocional.png";
 import minigamesImg from "@/assets/minigames.png";
 import lerImg from "@/assets/ler.png";
-import bibliaflixImg from "@/assets/bibliaflix.png";
+import bibliaflixImg from "@/assets/bibliaflix2.png";
 import lojinhaImg from "@/assets/lojinhabibloo.png";
 import areaDospaisImg from "@/assets/areadospais.png";
 

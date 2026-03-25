@@ -10,33 +10,61 @@ const COLORS = [
   '#5856D6', '#FF2D55', '#8B4513', '#000000', '#FFFFFF',
 ];
 
+type BrushType = 'lapis' | 'canetinha' | 'borracha';
+
 interface ReflectPageProps {
   onNavigate: (page: string) => void;
   verseText?: string;
   verseRef?: string;
+  /** A unique key for the current devotional day (e.g. "2024-01-15") used for localStorage persistence */
+  dayKey?: string;
 }
 
 const ReflectPage = ({
   onNavigate,
   verseText = '"O meu mandamento é este: amem-se uns aos outros como eu os amei."',
   verseRef = 'João 15:12',
+  dayKey,
 }: ReflectPageProps) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [isDrawing, setIsDrawing] = useState(false);
   const [color, setColor] = useState('#007AFF');
   const [brushSize, setBrushSize] = useState(5);
+  const [brushType, setBrushType] = useState<BrushType>('lapis');
   const [prayerText, setPrayerText] = useState('');
   const lastPos = useRef<{ x: number; y: number } | null>(null);
 
-  // Init canvas
+  // Derive storage key from dayKey or today's date
+  const storageKey = `reflect-drawing-${dayKey ?? new Date().toISOString().slice(0, 10)}`;
+
+  // Init canvas — load saved drawing if present
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
-    ctx.fillStyle = '#FFF8F0';
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-  }, []);
+
+    const saved = localStorage.getItem(storageKey);
+    if (saved) {
+      const img = new Image();
+      img.onload = () => ctx.drawImage(img, 0, 0);
+      img.src = saved;
+    } else {
+      ctx.fillStyle = '#FFF8F0';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+    }
+  }, [storageKey]);
+
+  // Save canvas to localStorage whenever user finishes a stroke
+  const saveCanvas = useCallback(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    try {
+      localStorage.setItem(storageKey, canvas.toDataURL('image/png'));
+    } catch {
+      // Quota exceeded — silently ignore
+    }
+  }, [storageKey]);
 
   const getPos = (e: React.TouchEvent | React.MouseEvent, canvas: HTMLCanvasElement) => {
     const rect = canvas.getBoundingClientRect();
@@ -71,23 +99,42 @@ const ReflectPage = ({
       const ctx = canvas.getContext('2d');
       if (!ctx) return;
       const pos = getPos(e, canvas);
+
       ctx.beginPath();
       ctx.moveTo(lastPos.current!.x, lastPos.current!.y);
       ctx.lineTo(pos.x, pos.y);
-      ctx.strokeStyle = color;
       ctx.lineWidth = brushSize;
       ctx.lineCap = 'round';
       ctx.lineJoin = 'round';
+
+      if (brushType === 'borracha') {
+        ctx.strokeStyle = '#FFF8F0';
+        ctx.lineWidth = 20;
+        ctx.globalAlpha = 1;
+      } else if (brushType === 'lapis') {
+        // Pencil: thin, slightly transparent, sharp edges
+        ctx.strokeStyle = color;
+        ctx.globalAlpha = 0.85;
+        ctx.lineWidth = Math.max(1, brushSize * 0.6);
+      } else {
+        // Canetinha: thick, fully opaque, soft
+        ctx.strokeStyle = color;
+        ctx.globalAlpha = 1;
+        ctx.lineWidth = brushSize * 1.8;
+      }
+
       ctx.stroke();
+      ctx.globalAlpha = 1; // reset
       lastPos.current = pos;
     },
-    [isDrawing, color, brushSize]
+    [isDrawing, color, brushSize, brushType]
   );
 
   const stopDraw = useCallback(() => {
     setIsDrawing(false);
     lastPos.current = null;
-  }, []);
+    saveCanvas();
+  }, [saveCanvas]);
 
   const clearCanvas = () => {
     const canvas = canvasRef.current;
@@ -96,7 +143,14 @@ const ReflectPage = ({
     if (!ctx) return;
     ctx.fillStyle = '#FFF8F0';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
+    localStorage.removeItem(storageKey);
   };
+
+  const brushTypes: { id: BrushType; label: string; emoji: string }[] = [
+    { id: 'lapis', label: 'Lápis', emoji: '✏️' },
+    { id: 'canetinha', label: 'Canetinha', emoji: '🖊️' },
+    { id: 'borracha', label: 'Borracha', emoji: '🟫' },
+  ];
 
   return (
     <div
@@ -115,7 +169,8 @@ const ReflectPage = ({
         className="flex items-center px-3 pt-4 pb-3"
         style={{ background: 'rgba(0,0,0,0.4)', backdropFilter: 'blur(8px)' }}
       >
-        <button
+        <motion.button
+          whileTap={{ scale: 0.88 }}
           onClick={() => onNavigate('devotional')}
           style={{
               width: 44, height: 44, borderRadius: '50%',
@@ -123,10 +178,9 @@ const ReflectPage = ({
               filter: GLOW, cursor: 'pointer',
               display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
             }}
-          className="flex items-center justify-center"
         >
           <ChevronLeft className="text-white" size={24} />
-        </button>
+        </motion.button>
         <h1
           className="font-penmanship font-bold text-white flex-1 text-center mr-11"
           style={{ fontSize: 'clamp(18px, 5vw, 24px)' }}
@@ -189,12 +243,34 @@ const ReflectPage = ({
             />
           </div>
 
+          {/* Brush type selector */}
+          <div className="flex gap-2 mt-3">
+            {brushTypes.map((bt) => (
+              <motion.button
+                key={bt.id}
+                whileTap={{ scale: 0.9 }}
+                onClick={() => setBrushType(bt.id)}
+                className="flex-1 flex items-center justify-center gap-1.5 py-2 rounded-xl font-penmanship text-xs font-bold"
+                style={{
+                  background: brushType === bt.id ? 'rgba(255,215,0,0.3)' : 'rgba(255,255,255,0.1)',
+                  border: brushType === bt.id ? '2px solid rgba(255,215,0,0.7)' : '1px solid rgba(255,255,255,0.2)',
+                  color: brushType === bt.id ? '#FFD700' : 'rgba(255,255,255,0.7)',
+                  filter: brushType === bt.id ? GLOW : 'none',
+                  cursor: 'pointer',
+                }}
+              >
+                <span style={{ fontSize: 14 }}>{bt.emoji}</span>
+                {bt.label}
+              </motion.button>
+            ))}
+          </div>
+
           {/* Color palette */}
           <div className="flex items-center gap-2 mt-3 overflow-x-auto pb-1">
             {COLORS.map((c) => (
               <button
                 key={c}
-                onClick={() => setColor(c)}
+                onClick={() => { setColor(c); if (brushType === 'borracha') setBrushType('lapis'); }}
                 style={{
                   width: 30,
                   height: 30,
@@ -224,7 +300,7 @@ const ReflectPage = ({
                   width: brushSize * 3,
                   height: brushSize * 3,
                   borderRadius: '50%',
-                  background: color,
+                  background: brushType === 'borracha' ? '#FFF8F0' : color,
                   border: '1px solid rgba(255,255,255,0.4)',
                   maxWidth: 40,
                   maxHeight: 40,
@@ -241,7 +317,7 @@ const ReflectPage = ({
               <Plus size={14} className="text-white" />
             </button>
             <button
-              onClick={() => { setColor('#FFF8F0'); setBrushSize(16); }}
+              onClick={() => { setBrushType('borracha'); }}
               className="flex items-center gap-1 px-2 py-1 rounded-xl font-penmanship text-xs text-white"
               style={{ background: 'rgba(255,255,255,0.15)', border: '1px solid rgba(255,255,255,0.3)', fontSize: 11 }}
             >

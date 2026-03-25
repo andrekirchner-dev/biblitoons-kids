@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
-import { Menu } from "lucide-react";
+import { Menu, Clock } from "lucide-react";
+import { useState, useEffect } from "react";
 import LogoApp1 from "@/assets/LogoApp1.png";
 import bibiHomepage from "@/assets/bibiHomepage.png";
 import coinbibloo from "@/assets/coinbibloo.png";
@@ -29,6 +30,18 @@ function getGreeting() {
 const HomePage = ({ onNavigate, onOpenDrawer, gender = "menina", name }: HomePageProps) => {
   const displayName = name || (gender === "menina" ? "Maria" : "João");
   const greeting = getGreeting();
+
+  // Screen time counter (seconds elapsed this session)
+  const [sessionSecs, setSessionSecs] = useState(0);
+  useEffect(() => {
+    const id = setInterval(() => setSessionSecs((s) => s + 1), 1000);
+    return () => clearInterval(id);
+  }, []);
+  const fmtTime = (secs: number) => {
+    const m = Math.floor(secs / 60);
+    const s = secs % 60;
+    return m > 0 ? `${m}m ${s < 10 ? '0' : ''}${s}s` : `${s}s`;
+  };
 
   return (
     <div
@@ -107,6 +120,22 @@ const HomePage = ({ onNavigate, onOpenDrawer, gender = "menina", name }: HomePag
             <img src={coinbibloo} alt="coin" style={{ width: 22, height: 22 }} />
             <span style={{ color: "#FFD700" }}>27</span>
           </button>
+        </div>
+
+        {/* Screen time pill */}
+        <div className="flex justify-center" style={{ marginTop: 2, marginBottom: 2, flexShrink: 0 }}>
+          <div
+            className="flex items-center gap-1.5 px-3 py-1 rounded-full font-penmanship text-xs"
+            style={{
+              background: 'rgba(0,0,0,0.35)',
+              border: '1px solid rgba(255,215,0,0.25)',
+              color: 'rgba(255,255,255,0.65)',
+              backdropFilter: 'blur(6px)',
+            }}
+          >
+            <Clock size={11} style={{ color: '#FFB800', flexShrink: 0 }} />
+            <span>Tempo hoje: <span style={{ color: '#FFD700', fontWeight: 'bold' }}>{fmtTime(sessionSecs)}</span></span>
+          </div>
         </div>
 
         {/* Greeting Bubble */}

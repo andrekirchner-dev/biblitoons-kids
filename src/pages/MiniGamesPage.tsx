@@ -78,7 +78,8 @@ const MiniGamesPage = ({ onNavigate }: MiniGamesPageProps) => {
     >
       {/* Header */}
       <div className="flex items-center px-3 pt-4 pb-2">
-        <button
+        <motion.button
+          whileTap={{ scale: 0.88 }}
           onClick={() => onNavigate("home")}
           style={{
             width: 44,
@@ -95,7 +96,7 @@ const MiniGamesPage = ({ onNavigate }: MiniGamesPageProps) => {
           }}
         >
           <ChevronLeft className="text-white" size={22} />
-        </button>
+        </motion.button>
         <h1
           className="font-penmanship font-bold text-white flex-1 text-center mr-11"
           style={{

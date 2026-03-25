@@ -6,12 +6,17 @@ import storyDavid from "@/assets/story-david.jpg";
 import storyMoses from "@/assets/story-moses.jpg";
 import storyCreation from "@/assets/story-creation.jpg";
 import storyJesus from "@/assets/story-jesus-children.jpg";
+import BG3 from "@/assets/BG3.png";
 
 interface VideoItem {
   id: string;
   title: string;
   thumbnail: string;
   duration: string;
+}
+
+interface BibliaFlixPageProps {
+  onNavigate?: (page: string) => void;
 }
 
 const videoCategories = [
@@ -41,49 +46,61 @@ const videoCategories = [
   },
 ];
 
-const BibliaFlixPage = () => {
+const GLOW = "drop-shadow(0 0 6px rgba(255,215,0,0.85)) drop-shadow(0 0 12px rgba(255,165,0,0.5))";
+
+const BibliaFlixPage = ({ onNavigate }: BibliaFlixPageProps) => {
   const [selectedVideo, setSelectedVideo] = useState<VideoItem | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
 
   if (selectedVideo) {
     return (
-      <div className="min-h-screen bg-foreground">
+      <div
+        style={{
+          position: "fixed",
+          inset: 0,
+          background: "#000",
+          overflowY: "auto",
+          paddingBottom: "calc(68px + env(safe-area-inset-bottom, 0px))",
+        }}
+      >
         {/* Video Player */}
-        <div className="relative aspect-video bg-foreground">
+        <div className="relative aspect-video" style={{ background: "#111" }}>
           <img
             src={selectedVideo.thumbnail}
             alt={selectedVideo.title}
             className="w-full h-full object-cover"
           />
-          <div className="absolute inset-0 bg-foreground/30 flex items-center justify-center">
+          <div className="absolute inset-0 bg-black/30 flex items-center justify-center">
             <button
               onClick={() => setIsPlaying(!isPlaying)}
-              className="w-16 h-16 rounded-full bg-primary/90 flex items-center justify-center shadow-glow btn-press"
+              className="w-16 h-16 rounded-full flex items-center justify-center shadow-lg btn-press"
+              style={{ background: "rgba(255,165,0,0.9)" }}
             >
               {isPlaying ? (
-                <Pause className="w-7 h-7 text-primary-foreground" />
+                <Pause className="w-7 h-7 text-white" />
               ) : (
-                <Play className="w-7 h-7 text-primary-foreground ml-1" />
+                <Play className="w-7 h-7 text-white ml-1" />
               )}
             </button>
           </div>
           <button
             onClick={() => setSelectedVideo(null)}
-            className="absolute top-4 left-4 w-8 h-8 rounded-full bg-foreground/50 flex items-center justify-center"
+            className="absolute top-4 left-4 w-10 h-10 rounded-full flex items-center justify-center"
+            style={{ background: "rgba(0,0,0,0.6)", filter: GLOW }}
           >
-            <ChevronLeft className="w-5 h-5 text-primary-foreground" />
+            <ChevronLeft className="w-5 h-5 text-white" />
           </button>
           <div className="absolute bottom-4 left-4 right-4">
-            <div className="bg-foreground/60 rounded-lg px-3 py-2 backdrop-blur-sm">
-              <p className="font-display text-sm text-primary-foreground font-bold">{selectedVideo.title}</p>
-              <p className="font-body text-xs text-primary-foreground/70">{selectedVideo.duration}</p>
+            <div className="rounded-xl px-3 py-2" style={{ background: "rgba(0,0,0,0.7)", backdropFilter: "blur(6px)" }}>
+              <p className="font-penmanship font-bold text-white text-sm">{selectedVideo.title}</p>
+              <p className="font-penmanship text-xs text-white/70">{selectedVideo.duration}</p>
             </div>
           </div>
         </div>
 
-        {/* Remaining catalog below player */}
-        <div className="bg-background rounded-t-3xl -mt-4 relative z-10 pt-6 pb-24 min-h-[50vh]">
-          <h2 className="font-display text-lg text-foreground px-4 mb-4">Mais vídeos</h2>
+        {/* More videos */}
+        <div className="rounded-t-3xl -mt-4 relative z-10 pt-6 pb-8" style={{ background: "#1A1A2E" }}>
+          <h2 className="font-penmanship font-bold text-white px-4 mb-4 text-base">Mais vídeos</h2>
           {videoCategories.slice(0, 1).map((cat) => (
             <VideoRow key={cat.title} category={cat} onSelect={setSelectedVideo} />
           ))}
@@ -93,16 +110,63 @@ const BibliaFlixPage = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-sky">
-      <div className="bg-gradient-to-r from-red-500 to-red-600 p-4 pt-8 pb-6 text-center shadow-cartoon">
-        <h1 className="font-display text-2xl text-primary-foreground font-bold">🎬 BíbliaFlix</h1>
-        <p className="font-body text-sm text-primary-foreground/80 mt-1">Vídeos das histórias da Bíblia</p>
-      </div>
+    <div
+      style={{
+        position: "fixed",
+        inset: 0,
+        backgroundImage: `url(${BG3})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center top",
+        overflowY: "auto",
+        paddingTop: "env(safe-area-inset-top, 0px)",
+        paddingBottom: "calc(68px + env(safe-area-inset-bottom, 0px))",
+      }}
+    >
+      {/* Overlay */}
+      <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.5)", zIndex: 0 }} />
 
-      <div className="py-4 space-y-6">
-        {videoCategories.map((cat) => (
-          <VideoRow key={cat.title} category={cat} onSelect={setSelectedVideo} />
-        ))}
+      <div style={{ position: "relative", zIndex: 1, maxWidth: 428, margin: "0 auto" }}>
+        {/* Header with back button */}
+        <div className="flex items-center px-3 pt-4 pb-3">
+          {onNavigate && (
+            <button
+              onClick={() => onNavigate("home")}
+              className="flex items-center justify-center flex-shrink-0"
+              style={{
+                minHeight: 44,
+                minWidth: 44,
+                filter: GLOW,
+                background: "rgba(0,0,0,0.3)",
+                border: "none",
+                cursor: "pointer",
+                borderRadius: "50%",
+              }}
+            >
+              <ChevronLeft className="text-white" size={24} />
+            </button>
+          )}
+          <div className="flex-1 text-center" style={{ marginRight: onNavigate ? 44 : 0 }}>
+            <h1
+              className="font-penmanship font-bold text-white"
+              style={{
+                fontSize: "clamp(20px, 5.5vw, 28px)",
+                textShadow: "0 2px 8px rgba(0,0,0,0.6)",
+              }}
+            >
+              🎬 BíbliaFlix
+            </h1>
+            <p className="font-penmanship text-white/75 text-xs mt-0.5">
+              Vídeos das histórias da Bíblia
+            </p>
+          </div>
+        </div>
+
+        {/* Category rows */}
+        <div className="py-2 space-y-5">
+          {videoCategories.map((cat) => (
+            <VideoRow key={cat.title} category={cat} onSelect={setSelectedVideo} />
+          ))}
+        </div>
       </div>
     </div>
   );
@@ -119,7 +183,12 @@ const VideoRow = ({
 
   return (
     <div>
-      <h3 className="font-display text-base font-bold text-foreground px-4 mb-2">{category.title}</h3>
+      <h3
+        className="font-penmanship font-bold text-white px-4 mb-2"
+        style={{ fontSize: 14, textShadow: "0 1px 4px rgba(0,0,0,0.5)" }}
+      >
+        {category.title}
+      </h3>
       <div
         ref={scrollRef}
         className="flex gap-3 overflow-x-auto px-4 scrollbar-hide snap-x snap-mandatory"
@@ -131,15 +200,25 @@ const VideoRow = ({
             className="flex-shrink-0 w-40 md:w-48 snap-start"
             whileTap={{ scale: 0.95 }}
           >
-            <div className="relative rounded-xl overflow-hidden shadow-card aspect-[3/4]">
+            <div
+              className="relative rounded-2xl overflow-hidden"
+              style={{
+                aspectRatio: "3/4",
+                boxShadow: "0 4px 16px rgba(0,0,0,0.5)",
+                border: "1.5px solid rgba(255,255,255,0.15)",
+              }}
+            >
               <img src={video.thumbnail} alt={video.title} className="w-full h-full object-cover" />
-              <div className="absolute inset-0 bg-gradient-to-t from-foreground/60 to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
               <div className="absolute bottom-2 left-2 right-2">
-                <p className="font-display text-xs text-primary-foreground font-bold">{video.title}</p>
-                <p className="font-body text-[10px] text-primary-foreground/70">{video.duration}</p>
+                <p className="font-penmanship font-bold text-white text-xs">{video.title}</p>
+                <p className="font-penmanship text-[10px] text-white/70">{video.duration}</p>
               </div>
-              <div className="absolute top-2 right-2 w-8 h-8 rounded-full bg-primary/80 flex items-center justify-center">
-                <Play className="w-3.5 h-3.5 text-primary-foreground ml-0.5" />
+              <div
+                className="absolute top-2 right-2 w-9 h-9 rounded-full flex items-center justify-center"
+                style={{ background: "rgba(255,165,0,0.88)" }}
+              >
+                <Play className="w-4 h-4 text-white ml-0.5" />
               </div>
             </div>
           </motion.button>

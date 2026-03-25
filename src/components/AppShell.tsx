@@ -17,6 +17,15 @@ import AgeSelectionPage from "@/pages/AgeSelectionPage";
 import MiniGamesPage from "@/pages/MiniGamesPage";
 import ParentalAreaPage from "@/pages/ParentalAreaPage";
 import BiblooCoinsPage from "@/pages/BiblooCoinsPage";
+import SearchPage from "@/pages/SearchPage";
+import ReflectPage from "@/pages/ReflectPage";
+
+interface ChildProfile {
+  id: string;
+  name: string;
+  gender: "menino" | "menina";
+  age: string;
+}
 
 const AppShell = () => {
   const [currentPage, setCurrentPage] = useState("splash");
@@ -24,19 +33,59 @@ const AppShell = () => {
   const [showSplash, setShowSplash] = useState(true);
   const [gender, setGender] = useState<"menina" | "menino">("menina");
   const [age, setAge] = useState<string>("");
+  const [userName, setUserName] = useState<string>("");
+
+  // Multi-profile state
+  const [profiles, setProfiles] = useState<ChildProfile[]>([]);
+  const [activeProfileId, setActiveProfileId] = useState<string>("1");
 
   const showNavPages = ["home", "bible", "bibliaflix", "miniGames", "search"];
   const showBottomNav = showNavPages.includes(currentPage) && !showSplash;
 
   const pageVariants = {
-    initial: { opacity: 0, y: 20 },
+    initial: { opacity: 0, y: 18 },
     animate: { opacity: 1, y: 0 },
-    exit: { opacity: 0, y: -20 },
+    exit: { opacity: 0, y: -18 },
   };
 
-  const handleNavigate = (page: string) => {
+  const handleNavigate = (page: string, userData?: { name?: string; email?: string }) => {
+    if (userData?.name) setUserName(userData.name);
     setCurrentPage(page);
   };
+
+  const handleAddProfile = () => {
+    // Profile will be added from DrawerMenu — here we just refresh if needed
+    const newId = String(Date.now());
+    const newProfile: ChildProfile = {
+      id: newId,
+      name: "Novo Perfil",
+      gender: "menino",
+      age: "6",
+    };
+    setProfiles((prev) => [...prev, newProfile]);
+  };
+
+  const handleGenderSelect = (g: "menina" | "menino") => {
+    setGender(g);
+    // Update or create first profile
+    const existingProfile: ChildProfile = {
+      id: "1",
+      name: userName || (g === "menina" ? "Maria" : "João"),
+      gender: g,
+      age: age || "7",
+    };
+    setProfiles([existingProfile]);
+    setActiveProfileId("1");
+  };
+
+  const handleAgeSelect = (a: string) => {
+    setAge(a);
+    setProfiles((prev) =>
+      prev.map((p) => (p.id === activeProfileId ? { ...p, age: a } : p))
+    );
+  };
+
+  const activeProfile = profiles.find((p) => p.id === activeProfileId) ?? profiles[0];
 
   const renderPage = () => {
     switch (currentPage) {
@@ -49,7 +98,10 @@ const AppShell = () => {
         return (
           <GenderSelectionPage
             onNavigate={handleNavigate}
-            onSelectGender={setGender}
+            onSelectGender={(g) => {
+              handleGenderSelect(g);
+              setGender(g);
+            }}
           />
         );
       case "age":
@@ -57,7 +109,10 @@ const AppShell = () => {
           <AgeSelectionPage
             gender={gender}
             onNavigate={handleNavigate}
-            onSelectAge={setAge}
+            onSelectAge={(a) => {
+              handleAgeSelect(a);
+              setAge(a);
+            }}
           />
         );
       case "home":
@@ -65,18 +120,21 @@ const AppShell = () => {
           <HomePage
             onNavigate={handleNavigate}
             onOpenDrawer={() => setDrawerOpen(true)}
-            age={age}
-            gender={gender}
+            age={activeProfile?.age ?? age}
+            gender={activeProfile?.gender ?? gender}
+            name={activeProfile?.name ?? userName}
           />
         );
       case "bible":
         return <BiblePage onNavigate={handleNavigate} />;
       case "bibliaflix":
-        return <BibliaFlixPage />;
+        return <BibliaFlixPage onNavigate={handleNavigate} />;
       case "stories":
         return <StoriesPage />;
       case "devotional":
         return <DevotionalPage onNavigate={handleNavigate} />;
+      case "reflect":
+        return <ReflectPage onNavigate={handleNavigate} />;
       case "shop":
         return <ShopPage onNavigate={handleNavigate} />;
       case "miniGames":
@@ -85,13 +143,16 @@ const AppShell = () => {
         return <ParentalAreaPage onNavigate={handleNavigate} />;
       case "biblooCoins":
         return <BiblooCoinsPage onNavigate={handleNavigate} />;
+      case "search":
+        return <SearchPage onNavigate={handleNavigate} />;
       default:
         return (
           <HomePage
             onNavigate={handleNavigate}
             onOpenDrawer={() => setDrawerOpen(true)}
-            age={age}
-            gender={gender}
+            age={activeProfile?.age ?? age}
+            gender={activeProfile?.gender ?? gender}
+            name={activeProfile?.name ?? userName}
           />
         );
     }
@@ -103,7 +164,12 @@ const AppShell = () => {
         className="min-h-screen bg-cover bg-center bg-fixed"
         style={{ backgroundImage: `url(${splashBg})` }}
       >
-        <SplashScreen onComplete={() => { setShowSplash(false); setCurrentPage("welcome"); }} />
+        <SplashScreen
+          onComplete={() => {
+            setShowSplash(false);
+            setCurrentPage("welcome");
+          }}
+        />
       </div>
     );
   }
@@ -120,6 +186,17 @@ const AppShell = () => {
           setCurrentPage(page);
           setDrawerOpen(false);
         }}
+        profiles={profiles.length > 0 ? profiles : [{ id: "1", name: userName || (gender === "menina" ? "Maria" : "João"), gender, age: age || "7" }]}
+        activeProfileId={activeProfileId}
+        onSwitchProfile={(id) => {
+          setActiveProfileId(id);
+          const p = profiles.find((pr) => pr.id === id);
+          if (p) {
+            setGender(p.gender);
+            setAge(p.age);
+          }
+        }}
+        onAddProfile={handleAddProfile}
       />
 
       <AnimatePresence mode="wait">
@@ -129,7 +206,7 @@ const AppShell = () => {
           initial="initial"
           animate="animate"
           exit="exit"
-          transition={{ duration: 0.3 }}
+          transition={{ duration: 0.25 }}
           className={showBottomNav ? "pb-24" : ""}
         >
           {renderPage()}

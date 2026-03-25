@@ -224,7 +224,7 @@ const BottomNav = ({ currentPage, onNavigate }: BottomNavProps) => {
         ))}
 
         {/* Center spacer + home label */}
-        <div style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "flex-end", paddingBottom: 6, minHeight: 52 }}>
+        <div style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "flex-end", paddingBottom: 6, minHeight: 52, paddingTop: 36 }}>
           <span
             style={{
               fontFamily: "KGPerfectPenmanship",

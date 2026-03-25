@@ -7,10 +7,10 @@ import { BibleBook, extractVerseText, TRANSLATION_NAME } from '@/services/bibleA
 // ── Constants ──────────────────────────────────────────────────────────────
 
 const GLOW = 'drop-shadow(0 0 6px rgba(255,215,0,0.85)) drop-shadow(0 0 12px rgba(255,165,0,0.5))';
-const OT_COLOR = '#4CAF50';
-const OT_BORDER = '#2E7D32';
-const NT_COLOR = '#4A90D9';
-const NT_BORDER = '#2B65A8';
+const OT_COLOR = '#E07D00';
+const OT_BORDER = '#B35F00';
+const NT_COLOR = '#FF9800';
+const NT_BORDER = '#CC6600';
 
 type View = 'books' | 'chapters' | 'reading';
 
@@ -24,7 +24,8 @@ interface BiblePageProps {
 
 function BackButton({ onClick, label }: { onClick: () => void; label?: string }) {
   return (
-    <button
+    <motion.button
+      whileTap={{ scale: 0.88 }}
       onClick={onClick}
       className="flex items-center gap-1.5"
       style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}
@@ -50,7 +51,7 @@ function BackButton({ onClick, label }: { onClick: () => void; label?: string })
           {label}
         </span>
       )}
-    </button>
+    </motion.button>
   );
 }
 
@@ -125,9 +126,9 @@ function BooksView({
             <div
               className="rounded-2xl p-3 flex flex-col items-center gap-1 text-center"
               style={{
-                background: 'rgba(255,215,0,0.2)',
-                border: '2px solid rgba(255,215,0,0.7)',
-                boxShadow: '0 0 12px rgba(255,215,0,0.2)',
+                background: 'rgba(255,215,0,0.7)',
+                border: '2px solid rgba(255,215,0,0.9)',
+                boxShadow: '0 0 16px rgba(255,215,0,0.35)',
               }}
             >
               <span style={{ fontSize: 24 }}>📖</span>
@@ -148,8 +149,8 @@ function BooksView({
               onClick={() => onNavigate?.('ilustrada')}
               className="rounded-2xl p-3 flex flex-col items-center gap-1 text-center"
               style={{
-                background: 'rgba(255,255,255,0.08)',
-                border: '2px solid rgba(255,255,255,0.2)',
+                background: 'rgba(255,255,255,0.18)',
+                border: '2px solid rgba(255,255,255,0.35)',
                 cursor: 'pointer',
               }}
             >
@@ -185,8 +186,8 @@ function BooksView({
                 className="font-penmanship font-bold text-center mb-2 sticky top-0 py-1 rounded-lg"
                 style={{
                   fontSize: 'clamp(12px, 3.3vw, 15px)',
-                  color: OT_COLOR,
-                  background: 'rgba(0,0,0,0.55)',
+                  color: '#FFD700',
+                  background: `rgba(${parseInt('E0',16)},${parseInt('7D',16)},0,0.75)`,
                   backdropFilter: 'blur(6px)',
                   zIndex: 2,
                 }}
@@ -226,8 +227,8 @@ function BooksView({
                 className="font-penmanship font-bold text-center mb-2 sticky top-0 py-1 rounded-lg"
                 style={{
                   fontSize: 'clamp(12px, 3.3vw, 15px)',
-                  color: NT_COLOR,
-                  background: 'rgba(0,0,0,0.55)',
+                  color: '#FFD700',
+                  background: 'rgba(255,152,0,0.75)',
                   backdropFilter: 'blur(6px)',
                   zIndex: 2,
                 }}

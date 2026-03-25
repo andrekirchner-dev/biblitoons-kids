@@ -147,7 +147,8 @@ const SearchPage = ({ onNavigate }: SearchPageProps) => {
           backdropFilter: 'blur(8px)',
         }}
       >
-        <button
+        <motion.button
+          whileTap={{ scale: 0.88 }}
           onClick={() => onNavigate('home')}
           className="flex items-center justify-center flex-shrink-0"
           style={{
@@ -158,7 +159,7 @@ const SearchPage = ({ onNavigate }: SearchPageProps) => {
             }}
         >
           <ChevronLeft className="text-white" size={24} />
-        </button>
+        </motion.button>
         <div
           className="flex-1 flex items-center gap-2 rounded-2xl px-4 py-2.5"
           style={{

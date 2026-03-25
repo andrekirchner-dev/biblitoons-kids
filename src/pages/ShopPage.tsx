@@ -42,7 +42,8 @@ const ShopPage = ({ onNavigate }: ShopPageProps) => {
         style={{ paddingTop: "env(safe-area-inset-top, 0px)" }}
       >
         {onNavigate && (
-          <button
+          <motion.button
+            whileTap={{ scale: 0.88 }}
             onClick={() => onNavigate("home")}
             className="flex items-center justify-center absolute top-4 left-4"
             style={{
@@ -56,7 +57,7 @@ const ShopPage = ({ onNavigate }: ShopPageProps) => {
             }}
           >
             <ChevronLeft className="text-white" size={24} />
-          </button>
+          </motion.button>
         )}
 
         <motion.div
@@ -137,7 +138,8 @@ const ShopPage = ({ onNavigate }: ShopPageProps) => {
       }}
     >
       {onNavigate && (
-        <button
+        <motion.button
+          whileTap={{ scale: 0.88 }}
           onClick={() => onNavigate("home")}
           className="flex items-center justify-center"
           style={{
@@ -158,7 +160,7 @@ const ShopPage = ({ onNavigate }: ShopPageProps) => {
           }}
         >
           <ChevronLeft className="text-white" size={24} />
-        </button>
+        </motion.button>
       )}
 
       <div

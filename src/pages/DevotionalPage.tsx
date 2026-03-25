@@ -115,7 +115,8 @@ const DevotionalPage = ({ onNavigate }: DevotionalPageProps) => {
       >
         {/* Back button */}
         {onNavigate && (
-          <button
+          <motion.button
+            whileTap={{ scale: 0.88 }}
             onClick={() => onNavigate("home")}
             style={{
               margin: "16px 0 0 12px",
@@ -133,7 +134,7 @@ const DevotionalPage = ({ onNavigate }: DevotionalPageProps) => {
             }}
           >
             <ChevronLeft className="text-white" size={22} />
-          </button>
+          </motion.button>
         )}
 
         {/* Header */}

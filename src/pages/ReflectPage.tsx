@@ -117,7 +117,12 @@ const ReflectPage = ({
       >
         <button
           onClick={() => onNavigate('devotional')}
-          style={{ minHeight: 44, minWidth: 44, filter: GLOW, background: 'none', border: 'none', cursor: 'pointer' }}
+          style={{
+              width: 44, height: 44, borderRadius: '50%',
+              background: 'rgba(0,0,0,0.45)', border: '2px solid rgba(255,215,0,0.5)',
+              filter: GLOW, cursor: 'pointer',
+              display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
+            }}
           className="flex items-center justify-center"
         >
           <ChevronLeft className="text-white" size={24} />

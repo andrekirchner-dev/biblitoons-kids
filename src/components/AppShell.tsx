@@ -19,6 +19,7 @@ import ParentalAreaPage from "@/pages/ParentalAreaPage";
 import BiblooCoinsPage from "@/pages/BiblooCoinsPage";
 import SearchPage from "@/pages/SearchPage";
 import ReflectPage from "@/pages/ReflectPage";
+import BibliaIlustradaPage from "@/pages/BibliaIlustradaPage";
 
 interface ChildProfile {
   id: string;
@@ -145,6 +146,8 @@ const AppShell = () => {
         return <BiblooCoinsPage onNavigate={handleNavigate} />;
       case "search":
         return <SearchPage onNavigate={handleNavigate} />;
+      case "ilustrada":
+        return <BibliaIlustradaPage onNavigate={handleNavigate} />;
       default:
         return (
           <HomePage

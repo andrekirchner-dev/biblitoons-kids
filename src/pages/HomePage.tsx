@@ -161,58 +161,55 @@ const HomePage = ({ onNavigate, onOpenDrawer, gender = "menina", name }: HomePag
           className="flex flex-col items-center"
           style={{
             gap: 0,
-            padding: "6px 12px",
+            padding: "4px 10px 6px 10px",
             flex: 1,
             justifyContent: "space-evenly",
             width: "100%",
           }}
         >
           {/* ROW 1 — Devocional + BibliaFlix */}
-          <div className="flex justify-center" style={{ gap: 8, width: "97%" }}>
-            <motion.div
-              whileTap={{ scale: 0.96 }}
-              onClick={() => onNavigate("devotional")}
-              style={{ flex: 1, cursor: "pointer", borderRadius: 14, overflow: "hidden" }}
-            >
-              <img
-                src={devocionalImg}
-                alt="Devocional"
+          <div className="flex justify-center" style={{ gap: 10, width: "100%" }}>
+            {[
+              { src: devocionalImg, alt: "Devocional", page: "devotional" },
+              { src: bibliaflixImg, alt: "BibliaFlix",  page: "bibliaflix"  },
+            ].map(({ src, alt, page }) => (
+              <motion.div
+                key={page}
+                whileTap={{ scale: 0.95 }}
+                onClick={() => onNavigate(page)}
                 style={{
-                  width: "100%",
-                  height: "auto",
-                  maxHeight: "calc((100vh - 52px - 82px - 68px) * 0.235)",
-                  objectFit: "contain",
-                  display: "block",
-                  borderRadius: 14,
-                  filter: "drop-shadow(0 4px 10px rgba(0,0,0,0.3))",
+                  flex: 1,
+                  cursor: "pointer",
+                  borderRadius: 18,
+                  overflow: "hidden",
+                  boxShadow: "0 6px 18px rgba(0,0,0,0.35), 0 0 0 1.5px rgba(255,215,0,0.18)",
                 }}
-              />
-            </motion.div>
-            <motion.div
-              whileTap={{ scale: 0.96 }}
-              onClick={() => onNavigate("bibliaflix")}
-              style={{ flex: 1, cursor: "pointer", borderRadius: 14, overflow: "hidden" }}
-            >
-              <img
-                src={bibliaflixImg}
-                alt="BibliaFlix"
-                style={{
-                  width: "100%",
-                  height: "auto",
-                  maxHeight: "calc((100vh - 52px - 82px - 68px) * 0.235)",
-                  objectFit: "contain",
-                  display: "block",
-                  borderRadius: 14,
-                  filter: "drop-shadow(0 4px 10px rgba(0,0,0,0.3))",
-                }}
-              />
-            </motion.div>
+              >
+                <img
+                  src={src}
+                  alt={alt}
+                  style={{
+                    width: "100%",
+                    height: "auto",
+                    maxHeight: "calc((100dvh - 56px - 84px - 72px) * 0.28)",
+                    objectFit: "cover",
+                    display: "block",
+                  }}
+                />
+              </motion.div>
+            ))}
           </div>
 
           {/* ROW 2 — Ler a Bíblia (hero) */}
           <motion.div
             whileTap={{ scale: 0.97 }}
-            style={{ width: "97%", cursor: "pointer", borderRadius: 16, overflow: "hidden" }}
+            style={{
+              width: "100%",
+              cursor: "pointer",
+              borderRadius: 20,
+              overflow: "hidden",
+              boxShadow: "0 8px 24px rgba(0,0,0,0.4), 0 0 0 2px rgba(255,215,0,0.25)",
+            }}
             onClick={() => onNavigate("bible")}
           >
             <img
@@ -221,55 +218,44 @@ const HomePage = ({ onNavigate, onOpenDrawer, gender = "menina", name }: HomePag
               style={{
                 width: "100%",
                 height: "auto",
-                maxHeight: "calc((100vh - 52px - 82px - 68px) * 0.35)",
-                objectFit: "contain",
+                maxHeight: "calc((100dvh - 56px - 84px - 72px) * 0.34)",
+                objectFit: "cover",
                 display: "block",
-                borderRadius: 16,
-                filter: "drop-shadow(0 6px 14px rgba(0,0,0,0.35))",
               }}
             />
           </motion.div>
 
           {/* ROW 3 — Minigames + Lojinha */}
-          <div className="flex justify-center" style={{ gap: 8, width: "97%" }}>
-            <motion.div
-              whileTap={{ scale: 0.96 }}
-              onClick={() => onNavigate("miniGames")}
-              style={{ flex: 1, cursor: "pointer", borderRadius: 14, overflow: "hidden" }}
-            >
-              <img
-                src={minigamesImg}
-                alt="Mini-games"
+          <div className="flex justify-center" style={{ gap: 10, width: "100%" }}>
+            {[
+              { src: minigamesImg, alt: "Mini-games",    page: "miniGames" },
+              { src: lojinhaImg,   alt: "Lojinha Bibloo", page: "shop"      },
+            ].map(({ src, alt, page }) => (
+              <motion.div
+                key={page}
+                whileTap={{ scale: 0.95 }}
+                onClick={() => onNavigate(page)}
                 style={{
-                  width: "100%",
-                  height: "auto",
-                  maxHeight: "calc((100vh - 52px - 82px - 68px) * 0.2)",
-                  objectFit: "contain",
-                  display: "block",
-                  borderRadius: 14,
-                  filter: "drop-shadow(0 4px 10px rgba(0,0,0,0.3))",
+                  flex: 1,
+                  cursor: "pointer",
+                  borderRadius: 18,
+                  overflow: "hidden",
+                  boxShadow: "0 6px 18px rgba(0,0,0,0.35), 0 0 0 1.5px rgba(255,215,0,0.18)",
                 }}
-              />
-            </motion.div>
-            <motion.div
-              whileTap={{ scale: 0.96 }}
-              onClick={() => onNavigate("shop")}
-              style={{ flex: 1, cursor: "pointer", borderRadius: 14, overflow: "hidden" }}
-            >
-              <img
-                src={lojinhaImg}
-                alt="Lojinha Bibloo"
-                style={{
-                  width: "100%",
-                  height: "auto",
-                  maxHeight: "calc((100vh - 52px - 82px - 68px) * 0.2)",
-                  objectFit: "contain",
-                  display: "block",
-                  borderRadius: 14,
-                  filter: "drop-shadow(0 4px 10px rgba(0,0,0,0.3))",
-                }}
-              />
-            </motion.div>
+              >
+                <img
+                  src={src}
+                  alt={alt}
+                  style={{
+                    width: "100%",
+                    height: "auto",
+                    maxHeight: "calc((100dvh - 56px - 84px - 72px) * 0.28)",
+                    objectFit: "cover",
+                    display: "block",
+                  }}
+                />
+              </motion.div>
+            ))}
           </div>
         </div>
       </div>

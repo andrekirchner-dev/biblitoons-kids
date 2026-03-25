@@ -6,7 +6,6 @@ import storyDavid from "@/assets/story-david.jpg";
 import storyMoses from "@/assets/story-moses.jpg";
 import storyCreation from "@/assets/story-creation.jpg";
 import storyJesus from "@/assets/story-jesus-children.jpg";
-import BG3 from "@/assets/BG3.png";
 
 interface VideoItem {
   id: string;
@@ -85,8 +84,19 @@ const BibliaFlixPage = ({ onNavigate }: BibliaFlixPageProps) => {
           </div>
           <button
             onClick={() => setSelectedVideo(null)}
-            className="absolute top-4 left-4 w-10 h-10 rounded-full flex items-center justify-center"
-            style={{ background: "rgba(0,0,0,0.6)", filter: GLOW }}
+            className="absolute top-4 left-4"
+            style={{
+              width: 44,
+              height: 44,
+              borderRadius: "50%",
+              background: "rgba(0,0,0,0.45)",
+              border: "2px solid rgba(255,215,0,0.5)",
+              filter: GLOW,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              cursor: "pointer",
+            }}
           >
             <ChevronLeft className="w-5 h-5 text-white" />
           </button>
@@ -114,16 +124,11 @@ const BibliaFlixPage = ({ onNavigate }: BibliaFlixPageProps) => {
       style={{
         position: "fixed",
         inset: 0,
-        backgroundImage: `url(${BG3})`,
-        backgroundSize: "cover",
-        backgroundPosition: "center top",
         overflowY: "auto",
         paddingTop: "env(safe-area-inset-top, 0px)",
         paddingBottom: "calc(68px + env(safe-area-inset-bottom, 0px))",
       }}
     >
-      {/* Overlay */}
-      <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.5)", zIndex: 0 }} />
 
       <div style={{ position: "relative", zIndex: 1, maxWidth: 428, margin: "0 auto" }}>
         {/* Header with back button */}
@@ -131,18 +136,21 @@ const BibliaFlixPage = ({ onNavigate }: BibliaFlixPageProps) => {
           {onNavigate && (
             <button
               onClick={() => onNavigate("home")}
-              className="flex items-center justify-center flex-shrink-0"
               style={{
-                minHeight: 44,
-                minWidth: 44,
-                filter: GLOW,
-                background: "rgba(0,0,0,0.3)",
-                border: "none",
-                cursor: "pointer",
+                width: 44,
+                height: 44,
                 borderRadius: "50%",
+                background: "rgba(0,0,0,0.45)",
+                border: "2px solid rgba(255,215,0,0.5)",
+                filter: GLOW,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                cursor: "pointer",
+                flexShrink: 0,
               }}
             >
-              <ChevronLeft className="text-white" size={24} />
+              <ChevronLeft className="text-white" size={22} />
             </button>
           )}
           <div className="flex-1 text-center" style={{ marginRight: onNavigate ? 44 : 0 }}>

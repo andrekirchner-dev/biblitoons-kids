@@ -144,13 +144,16 @@ const ShopPage = ({ onNavigate }: ShopPageProps) => {
             position: "absolute",
             top: 16,
             left: 16,
-            minHeight: 44,
-            minWidth: 44,
+            width: 44,
+            height: 44,
             borderRadius: "50%",
-            background: "rgba(0,0,0,0.25)",
-            border: "none",
+            background: "rgba(0,0,0,0.45)",
+            border: "2px solid rgba(255,215,0,0.5)",
             cursor: "pointer",
             filter: GLOW_FILTER,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
             zIndex: 10,
           }}
         >
@@ -161,17 +164,18 @@ const ShopPage = ({ onNavigate }: ShopPageProps) => {
       <div
         className="p-4 pt-10 pb-5 text-center"
         style={{
-          background: "linear-gradient(135deg, #4FC3F7, #0288D1)",
-          boxShadow: "0 4px 16px rgba(0,0,0,0.2)",
+          background: "rgba(255,215,0,0.1)",
+          borderBottom: "1px solid rgba(255,215,0,0.25)",
+          backdropFilter: "blur(8px)",
         }}
       >
         <h1
           className="font-penmanship font-bold text-white"
-          style={{ fontSize: "clamp(22px, 6vw, 28px)", textShadow: "0 2px 8px rgba(0,0,0,0.3)" }}
+          style={{ fontSize: "clamp(22px, 6vw, 28px)", textShadow: "0 2px 8px rgba(0,0,0,0.5)", filter: GLOW_FILTER }}
         >
           🛍️ Lojinha Bibloo
         </h1>
-        <p className="font-penmanship text-white/85 text-sm mt-1">
+        <p className="font-penmanship text-white/75 text-sm mt-1">
           Produtos especiais para você!
         </p>
       </div>

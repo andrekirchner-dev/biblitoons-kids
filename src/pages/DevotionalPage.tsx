@@ -3,7 +3,6 @@ import { motion, AnimatePresence } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import bibiMascot from "@/assets/bibi-mascot.png";
 import storyJesus from "@/assets/story-jesus-children.jpg";
-import BG5 from "@/assets/BG5.png";
 
 const GLOW_FILTER =
   "drop-shadow(0 0 6px rgba(255,215,0,0.85)) drop-shadow(0 0 12px rgba(255,165,0,0.5))";
@@ -101,15 +100,8 @@ const DevotionalPage = ({ onNavigate }: DevotionalPageProps) => {
         width: "100vw",
         height: "100dvh",
         overflowY: "auto",
-        backgroundImage: `url(${BG5})`,
-        backgroundSize: "cover",
-        backgroundPosition: "center top",
       }}
     >
-      {/* Dark overlay */}
-      <div
-        style={{ position: "absolute", inset: 0, background: "rgba(0,0,0,0.38)", zIndex: 0 }}
-      />
 
       <div
         style={{
@@ -125,19 +117,22 @@ const DevotionalPage = ({ onNavigate }: DevotionalPageProps) => {
         {onNavigate && (
           <button
             onClick={() => onNavigate("home")}
-            className="flex items-center justify-center"
             style={{
               margin: "16px 0 0 12px",
-              minHeight: 44,
-              minWidth: 44,
+              width: 44,
+              height: 44,
               borderRadius: "50%",
-              background: "rgba(0,0,0,0.3)",
-              border: "none",
-              cursor: "pointer",
+              background: "rgba(0,0,0,0.45)",
+              border: "2px solid rgba(255,215,0,0.5)",
               filter: GLOW_FILTER,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              cursor: "pointer",
+              flexShrink: 0,
             }}
           >
-            <ChevronLeft className="text-white" size={24} />
+            <ChevronLeft className="text-white" size={22} />
           </button>
         )}
 

@@ -80,18 +80,21 @@ const MiniGamesPage = ({ onNavigate }: MiniGamesPageProps) => {
       <div className="flex items-center px-3 pt-4 pb-2">
         <button
           onClick={() => onNavigate("home")}
-          className="flex items-center justify-center"
           style={{
-            minHeight: 44,
-            minWidth: 44,
-            filter: GLOW_FILTER,
-            background: "rgba(0,0,0,0.25)",
-            border: "none",
-            cursor: "pointer",
+            width: 44,
+            height: 44,
             borderRadius: "50%",
+            background: "rgba(0,0,0,0.45)",
+            border: "2px solid rgba(255,215,0,0.5)",
+            filter: GLOW_FILTER,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            cursor: "pointer",
+            flexShrink: 0,
           }}
         >
-          <ChevronLeft className="text-white" size={24} />
+          <ChevronLeft className="text-white" size={22} />
         </button>
         <h1
           className="font-penmanship font-bold text-white flex-1 text-center mr-11"
@@ -134,10 +137,10 @@ const MiniGamesPage = ({ onNavigate }: MiniGamesPageProps) => {
             whileTap={{ scale: 0.97 }}
             className="rounded-2xl p-4 flex flex-col items-center text-center relative overflow-hidden cursor-pointer"
             style={{
-              background: "rgba(255,255,255,0.12)",
-              border: "1.5px solid rgba(255,255,255,0.2)",
-              boxShadow: "0 4px 16px rgba(0,0,0,0.25)",
-              backdropFilter: "blur(6px)",
+              background: "rgba(30,20,10,0.72)",
+              border: "1.5px solid rgba(255,255,255,0.18)",
+              boxShadow: "0 4px 20px rgba(0,0,0,0.45)",
+              backdropFilter: "blur(10px)",
             }}
           >
             {/* Color accent top bar */}

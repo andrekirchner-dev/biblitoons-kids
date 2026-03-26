@@ -9,8 +9,8 @@ import { BibleBook, extractVerseText, TRANSLATION_NAME } from '@/services/bibleA
 const GLOW = 'drop-shadow(0 0 6px rgba(255,215,0,0.85)) drop-shadow(0 0 12px rgba(255,165,0,0.5))';
 const OT_COLOR = '#E07D00';
 const OT_BORDER = '#B35F00';
-const NT_COLOR = '#FF9800';
-const NT_BORDER = '#CC6600';
+const NT_COLOR = '#2E7D32';
+const NT_BORDER = '#1B5E20';
 
 type View = 'books' | 'chapters' | 'reading';
 
@@ -149,8 +149,9 @@ function BooksView({
               onClick={() => onNavigate?.('ilustrada')}
               className="rounded-2xl p-3 flex flex-col items-center gap-1 text-center"
               style={{
-                background: 'rgba(255,255,255,0.18)',
-                border: '2px solid rgba(255,255,255,0.35)',
+                background: 'rgba(100,200,255,0.65)',
+                border: '2px solid rgba(100,200,255,0.9)',
+                boxShadow: '0 0 16px rgba(100,200,255,0.3)',
                 cursor: 'pointer',
               }}
             >
@@ -158,9 +159,12 @@ function BooksView({
               <p className="font-penmanship font-bold text-white" style={{ fontSize: 12 }}>
                 Bíblia Ilustrada
               </p>
-              <p className="font-penmanship text-white/50" style={{ fontSize: 9 }}>
+              <span
+                className="font-penmanship px-2 py-0.5 rounded-full text-white"
+                style={{ background: 'rgba(100,200,255,0.35)', fontSize: 9 }}
+              >
                 Turma da Mônica
-              </p>
+              </span>
             </motion.button>
           </div>
         </div>
@@ -227,8 +231,8 @@ function BooksView({
                 className="font-penmanship font-bold text-center mb-2 sticky top-0 py-1 rounded-lg"
                 style={{
                   fontSize: 'clamp(12px, 3.3vw, 15px)',
-                  color: '#FFD700',
-                  background: 'rgba(255,152,0,0.75)',
+                  color: '#FFFFFF',
+                  background: 'rgba(46,125,50,0.82)',
                   backdropFilter: 'blur(6px)',
                   zIndex: 2,
                 }}

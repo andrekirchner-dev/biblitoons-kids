@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback, useRef } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { ChevronLeft, Zap, Trophy, Gift, History, Home } from "lucide-react";
+import { motion, AnimatePresence, LayoutGroup } from "framer-motion";
+import { ChevronLeft, Zap, Trophy, Gift, History } from "lucide-react";
 import coinbibloo from "@/assets/coinbibloo.png";
 
 const GLOW = "drop-shadow(0 0 6px rgba(255,215,0,0.85)) drop-shadow(0 0 12px rgba(255,165,0,0.5))";
@@ -10,22 +10,24 @@ interface BiblooCoinsPageProps {
   onNavigate: (page: string) => void;
 }
 
-const MAX_ENERGY = 500;
+const MAX_ENERGY = 100;
 const ENERGY_PER_TAP = 1;
 const COINS_PER_TAP = 1;
 const ENERGY_REGEN_RATE = 1; // per second
 
 type Tab = "tap" | "earn" | "store" | "history";
 
+/* Drop spring for the tab indicator */
+const dropTransition = { type: "spring" as const, stiffness: 420, damping: 22, mass: 0.6 };
+
 const BiblooCoinsPage = ({ onNavigate }: BiblooCoinsPageProps) => {
   const [coins, setCoins] = useState(27);
-  const [energy, setEnergy] = useState(350);
+  const [energy, setEnergy] = useState(80);
   const [activeTab, setActiveTab] = useState<Tab>("tap");
-  const [tapEffects, setTapEffects] = useState<{ id: number; x: number; y: number }[]>();
+  const [tapEffects, setTapEffects] = useState<{ id: number; x: number; y: number }[]>([]);
   const effectId = useRef(0);
   const coinRef = useRef<HTMLDivElement>(null);
 
-  // Energy regeneration
   useEffect(() => {
     const id = setInterval(() => {
       setEnergy((e) => Math.min(MAX_ENERGY, e + ENERGY_REGEN_RATE));
@@ -35,34 +37,28 @@ const BiblooCoinsPage = ({ onNavigate }: BiblooCoinsPageProps) => {
 
   const handleTap = useCallback((e: React.MouseEvent | React.TouchEvent) => {
     if (energy <= 0) return;
-
-    // Get tap position relative to coin
-    let x = 0, y = 0;
+    let x = 90, y = 90;
     if ('touches' in e && e.touches.length > 0) {
       const rect = coinRef.current?.getBoundingClientRect();
       if (rect) { x = e.touches[0].clientX - rect.left; y = e.touches[0].clientY - rect.top; }
     } else if ('clientX' in e) {
       const rect = coinRef.current?.getBoundingClientRect();
-      if (rect) { x = e.clientX - rect.left; y = e.clientY - rect.top; }
+      if (rect) { x = (e as React.MouseEvent).clientX - rect.left; y = (e as React.MouseEvent).clientY - rect.top; }
     }
-
     setCoins((c) => c + COINS_PER_TAP);
     setEnergy((en) => Math.max(0, en - ENERGY_PER_TAP));
-
     const newId = ++effectId.current;
-    setTapEffects((prev) => [...(prev ?? []), { id: newId, x, y }]);
-    setTimeout(() => {
-      setTapEffects((prev) => prev?.filter((ef) => ef.id !== newId));
-    }, 700);
+    setTapEffects((prev) => [...prev, { id: newId, x, y }]);
+    setTimeout(() => setTapEffects((prev) => prev.filter((ef) => ef.id !== newId)), 700);
   }, [energy]);
 
   const energyPct = energy / MAX_ENERGY;
 
   const tabs: { id: Tab; label: string; icon: React.ReactNode }[] = [
-    { id: "tap", label: "Tap", icon: <span style={{ fontSize: 16 }}>⚡</span> },
-    { id: "earn", label: "Ganhar", icon: <Trophy size={16} /> },
-    { id: "store", label: "Loja", icon: <Gift size={16} /> },
-    { id: "history", label: "Histórico", icon: <History size={16} /> },
+    { id: "tap",     label: "Tap",      icon: <span style={{ fontSize: 15 }}>⚡</span> },
+    { id: "earn",    label: "Ganhar",   icon: <Trophy size={15} /> },
+    { id: "store",   label: "Loja",     icon: <Gift size={15} /> },
+    { id: "history", label: "Histórico",icon: <History size={15} /> },
   ];
 
   return (
@@ -71,14 +67,15 @@ const BiblooCoinsPage = ({ onNavigate }: BiblooCoinsPageProps) => {
         position: "fixed",
         inset: 0,
         background: "linear-gradient(180deg, #0F0726 0%, #1A0D40 40%, #0D1A3A 100%)",
-        overflowY: "auto",
+        display: "flex",
+        flexDirection: "column",
         paddingTop: "env(safe-area-inset-top, 0px)",
       }}
     >
-      <div style={{ maxWidth: 428, margin: "0 auto", minHeight: "100dvh", display: "flex", flexDirection: "column" }}>
+      <div style={{ maxWidth: 428, width: "100%", margin: "0 auto", flex: 1, display: "flex", flexDirection: "column", minHeight: 0 }}>
 
         {/* Header */}
-        <div className="flex items-center justify-between px-4 pt-4 pb-2">
+        <div className="flex items-center justify-between px-4 pt-4 pb-2 flex-shrink-0">
           <motion.button
             whileTap={{ scale: 0.88 }}
             onClick={() => onNavigate("home")}
@@ -91,13 +88,10 @@ const BiblooCoinsPage = ({ onNavigate }: BiblooCoinsPageProps) => {
             <ChevronLeft className="text-white" size={22} />
           </motion.button>
 
-          {/* Coin balance */}
-          <div
-            className="flex items-center gap-2 px-4 py-2 rounded-2xl"
-            style={{ background: "rgba(255,215,0,0.12)", border: "1.5px solid rgba(255,215,0,0.35)" }}
-          >
+          <div className="flex items-center gap-2 px-4 py-2 rounded-2xl"
+            style={{ background: "rgba(255,215,0,0.12)", border: "1.5px solid rgba(255,215,0,0.35)" }}>
             <img src={coinbibloo} style={{ width: 22, height: 22 }} alt="" />
-            <span className="font-penmanship font-bold text-white text-base" style={{ color: "#FFD700" }}>
+            <span className="font-penmanship font-bold text-xl" style={{ color: "#FFD700" }}>
               {coins.toLocaleString()}
             </span>
           </div>
@@ -105,43 +99,34 @@ const BiblooCoinsPage = ({ onNavigate }: BiblooCoinsPageProps) => {
           <div style={{ width: 44 }} />
         </div>
 
-        {/* Content */}
-        <div className="flex-1 px-4 pb-4">
+        {/* Scrollable content */}
+        <div className="flex-1 overflow-y-auto px-4 pb-2" style={{ minHeight: 0 }}>
           <AnimatePresence mode="wait">
             {activeTab === "tap" && (
               <motion.div
                 key="tap"
-                initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }}
+                initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -16 }}
                 className="flex flex-col items-center"
-                style={{ paddingTop: 12 }}
+                style={{ paddingTop: 8, paddingBottom: 8 }}
               >
-                {/* Title */}
-                <p className="font-penmanship font-bold text-white text-lg mb-1">BiblooCoins</p>
-                <p className="font-penmanship text-white/50 text-xs mb-8">Toque na moeda para ganhar coins!</p>
+                <p className="font-penmanship font-bold text-white text-lg mb-0.5">BiblooCoins</p>
+                <p className="font-penmanship text-white/50 text-xs mb-6">Toque na moeda para ganhar coins!</p>
 
-                {/* Tap area */}
+                {/* Tap coin */}
                 <div
                   ref={coinRef}
                   className="relative flex items-center justify-center"
-                  style={{ width: 200, height: 200, cursor: energy > 0 ? "pointer" : "not-allowed" }}
+                  style={{ width: 190, height: 190, cursor: energy > 0 ? "pointer" : "not-allowed" }}
                   onClick={handleTap}
                   onTouchStart={handleTap}
                 >
-                  {/* Glow rings */}
-                  <div style={{
-                    position: "absolute", inset: -20, borderRadius: "50%",
-                    border: "1px solid rgba(255,215,0,0.15)",
-                    animation: "pulse 2s ease-in-out infinite",
-                  }} />
-                  <div style={{
-                    position: "absolute", inset: -10, borderRadius: "50%",
-                    border: "1.5px solid rgba(255,215,0,0.25)",
-                  }} />
+                  <div style={{ position: "absolute", inset: -18, borderRadius: "50%", border: "1px solid rgba(255,215,0,0.15)", animation: "pulse 2s ease-in-out infinite" }} />
+                  <div style={{ position: "absolute", inset: -8, borderRadius: "50%", border: "1.5px solid rgba(255,215,0,0.22)" }} />
                   <motion.div
                     whileTap={{ scale: energy > 0 ? 0.9 : 1 }}
                     transition={{ type: "spring", stiffness: 400, damping: 20 }}
                     style={{
-                      width: 180, height: 180, borderRadius: "50%",
+                      width: 172, height: 172, borderRadius: "50%",
                       background: energy > 0
                         ? "radial-gradient(circle at 35% 35%, #FFE566, #FFB800 50%, #CC7A00)"
                         : "radial-gradient(circle at 35% 35%, #888, #555 50%, #333)",
@@ -149,68 +134,48 @@ const BiblooCoinsPage = ({ onNavigate }: BiblooCoinsPageProps) => {
                         ? "0 8px 40px rgba(255,184,0,0.6), 0 0 60px rgba(255,215,0,0.3), inset 0 4px 12px rgba(255,255,255,0.3)"
                         : "0 4px 20px rgba(0,0,0,0.5)",
                       display: "flex", alignItems: "center", justifyContent: "center",
-                      flexShrink: 0,
                     }}
                   >
-                    <img
-                      src={coinbibloo}
-                      alt="BiblooCoins"
-                      style={{
-                        width: 110, height: 110, objectFit: "contain",
-                        filter: energy > 0 ? COIN_GLOW : "grayscale(100%)",
-                        userSelect: "none",
-                        pointerEvents: "none",
-                      }}
-                    />
+                    <img src={coinbibloo} alt="coin" style={{
+                      width: 104, height: 104, objectFit: "contain",
+                      filter: energy > 0 ? COIN_GLOW : "grayscale(100%)",
+                      userSelect: "none", pointerEvents: "none",
+                    }} />
                   </motion.div>
-
-                  {/* Tap effect sparks */}
-                  {(tapEffects ?? []).map((ef) => (
-                    <motion.div
-                      key={ef.id}
-                      initial={{ opacity: 1, scale: 0.5, x: ef.x - 90, y: ef.y - 90 }}
-                      animate={{ opacity: 0, scale: 1.5, y: ef.y - 130 }}
+                  {tapEffects.map((ef) => (
+                    <motion.div key={ef.id}
+                      initial={{ opacity: 1, scale: 0.5, x: ef.x - 95, y: ef.y - 95 }}
+                      animate={{ opacity: 0, scale: 1.5, y: ef.y - 135 }}
                       transition={{ duration: 0.6, ease: "easeOut" }}
                       style={{
-                        position: "absolute",
-                        pointerEvents: "none",
-                        fontFamily: "KGPerfectPenmanship",
-                        fontWeight: "bold",
-                        fontSize: 20,
-                        color: "#FFD700",
-                        textShadow: "0 0 8px rgba(255,215,0,0.9)",
+                        position: "absolute", pointerEvents: "none",
+                        fontFamily: "KGPerfectPenmanship", fontWeight: "bold", fontSize: 20,
+                        color: "#FFD700", textShadow: "0 0 8px rgba(255,215,0,0.9)",
                       }}
-                    >
-                      +1
-                    </motion.div>
+                    >+1</motion.div>
                   ))}
                 </div>
 
-                {/* Stats row */}
-                <div className="flex gap-4 mt-8 mb-6">
-                  <div className="text-center">
-                    <p className="font-penmanship font-bold text-white text-2xl">{coins}</p>
-                    <p className="font-penmanship text-white/50 text-xs">Total</p>
-                  </div>
-                  <div style={{ width: 1, background: "rgba(255,255,255,0.1)" }} />
-                  <div className="text-center">
-                    <p className="font-penmanship font-bold text-white text-2xl">{energy}</p>
-                    <p className="font-penmanship text-white/50 text-xs">Energia</p>
-                  </div>
-                  <div style={{ width: 1, background: "rgba(255,255,255,0.1)" }} />
-                  <div className="text-center">
-                    <p className="font-penmanship font-bold text-white text-2xl">7</p>
-                    <p className="font-penmanship text-white/50 text-xs">Dias seguidos</p>
-                  </div>
+                {/* Stats */}
+                <div className="flex gap-5 mt-7 mb-5">
+                  {[
+                    { val: coins, label: "Total" },
+                    { val: energy, label: "Energia" },
+                    { val: 7, label: "Dias seguidos" },
+                  ].map((s, i) => (
+                    <div key={i} className="text-center">
+                      <p className="font-penmanship font-bold text-white text-2xl">{s.val}</p>
+                      <p className="font-penmanship text-white/50 text-xs">{s.label}</p>
+                    </div>
+                  ))}
                 </div>
 
                 {/* Energy bar */}
                 <div style={{ width: "100%" }}>
                   <div className="flex items-center justify-between mb-1">
                     <div className="flex items-center gap-1.5">
-                      <Zap size={14} style={{ color: energy > 100 ? "#FFB800" : "#FF4444" }} />
-                      <span className="font-penmanship text-xs font-bold"
-                        style={{ color: energy > 100 ? "#FFB800" : "#FF4444" }}>
+                      <Zap size={13} style={{ color: energy > 20 ? "#FFB800" : "#FF4444" }} />
+                      <span className="font-penmanship text-xs font-bold" style={{ color: energy > 20 ? "#FFB800" : "#FF4444" }}>
                         Energia
                       </span>
                     </div>
@@ -221,112 +186,106 @@ const BiblooCoinsPage = ({ onNavigate }: BiblooCoinsPageProps) => {
                       animate={{ width: `${energyPct * 100}%` }}
                       transition={{ type: "spring", stiffness: 80 }}
                       style={{
-                        height: "100%",
-                        borderRadius: 6,
-                        background: energy > 100
-                          ? "linear-gradient(90deg, #FFB800, #FFE566)"
-                          : "linear-gradient(90deg, #FF4444, #FF8888)",
-                        boxShadow: energy > 100
-                          ? "0 0 8px rgba(255,184,0,0.5)"
-                          : "0 0 8px rgba(255,68,68,0.5)",
+                        height: "100%", borderRadius: 6,
+                        background: energy > 20 ? "linear-gradient(90deg, #FFB800, #FFE566)" : "linear-gradient(90deg, #FF4444, #FF8888)",
+                        boxShadow: energy > 20 ? "0 0 8px rgba(255,184,0,0.5)" : "0 0 8px rgba(255,68,68,0.5)",
                       }}
                     />
                   </div>
-                  {energy <= 0 && (
-                    <p className="font-penmanship text-center text-xs mt-2" style={{ color: "#FF8888" }}>
-                      Energia recarregando… ⏳
-                    </p>
-                  )}
+                  {energy <= 0 && <p className="font-penmanship text-center text-xs mt-1.5" style={{ color: "#FF8888" }}>Energia recarregando… ⏳</p>}
                 </div>
               </motion.div>
             )}
 
             {activeTab === "earn" && (
-              <motion.div key="earn" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }}>
-                <p className="font-penmanship font-bold text-white text-base pt-4 pb-3">🏆 Como ganhar mais coins</p>
+              <motion.div key="earn" initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -16 }}>
+                <p className="font-penmanship font-bold text-white text-base pt-3 pb-2">🏆 Como ganhar mais coins</p>
                 {[
-                  { icon: "📖", label: "Ler o devocional diário", coins: 10, done: true },
-                  { icon: "🎮", label: "Completar mini-game", coins: 15, done: false },
-                  { icon: "📚", label: "Ler capítulo da Bíblia", coins: 8, done: true },
-                  { icon: "⭐", label: "7 dias seguidos", coins: 50, done: false },
-                  { icon: "🎨", label: "Fazer um desenho no Refletir", coins: 5, done: false },
-                  { icon: "🔍", label: "Buscar versículo", coins: 3, done: false },
+                  { icon: "📖", label: "Ler o devocional diário", coins: 2, done: true, note: "" },
+                  { icon: "🎮", label: "Completar mini-game", coins: 5, done: false, note: "" },
+                  { icon: "📚", label: "Ler capítulo da Bíblia", coins: 3, done: true, note: "" },
+                  { icon: "⭐", label: "7 dias seguidos", coins: 5, done: false, note: "" },
+                  { icon: "🎨", label: "Fazer um desenho no Refletir", coins: 2, done: false, note: "" },
+                  { icon: "🔍", label: "Buscar versículo", coins: 2, done: false, note: "1 por dia" },
                 ].map((task) => (
-                  <div key={task.label}
-                    className="flex items-center gap-3 mb-2 px-4 py-3 rounded-2xl"
+                  <div key={task.label} className="flex items-center gap-3 mb-2 px-4 py-3 rounded-2xl"
                     style={{
                       background: task.done ? "rgba(52,199,89,0.15)" : "rgba(255,255,255,0.06)",
                       border: task.done ? "1px solid rgba(52,199,89,0.3)" : "1px solid rgba(255,255,255,0.08)",
                     }}>
-                    <span style={{ fontSize: 22, flexShrink: 0 }}>{task.icon}</span>
-                    <span className="font-penmanship text-white text-sm flex-1">{task.label}</span>
+                    <span style={{ fontSize: 20, flexShrink: 0 }}>{task.icon}</span>
+                    <div className="flex-1">
+                      <span className="font-penmanship text-white text-sm">{task.label}</span>
+                      {task.note && <p className="font-penmanship text-white/40 text-xs">{task.note}</p>}
+                    </div>
                     <div className="flex items-center gap-1 flex-shrink-0">
-                      <img src={coinbibloo} style={{ width: 14, height: 14 }} alt="" />
+                      <img src={coinbibloo} style={{ width: 13, height: 13 }} alt="" />
                       <span className="font-penmanship font-bold text-sm" style={{ color: "#FFD700" }}>+{task.coins}</span>
                     </div>
-                    {task.done && <span className="text-green-400 text-xs font-penmanship font-bold">✓</span>}
+                    {task.done && <span className="text-green-400 text-xs font-penmanship font-bold flex-shrink-0">✓</span>}
                   </div>
                 ))}
               </motion.div>
             )}
 
             {activeTab === "store" && (
-              <motion.div key="store" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }}>
-                <p className="font-penmanship font-bold text-white text-base pt-4 pb-3">🎁 Loja de Prêmios</p>
+              <motion.div key="store" initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -16 }}>
+                <p className="font-penmanship font-bold text-white text-base pt-3 pb-2">🎁 Loja de Prêmios</p>
                 {[
-                  { emoji: "🦁", label: "Avatar Leão", price: 50 },
-                  { emoji: "👑", label: "Coroa Dourada", price: 100 },
-                  { emoji: "🎨", label: "Cores especiais", price: 30 },
-                  { emoji: "📿", label: "Moldura Especial", price: 75 },
+                  { emoji: "🦁", label: "Avatar Leão", price: 50, page: "product-avatar-leao" },
+                  { emoji: "👑", label: "Coroa Dourada", price: 100, page: "product-coroa" },
+                  { emoji: "🎨", label: "Cores especiais", price: 30, page: "product-cores" },
+                  { emoji: "🧸", label: "Bibi de Pelúcia", price: 1500, page: "product-bibi-pelucia" },
                 ].map((item) => (
-                  <div key={item.label}
-                    className="flex items-center gap-3 mb-2 px-4 py-3 rounded-2xl"
-                    style={{ background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.08)" }}>
-                    <span style={{ fontSize: 28 }}>{item.emoji}</span>
+                  <motion.button
+                    key={item.label}
+                    whileTap={{ scale: 0.97 }}
+                    onClick={() => onNavigate(item.page)}
+                    className="flex items-center gap-3 mb-2 px-4 py-3 rounded-2xl w-full text-left"
+                    style={{ background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.08)", cursor: "pointer" }}>
+                    <span style={{ fontSize: 26, flexShrink: 0 }}>{item.emoji}</span>
                     <span className="font-penmanship text-white text-sm flex-1">{item.label}</span>
-                    <motion.button whileTap={{ scale: 0.95 }}
-                      disabled={coins < item.price}
-                      className="flex items-center gap-1 px-3 py-1.5 rounded-xl font-penmanship font-bold text-xs"
+                    <div className="flex items-center gap-1 px-3 py-1.5 rounded-xl"
                       style={{
                         background: coins >= item.price ? "rgba(255,215,0,0.2)" : "rgba(255,255,255,0.07)",
                         border: coins >= item.price ? "1px solid rgba(255,215,0,0.4)" : "1px solid rgba(255,255,255,0.1)",
-                        color: coins >= item.price ? "#FFD700" : "rgba(255,255,255,0.3)",
-                        cursor: coins >= item.price ? "pointer" : "default",
                       }}>
                       <img src={coinbibloo} style={{ width: 12, height: 12 }} alt="" />
-                      {item.price}
-                    </motion.button>
-                  </div>
+                      <span className="font-penmanship font-bold text-xs" style={{ color: coins >= item.price ? "#FFD700" : "rgba(255,255,255,0.3)" }}>
+                        {item.price.toLocaleString()}
+                      </span>
+                    </div>
+                  </motion.button>
                 ))}
+                {/* Coming soon */}
+                <div className="flex items-center justify-center mt-3 py-4 rounded-2xl"
+                  style={{ background: "rgba(255,255,255,0.04)", border: "1px dashed rgba(255,255,255,0.15)" }}>
+                  <p className="font-penmanship text-white/40 text-sm">✨ Novos prêmios em breve</p>
+                </div>
               </motion.div>
             )}
 
             {activeTab === "history" && (
-              <motion.div key="history" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }}>
-                <p className="font-penmanship font-bold text-white text-base pt-4 pb-3">📋 Histórico</p>
+              <motion.div key="history" initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -16 }}>
+                <p className="font-penmanship font-bold text-white text-base pt-3 pb-2">📋 Histórico</p>
                 {[
-                  { label: "Devocional lido", amount: +10, time: "Hoje, 08:15" },
-                  { label: "Capítulo lido", amount: +8, time: "Hoje, 08:03" },
-                  { label: "Mini-game completado", amount: +15, time: "Ontem, 16:42" },
-                  { label: "Streak de 7 dias", amount: +50, time: "Ontem" },
-                  { label: "Devocional lido", amount: +10, time: "2 dias atrás" },
+                  { label: "Devocional lido", amount: 2, time: "Hoje, 08:15" },
+                  { label: "Capítulo lido", amount: 3, time: "Hoje, 08:03" },
+                  { label: "Mini-game completado", amount: 5, time: "Ontem, 16:42" },
+                  { label: "Streak de 7 dias", amount: 5, time: "Ontem" },
+                  { label: "Devocional lido", amount: 2, time: "2 dias atrás" },
                 ].map((entry, i) => (
-                  <div key={i}
-                    className="flex items-center gap-3 mb-2 px-4 py-3 rounded-2xl"
+                  <div key={i} className="flex items-center gap-3 mb-2 px-4 py-3 rounded-2xl"
                     style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.07)" }}>
-                    <div
-                      className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0"
-                      style={{ background: "rgba(255,215,0,0.15)" }}
-                    >
+                    <div className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0"
+                      style={{ background: "rgba(255,215,0,0.15)" }}>
                       <img src={coinbibloo} style={{ width: 18, height: 18 }} alt="" />
                     </div>
                     <div className="flex-1">
                       <p className="font-penmanship text-white text-sm">{entry.label}</p>
                       <p className="font-penmanship text-white/40 text-xs">{entry.time}</p>
                     </div>
-                    <span className="font-penmanship font-bold text-sm" style={{ color: "#34C759" }}>
-                      +{entry.amount}
-                    </span>
+                    <span className="font-penmanship font-bold text-sm" style={{ color: "#34C759" }}>+{entry.amount}</span>
                   </div>
                 ))}
               </motion.div>
@@ -334,73 +293,65 @@ const BiblooCoinsPage = ({ onNavigate }: BiblooCoinsPageProps) => {
           </AnimatePresence>
         </div>
 
-        {/* Bottom tab bar */}
+        {/* Bottom tab bar — fixed within component */}
         <div
+          className="flex-shrink-0"
           style={{
-            position: "sticky",
-            bottom: 0,
-            background: "rgba(15,7,38,0.95)",
+            background: "rgba(15,7,38,0.97)",
             backdropFilter: "blur(16px)",
-            borderTop: "1px solid rgba(255,215,0,0.2)",
-            paddingBottom: "calc(env(safe-area-inset-bottom, 0px) + 8px)",
+            borderTop: "1px solid rgba(255,215,0,0.18)",
+            paddingBottom: "calc(env(safe-area-inset-bottom, 0px) + 6px)",
+            paddingTop: 2,
           }}
         >
-          {/* Gold top line */}
-          <div style={{
-            height: 2,
-            background: "linear-gradient(90deg, transparent, rgba(255,215,0,0.5) 30%, rgba(255,165,0,0.7) 50%, rgba(255,215,0,0.5) 70%, transparent)",
-            marginBottom: 2,
-          }} />
-          <div className="flex">
-            {tabs.map((tab) => {
-              const isActive = activeTab === tab.id;
-              return (
-                <motion.button
-                  key={tab.id}
-                  whileTap={{ scale: 0.9 }}
-                  onClick={() => setActiveTab(tab.id)}
-                  className="flex-1 flex flex-col items-center justify-center py-2 gap-1 relative"
-                  style={{ cursor: "pointer", background: "none", border: "none" }}
-                >
-                  {isActive && (
-                    <motion.div
-                      layoutId="coin-tab-pill"
-                      style={{
-                        position: "absolute",
-                        top: 4, left: "50%", transform: "translateX(-50%)",
-                        width: 40, height: 36, borderRadius: 18,
-                        background: "rgba(255,215,0,0.18)",
-                        border: "1px solid rgba(255,215,0,0.35)",
-                        zIndex: 0,
-                      }}
-                      transition={{ type: "spring", stiffness: 500, damping: 32 }}
-                    />
-                  )}
-                  <div style={{ position: "relative", zIndex: 1, color: isActive ? "#FFD700" : "rgba(255,255,255,0.4)", filter: isActive ? GLOW : "none", transition: "all 0.2s" }}>
-                    {tab.icon}
-                  </div>
-                  <span
-                    className="font-penmanship"
-                    style={{
-                      fontSize: 10, position: "relative", zIndex: 1,
-                      color: isActive ? "#D97706" : "rgba(255,255,255,0.35)",
-                      fontWeight: isActive ? "bold" : "normal",
-                      transition: "all 0.2s",
-                    }}
+          <div style={{ height: 2, background: "linear-gradient(90deg, transparent, rgba(255,215,0,0.5) 30%, rgba(255,165,0,0.7) 50%, rgba(255,215,0,0.5) 70%, transparent)", marginBottom: 2 }} />
+          <LayoutGroup id="coin-tabs">
+            <div className="flex">
+              {tabs.map((tab) => {
+                const isActive = activeTab === tab.id;
+                return (
+                  <motion.button
+                    key={tab.id}
+                    whileTap={{ scale: 0.9 }}
+                    onClick={() => setActiveTab(tab.id)}
+                    className="flex-1 flex flex-col items-center justify-center py-2 gap-1 relative"
+                    style={{ cursor: "pointer", background: "none", border: "none", minHeight: 52 }}
                   >
-                    {tab.label}
-                  </span>
-                  {isActive && (
-                    <div style={{ width: 4, height: 4, borderRadius: "50%", background: "#D97706", boxShadow: "0 0 6px rgba(217,119,6,0.8)", position: "relative", zIndex: 1 }} />
-                  )}
-                </motion.button>
-              );
-            })}
-          </div>
+                    {isActive && (
+                      <motion.div
+                        layoutId="coin-tab-drop"
+                        transition={dropTransition}
+                        style={{
+                          position: "absolute",
+                          inset: "3px 4px",
+                          borderRadius: 20,
+                          background: "rgba(255,215,0,0.15)",
+                          border: "1px solid rgba(255,215,0,0.3)",
+                          zIndex: 0,
+                        }}
+                      />
+                    )}
+                    <div style={{ position: "relative", zIndex: 1, color: isActive ? "#FFD700" : "rgba(255,255,255,0.35)", filter: isActive ? GLOW : "none", transition: "all 0.2s" }}>
+                      {tab.icon}
+                    </div>
+                    <span className="font-penmanship" style={{
+                      fontSize: 9, position: "relative", zIndex: 1,
+                      color: isActive ? "#D97706" : "rgba(255,255,255,0.3)",
+                      fontWeight: isActive ? "bold" : "normal", transition: "all 0.2s",
+                    }}>
+                      {tab.label}
+                    </span>
+                    {isActive && (
+                      <div style={{ width: 4, height: 4, borderRadius: "50%", background: "#D97706", boxShadow: "0 0 5px rgba(217,119,6,0.8)", position: "relative", zIndex: 1 }} />
+                    )}
+                  </motion.button>
+                );
+              })}
+            </div>
+          </LayoutGroup>
         </div>
       </div>
 
-      {/* CSS animation for pulse ring */}
       <style>{`
         @keyframes pulse {
           0%, 100% { opacity: 0.3; transform: scale(1); }

@@ -20,6 +20,7 @@ import BiblooCoinsPage from "@/pages/BiblooCoinsPage";
 import SearchPage from "@/pages/SearchPage";
 import ReflectPage from "@/pages/ReflectPage";
 import BibliaIlustradaPage from "@/pages/BibliaIlustradaPage";
+import ProductPage from "@/pages/ProductPage";
 
 interface ChildProfile {
   id: string;
@@ -148,6 +149,11 @@ const AppShell = () => {
         return <SearchPage onNavigate={handleNavigate} />;
       case "ilustrada":
         return <BibliaIlustradaPage onNavigate={handleNavigate} />;
+      case "product-avatar-leao":
+      case "product-coroa":
+      case "product-cores":
+      case "product-bibi-pelucia":
+        return <ProductPage productId={currentPage} onNavigate={handleNavigate} />;
       default:
         return (
           <HomePage

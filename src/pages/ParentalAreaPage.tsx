@@ -50,7 +50,7 @@ const SectionRow = ({
     whileTap={{ scale: 0.97 }}
     onClick={onPress}
     className="w-full flex items-center gap-3 px-4 py-3 rounded-2xl"
-    style={{ background: 'rgba(255,255,255,0.07)', border: '1px solid rgba(255,255,255,0.1)', cursor: 'pointer' }}
+    style={{ background: 'rgba(255,255,255,0.18)', border: '1px solid rgba(255,255,255,0.25)', cursor: 'pointer' }}
   >
     <div className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0"
       style={{ background: danger ? 'rgba(255,60,60,0.2)' : 'rgba(255,215,0,0.15)' }}>
@@ -71,7 +71,7 @@ const ToggleRow = ({
   icon: React.ReactNode; label: string; sublabel?: string; value: boolean; onChange: (v: boolean) => void;
 }) => (
   <div className="w-full flex items-center gap-3 px-4 py-3 rounded-2xl"
-    style={{ background: 'rgba(255,255,255,0.07)', border: '1px solid rgba(255,255,255,0.1)' }}>
+    style={{ background: 'rgba(255,255,255,0.18)', border: '1px solid rgba(255,255,255,0.25)' }}>
     <div className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0"
       style={{ background: 'rgba(255,215,0,0.15)' }}>
       <span style={{ color: '#FFD700' }}>{icon}</span>
@@ -221,8 +221,8 @@ const ParentalAreaPage = ({ onNavigate }: ParentalAreaPageProps) => {
                 onClick={() => setAvatar(a)}
                 className="aspect-square rounded-2xl flex items-center justify-center text-3xl"
                 style={{
-                  background: avatar === a ? 'rgba(255,215,0,0.25)' : 'rgba(255,255,255,0.07)',
-                  border: avatar === a ? '2px solid rgba(255,215,0,0.7)' : '1px solid rgba(255,255,255,0.1)',
+                  background: avatar === a ? 'rgba(255,215,0,0.25)' : 'rgba(255,255,255,0.18)',
+                  border: avatar === a ? '2px solid rgba(255,215,0,0.7)' : '1px solid rgba(255,255,255,0.25)',
                   filter: avatar === a ? GLOW : 'none',
                 }}
               >
@@ -261,7 +261,7 @@ const ParentalAreaPage = ({ onNavigate }: ParentalAreaPageProps) => {
             <motion.button whileTap={{ scale: 0.97 }}
               onClick={() => { setTempName(childName); setEditingName(true); }}
               className="w-full flex items-center gap-3 px-4 py-3 rounded-2xl"
-              style={{ background: 'rgba(255,255,255,0.07)', border: '1px solid rgba(255,255,255,0.1)' }}>
+              style={{ background: 'rgba(255,255,255,0.18)', border: '1px solid rgba(255,255,255,0.25)' }}>
               <span className="font-penmanship text-white flex-1 text-left text-sm">{childName}</span>
               <Edit3 size={15} className="text-white/40" />
             </motion.button>
@@ -347,7 +347,7 @@ const ParentalAreaPage = ({ onNavigate }: ParentalAreaPageProps) => {
                     onClick={() => handlePinKey(k)}
                     className="aspect-square rounded-2xl flex items-center justify-center font-penmanship font-bold text-white text-xl"
                     style={{
-                      background: k === 'del' ? 'rgba(255,80,80,0.2)' : 'rgba(255,255,255,0.1)',
+                      background: k === 'del' ? 'rgba(255,80,80,0.2)' : 'rgba(255,255,255,0.25)',
                       border: '1px solid rgba(255,255,255,0.15)', cursor: 'pointer',
                     }}>
                     {k === 'del' ? '⌫' : k}
@@ -382,7 +382,7 @@ const ParentalAreaPage = ({ onNavigate }: ParentalAreaPageProps) => {
           {screenTimeEnabled && (
             <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }}
               className="rounded-2xl p-4 space-y-4"
-              style={{ background: 'rgba(255,255,255,0.07)', border: '1px solid rgba(255,255,255,0.1)' }}>
+              style={{ background: 'rgba(255,255,255,0.18)', border: '1px solid rgba(255,255,255,0.25)' }}>
               <p className="font-penmanship font-bold text-white text-sm">Limite por dia</p>
               <div className="flex items-center gap-4">
                 <motion.button whileTap={{ scale: 0.88 }}
@@ -407,7 +407,7 @@ const ParentalAreaPage = ({ onNavigate }: ParentalAreaPageProps) => {
 
           {/* Weekly chart */}
           <div className="rounded-2xl p-4 space-y-3"
-            style={{ background: 'rgba(255,255,255,0.07)', border: '1px solid rgba(255,255,255,0.1)' }}>
+            style={{ background: 'rgba(255,255,255,0.18)', border: '1px solid rgba(255,255,255,0.25)' }}>
             <p className="font-penmanship font-bold text-white text-sm">📊 Esta semana</p>
             <div className="flex items-end gap-2 h-24">
               {weekData.map((val, i) => {
@@ -469,10 +469,10 @@ const ParentalAreaPage = ({ onNavigate }: ParentalAreaPageProps) => {
         <BackBtn onBack={() => go('main')} label="💾 Armazenamento" />
         <div className="px-4 pb-8 space-y-4 pt-2">
           <div className="rounded-2xl p-4 space-y-3"
-            style={{ background: 'rgba(255,255,255,0.07)', border: '1px solid rgba(255,255,255,0.1)' }}>
+            style={{ background: 'rgba(255,255,255,0.18)', border: '1px solid rgba(255,255,255,0.25)' }}>
             <p className="font-penmanship font-bold text-white text-sm mb-1">Uso total: ~8.1 MB</p>
             {/* Stacked bar */}
-            <div className="w-full h-4 rounded-full overflow-hidden flex" style={{ background: 'rgba(255,255,255,0.1)' }}>
+            <div className="w-full h-4 rounded-full overflow-hidden flex" style={{ background: 'rgba(255,255,255,0.25)' }}>
               {items.map((it) => (
                 <motion.div key={it.label} initial={{ flex: 0 }} animate={{ flex: it.pct }}
                   transition={{ type: 'spring', stiffness: 120, delay: 0.1 }}
@@ -495,7 +495,7 @@ const ParentalAreaPage = ({ onNavigate }: ParentalAreaPageProps) => {
           </motion.button>
           <motion.button whileTap={{ scale: 0.95 }}
             className="w-full py-3 rounded-2xl font-penmanship font-bold text-sm"
-            style={{ background: 'rgba(255,255,255,0.07)', border: '1px solid rgba(255,255,255,0.15)', color: 'rgba(255,255,255,0.7)', cursor: 'pointer' }}>
+            style={{ background: 'rgba(255,255,255,0.18)', border: '1px solid rgba(255,255,255,0.15)', color: 'rgba(255,255,255,0.7)', cursor: 'pointer' }}>
             📂 Redownload Bíblia Ilustrada
           </motion.button>
         </div>
@@ -521,7 +521,7 @@ const ParentalAreaPage = ({ onNavigate }: ParentalAreaPageProps) => {
           <div className="flex gap-2 flex-wrap">
             {['Bíblia básica', '3 mini-jogos', 'Devocional'].map((f) => (
               <span key={f} className="px-2 py-0.5 rounded-lg font-penmanship text-xs"
-                style={{ background: 'rgba(255,255,255,0.1)', color: 'rgba(255,255,255,0.7)' }}>{f}</span>
+                style={{ background: 'rgba(255,255,255,0.25)', color: 'rgba(255,255,255,0.7)' }}>{f}</span>
             ))}
           </div>
         </div>
@@ -570,11 +570,11 @@ const ParentalAreaPage = ({ onNavigate }: ParentalAreaPageProps) => {
         <div className="px-4 pb-8 space-y-4 pt-2">
           {faqs.map((faq, i) => (
             <div key={i} className="rounded-2xl overflow-hidden"
-              style={{ border: '1px solid rgba(255,255,255,0.1)' }}>
+              style={{ border: '1px solid rgba(255,255,255,0.25)' }}>
               <motion.button whileTap={{ scale: 0.98 }}
                 onClick={() => setOpenFaq(openFaq === i ? null : i)}
                 className="w-full flex items-center gap-3 px-4 py-3"
-                style={{ background: 'rgba(255,255,255,0.07)', cursor: 'pointer' }}>
+                style={{ background: 'rgba(255,255,255,0.18)', cursor: 'pointer' }}>
                 <span className="font-penmanship font-bold text-white text-sm flex-1 text-left">{faq.q}</span>
                 {openFaq === i ? <ChevronUp size={15} className="text-white/40 flex-shrink-0" /> : <ChevronDown size={15} className="text-white/40 flex-shrink-0" />}
               </motion.button>
@@ -604,7 +604,7 @@ const ParentalAreaPage = ({ onNavigate }: ParentalAreaPageProps) => {
             <motion.button whileTap={{ scale: 0.95 }} disabled={!feedback.trim()}
               className="w-full mt-2 py-3 rounded-2xl font-penmanship font-bold text-sm"
               style={{
-                background: feedback.trim() ? 'linear-gradient(180deg,#FFB800,#FF8C00)' : 'rgba(255,255,255,0.1)',
+                background: feedback.trim() ? 'linear-gradient(180deg,#FFB800,#FF8C00)' : 'rgba(255,255,255,0.25)',
                 color: feedback.trim() ? '#fff' : 'rgba(255,255,255,0.3)',
                 cursor: feedback.trim() ? 'pointer' : 'default',
               }}>

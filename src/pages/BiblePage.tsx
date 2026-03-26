@@ -169,15 +169,6 @@ function BooksView({
           </div>
         </div>
 
-        {/* Translation badge */}
-        <div className="flex justify-center mb-4">
-          <span
-            className="font-penmanship text-xs px-3 py-1 rounded-full"
-            style={{ background: 'rgba(255,215,0,0.2)', color: '#FFD700', border: '1px solid rgba(255,215,0,0.35)' }}
-          >
-            📖 {TRANSLATION_NAME}
-          </span>
-        </div>
 
         {isLoading && <LoadingSpinner label="Carregando livros…" />}
         {isError && <ErrorMessage message="Não foi possível carregar os livros da Bíblia." />}

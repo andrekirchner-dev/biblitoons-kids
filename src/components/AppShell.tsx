@@ -21,6 +21,7 @@ import SearchPage from "@/pages/SearchPage";
 import ReflectPage from "@/pages/ReflectPage";
 import BibliaIlustradaPage from "@/pages/BibliaIlustradaPage";
 import ProductPage from "@/pages/ProductPage";
+import AddSiblingPage from "@/pages/AddSiblingPage";
 
 interface ChildProfile {
   id: string;
@@ -149,6 +150,8 @@ const AppShell = () => {
         return <SearchPage onNavigate={handleNavigate} />;
       case "ilustrada":
         return <BibliaIlustradaPage onNavigate={handleNavigate} />;
+      case "addSibling":
+        return <AddSiblingPage onNavigate={handleNavigate} />;
       case "product-avatar-leao":
       case "product-coroa":
       case "product-cores":

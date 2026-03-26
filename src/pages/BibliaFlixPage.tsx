@@ -97,12 +97,21 @@ const BibliaFlixPage = ({ onNavigate }: BibliaFlixPageProps) => {
           position: "fixed",
           inset: 0,
           background: "#0D0D1A",
-          overflowY: "auto",
-          paddingBottom: "calc(68px + env(safe-area-inset-bottom, 0px))",
+          display: "flex",
+          flexDirection: "column",
+          paddingBottom: "calc(80px + env(safe-area-inset-bottom, 0px))",
         }}
       >
-        {/* Video Player */}
-        <div className="relative aspect-video" style={{ background: "#111" }}>
+        {/* Video Player — fixed height, no overlap */}
+        <div
+          className="relative flex-shrink-0"
+          style={{
+            background: "#111",
+            aspectRatio: "16/9",
+            maxHeight: "42dvh",
+            overflow: "hidden",
+          }}
+        >
           <img
             src={selectedVideo.thumbnail}
             alt={selectedVideo.title}
@@ -135,10 +144,10 @@ const BibliaFlixPage = ({ onNavigate }: BibliaFlixPageProps) => {
           </motion.button>
         </div>
 
-        {/* Synopsis card */}
+        {/* Synopsis card — scrollable area below video */}
         <div
-          className="rounded-t-3xl -mt-4 relative z-10 pt-5 pb-8 px-4 space-y-4"
-          style={{ background: "#1A1A2E" }}
+          className="flex-1 overflow-y-auto pt-4 pb-4 px-4 space-y-4"
+          style={{ background: "#1A1A2E", borderRadius: "24px 24px 0 0" }}
         >
           {/* Title & meta */}
           <div>

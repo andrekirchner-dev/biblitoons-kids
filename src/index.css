@@ -175,3 +175,47 @@
     padding-bottom: env(safe-area-inset-bottom, 16px);
   }
 }
+
+/* ── Mobile/tablet only — desktop shows phone frame ── */
+@media (min-width: 769px) {
+  html {
+    background: #06030f;
+  }
+
+  body {
+    background: #06030f;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 24px 0 24px;
+  }
+
+  /* Decorative side labels */
+  body::before {
+    content: "📱 Bibloo é um app para celular e tablet";
+    display: block;
+    color: rgba(255, 215, 0, 0.35);
+    font-family: 'Nunito', sans-serif;
+    font-size: 13px;
+    letter-spacing: 0.03em;
+    margin-bottom: 16px;
+    text-align: center;
+  }
+
+  #root {
+    width: 430px;
+    max-width: 430px;
+    min-height: 844px;
+    border-radius: 44px;
+    overflow: hidden;
+    box-shadow:
+      0 0 0 10px #1a1030,
+      0 0 0 12px #2e2050,
+      0 32px 80px rgba(0, 0, 0, 0.8),
+      0 0 60px rgba(120, 60, 220, 0.2);
+    position: relative;
+    flex-shrink: 0;
+  }
+}

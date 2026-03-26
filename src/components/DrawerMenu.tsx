@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, LogOut, ShieldCheck } from "lucide-react";
 import bibiMascot from "@/assets/bibi-mascot.png";
@@ -39,6 +39,12 @@ const DrawerMenu = ({
   const [pinError, setPinError] = useState(false);
 
   const activeProfile = profiles.find((p) => p.id === activeProfileId) ?? profiles[0];
+
+  // Read emoji avatar saved by ParentalAreaPage
+  const [avatarEmoji, setAvatarEmoji] = useState(() => localStorage.getItem('bibloo_avatar') || '');
+  useEffect(() => {
+    if (isOpen) setAvatarEmoji(localStorage.getItem('bibloo_avatar') || '');
+  }, [isOpen]);
 
   const handleNav = (page: string) => {
     onNavigate(page);
@@ -113,14 +119,10 @@ const DrawerMenu = ({
               </button>
 
               <div
-                className="w-20 h-20 rounded-full border-4 border-white overflow-hidden mb-3"
-                style={{ boxShadow: "0 4px 12px rgba(0,0,0,0.2)" }}
+                className="w-20 h-20 rounded-full border-4 border-white flex items-center justify-center mb-3"
+                style={{ boxShadow: "0 4px 12px rgba(0,0,0,0.2)", background: "rgba(255,255,255,0.2)", fontSize: 44 }}
               >
-                <img
-                  src={activeProfile?.gender === "menino" ? FrameMenino : FrameMenina}
-                  alt="Perfil"
-                  className="w-full h-full object-cover"
-                />
+                {avatarEmoji || (activeProfile?.gender === "menino" ? "👦" : "👧")}
               </div>
               <h2 className="font-penmanship font-bold text-white text-xl">
                 Oi, {activeProfile?.name}! 🐑

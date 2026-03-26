@@ -1,61 +1,24 @@
-import { useState, useEffect, useCallback, useRef } from "react";
+import { useState } from "react";
 import { motion, AnimatePresence, LayoutGroup } from "framer-motion";
-import { ChevronLeft, Zap, Trophy, Gift, History } from "lucide-react";
+import { ChevronLeft, Trophy, Gift, History } from "lucide-react";
 import coinbibloo from "@/assets/coinbibloo.png";
 
 const GLOW = "drop-shadow(0 0 6px rgba(255,215,0,0.85)) drop-shadow(0 0 12px rgba(255,165,0,0.5))";
-const COIN_GLOW = "drop-shadow(0 0 20px rgba(255,215,0,0.9)) drop-shadow(0 0 40px rgba(255,165,0,0.6))";
 
 interface BiblooCoinsPageProps {
   onNavigate: (page: string) => void;
 }
 
-const MAX_ENERGY = 100;
-const ENERGY_PER_TAP = 1;
-const COINS_PER_TAP = 1;
-const ENERGY_REGEN_RATE = 1; // per second
-
-type Tab = "tap" | "earn" | "store" | "history";
+type Tab = "earn" | "store" | "history";
 
 /* Drop spring for the tab indicator */
 const dropTransition = { type: "spring" as const, stiffness: 420, damping: 22, mass: 0.6 };
 
 const BiblooCoinsPage = ({ onNavigate }: BiblooCoinsPageProps) => {
-  const [coins, setCoins] = useState(27);
-  const [energy, setEnergy] = useState(80);
-  const [activeTab, setActiveTab] = useState<Tab>("tap");
-  const [tapEffects, setTapEffects] = useState<{ id: number; x: number; y: number }[]>([]);
-  const effectId = useRef(0);
-  const coinRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const id = setInterval(() => {
-      setEnergy((e) => Math.min(MAX_ENERGY, e + ENERGY_REGEN_RATE));
-    }, 1000);
-    return () => clearInterval(id);
-  }, []);
-
-  const handleTap = useCallback((e: React.MouseEvent | React.TouchEvent) => {
-    if (energy <= 0) return;
-    let x = 90, y = 90;
-    if ('touches' in e && e.touches.length > 0) {
-      const rect = coinRef.current?.getBoundingClientRect();
-      if (rect) { x = e.touches[0].clientX - rect.left; y = e.touches[0].clientY - rect.top; }
-    } else if ('clientX' in e) {
-      const rect = coinRef.current?.getBoundingClientRect();
-      if (rect) { x = (e as React.MouseEvent).clientX - rect.left; y = (e as React.MouseEvent).clientY - rect.top; }
-    }
-    setCoins((c) => c + COINS_PER_TAP);
-    setEnergy((en) => Math.max(0, en - ENERGY_PER_TAP));
-    const newId = ++effectId.current;
-    setTapEffects((prev) => [...prev, { id: newId, x, y }]);
-    setTimeout(() => setTapEffects((prev) => prev.filter((ef) => ef.id !== newId)), 700);
-  }, [energy]);
-
-  const energyPct = energy / MAX_ENERGY;
+  const [coins] = useState(27);
+  const [activeTab, setActiveTab] = useState<Tab>("earn");
 
   const tabs: { id: Tab; label: string; icon: React.ReactNode }[] = [
-    { id: "tap",     label: "Tap",      icon: <span style={{ fontSize: 15 }}>⚡</span> },
     { id: "earn",    label: "Ganhar",   icon: <Trophy size={15} /> },
     { id: "store",   label: "Loja",     icon: <Gift size={15} /> },
     { id: "history", label: "Histórico",icon: <History size={15} /> },
@@ -102,101 +65,6 @@ const BiblooCoinsPage = ({ onNavigate }: BiblooCoinsPageProps) => {
         {/* Scrollable content */}
         <div className="flex-1 overflow-y-auto px-4 pb-2" style={{ minHeight: 0 }}>
           <AnimatePresence mode="wait">
-            {activeTab === "tap" && (
-              <motion.div
-                key="tap"
-                initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -16 }}
-                className="flex flex-col items-center"
-                style={{ paddingTop: 8, paddingBottom: 8 }}
-              >
-                <p className="font-penmanship font-bold text-white text-lg mb-0.5">BiblooCoins</p>
-                <p className="font-penmanship text-white/50 text-xs mb-6">Toque na moeda para ganhar coins!</p>
-
-                {/* Tap coin */}
-                <div
-                  ref={coinRef}
-                  className="relative flex items-center justify-center"
-                  style={{ width: 190, height: 190, cursor: energy > 0 ? "pointer" : "not-allowed" }}
-                  onClick={handleTap}
-                  onTouchStart={handleTap}
-                >
-                  <div style={{ position: "absolute", inset: -18, borderRadius: "50%", border: "1px solid rgba(255,215,0,0.15)", animation: "pulse 2s ease-in-out infinite" }} />
-                  <div style={{ position: "absolute", inset: -8, borderRadius: "50%", border: "1.5px solid rgba(255,215,0,0.22)" }} />
-                  <motion.div
-                    whileTap={{ scale: energy > 0 ? 0.9 : 1 }}
-                    transition={{ type: "spring", stiffness: 400, damping: 20 }}
-                    style={{
-                      width: 172, height: 172, borderRadius: "50%",
-                      background: energy > 0
-                        ? "radial-gradient(circle at 35% 35%, #FFE566, #FFB800 50%, #CC7A00)"
-                        : "radial-gradient(circle at 35% 35%, #888, #555 50%, #333)",
-                      boxShadow: energy > 0
-                        ? "0 8px 40px rgba(255,184,0,0.6), 0 0 60px rgba(255,215,0,0.3), inset 0 4px 12px rgba(255,255,255,0.3)"
-                        : "0 4px 20px rgba(0,0,0,0.5)",
-                      display: "flex", alignItems: "center", justifyContent: "center",
-                    }}
-                  >
-                    <img src={coinbibloo} alt="coin" style={{
-                      width: 104, height: 104, objectFit: "contain",
-                      filter: energy > 0 ? COIN_GLOW : "grayscale(100%)",
-                      userSelect: "none", pointerEvents: "none",
-                    }} />
-                  </motion.div>
-                  {tapEffects.map((ef) => (
-                    <motion.div key={ef.id}
-                      initial={{ opacity: 1, scale: 0.5, x: ef.x - 95, y: ef.y - 95 }}
-                      animate={{ opacity: 0, scale: 1.5, y: ef.y - 135 }}
-                      transition={{ duration: 0.6, ease: "easeOut" }}
-                      style={{
-                        position: "absolute", pointerEvents: "none",
-                        fontFamily: "KGPerfectPenmanship", fontWeight: "bold", fontSize: 20,
-                        color: "#FFD700", textShadow: "0 0 8px rgba(255,215,0,0.9)",
-                      }}
-                    >+1</motion.div>
-                  ))}
-                </div>
-
-                {/* Stats */}
-                <div className="flex gap-5 mt-7 mb-5">
-                  {[
-                    { val: coins, label: "Total" },
-                    { val: energy, label: "Energia" },
-                    { val: 7, label: "Dias seguidos" },
-                  ].map((s, i) => (
-                    <div key={i} className="text-center">
-                      <p className="font-penmanship font-bold text-white text-2xl">{s.val}</p>
-                      <p className="font-penmanship text-white/50 text-xs">{s.label}</p>
-                    </div>
-                  ))}
-                </div>
-
-                {/* Energy bar */}
-                <div style={{ width: "100%" }}>
-                  <div className="flex items-center justify-between mb-1">
-                    <div className="flex items-center gap-1.5">
-                      <Zap size={13} style={{ color: energy > 20 ? "#FFB800" : "#FF4444" }} />
-                      <span className="font-penmanship text-xs font-bold" style={{ color: energy > 20 ? "#FFB800" : "#FF4444" }}>
-                        Energia
-                      </span>
-                    </div>
-                    <span className="font-penmanship text-xs text-white/50">{energy} / {MAX_ENERGY}</span>
-                  </div>
-                  <div className="w-full rounded-full overflow-hidden" style={{ height: 12, background: "rgba(255,255,255,0.1)" }}>
-                    <motion.div
-                      animate={{ width: `${energyPct * 100}%` }}
-                      transition={{ type: "spring", stiffness: 80 }}
-                      style={{
-                        height: "100%", borderRadius: 6,
-                        background: energy > 20 ? "linear-gradient(90deg, #FFB800, #FFE566)" : "linear-gradient(90deg, #FF4444, #FF8888)",
-                        boxShadow: energy > 20 ? "0 0 8px rgba(255,184,0,0.5)" : "0 0 8px rgba(255,68,68,0.5)",
-                      }}
-                    />
-                  </div>
-                  {energy <= 0 && <p className="font-penmanship text-center text-xs mt-1.5" style={{ color: "#FF8888" }}>Energia recarregando… ⏳</p>}
-                </div>
-              </motion.div>
-            )}
-
             {activeTab === "earn" && (
               <motion.div key="earn" initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -16 }}>
                 <p className="font-penmanship font-bold text-white text-base pt-3 pb-2">🏆 Como ganhar mais coins</p>

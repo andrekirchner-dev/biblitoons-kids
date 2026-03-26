@@ -122,8 +122,12 @@ const AVATARS = ['🦁', '🐻', '🐯', '🦊', '🐸', '🐬', '🦋', '🐧',
 const ParentalAreaPage = ({ onNavigate }: ParentalAreaPageProps) => {
   const [view, setView] = useState<View>('main');
 
-  // Profile
-  const [avatar, setAvatar] = useState('🦁');
+  // Profile — persist avatar to localStorage so DrawerMenu can show it
+  const [avatar, setAvatar] = useState(() => localStorage.getItem('bibloo_avatar') || '🦁');
+  const updateAvatar = (a: string) => {
+    setAvatar(a);
+    localStorage.setItem('bibloo_avatar', a);
+  };
   const [childName, setChildName] = useState('Bibloo Kid');
   const [editingName, setEditingName] = useState(false);
   const [tempName, setTempName] = useState(childName);
@@ -191,7 +195,7 @@ const ParentalAreaPage = ({ onNavigate }: ParentalAreaPageProps) => {
           <div className="space-y-2">
             <SectionRow icon={<Lock size={17} />} label="Alterar PIN" sublabel="Mude o PIN de acesso parental" onPress={() => { setPinStep('verify'); setPinInput(''); setNewPin(''); setPinError(''); setPinSuccess(false); go('pin'); }} />
             <SectionRow icon={<Clock size={17} />} label="Tempo de Tela" sublabel={screenTimeEnabled ? `Limite: ${dailyLimit} min/dia` : 'Desativado'} onPress={() => go('screenTime')} />
-            <SectionRow icon={<Plus size={17} />} label="Adicionar Irmão" sublabel="Crie outro perfil infantil" />
+            <SectionRow icon={<Plus size={17} />} label="Adicionar Irmão" sublabel="Crie outro perfil infantil" onPress={() => onNavigate('addSibling')} />
           </div>
         </div>
 
@@ -234,7 +238,7 @@ const ParentalAreaPage = ({ onNavigate }: ParentalAreaPageProps) => {
             {AVATARS.map((a) => (
               <motion.button
                 key={a} whileTap={{ scale: 0.88 }}
-                onClick={() => setAvatar(a)}
+                onClick={() => updateAvatar(a)}
                 className="aspect-square rounded-2xl flex items-center justify-center text-3xl"
                 style={{
                   background: avatar === a ? 'rgba(80,50,0,0.85)' : 'rgba(6,18,58,0.82)',

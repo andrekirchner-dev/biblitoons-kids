@@ -50,7 +50,7 @@ const SectionRow = ({
     whileTap={{ scale: 0.97 }}
     onClick={onPress}
     className="w-full flex items-center gap-3 px-4 py-3 rounded-2xl"
-    style={{ background: 'rgba(8,4,28,0.88)', border: '1px solid rgba(255,255,255,0.45)', cursor: 'pointer' }}
+    style={{ background: 'rgba(6,18,58,0.88)', border: '1px solid rgba(100,160,255,0.45)', cursor: 'pointer' }}
   >
     <div className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0"
       style={{ background: danger ? 'rgba(255,60,60,0.2)' : 'rgba(255,215,0,0.15)' }}>
@@ -71,7 +71,7 @@ const ToggleRow = ({
   icon: React.ReactNode; label: string; sublabel?: string; value: boolean; onChange: (v: boolean) => void;
 }) => (
   <div className="w-full flex items-center gap-3 px-4 py-3 rounded-2xl"
-    style={{ background: 'rgba(8,4,28,0.88)', border: '1px solid rgba(255,255,255,0.45)' }}>
+    style={{ background: 'rgba(6,18,58,0.88)', border: '1px solid rgba(100,160,255,0.45)' }}>
     <div className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0"
       style={{ background: 'rgba(255,215,0,0.15)' }}>
       <span style={{ color: '#FFD700' }}>{icon}</span>
@@ -177,9 +177,17 @@ const ParentalAreaPage = ({ onNavigate }: ParentalAreaPageProps) => {
 
         {/* Parental controls */}
         <div>
-          <p className="font-penmanship font-bold text-white/80 text-xs uppercase tracking-wider mb-2 px-1">
-            🔒 Controles Parentais
-          </p>
+          <div className="flex items-center gap-2.5 px-4 py-2.5 rounded-2xl mb-2"
+            style={{
+              background: 'rgba(15,45,130,0.80)',
+              border: '1.5px solid rgba(100,160,255,0.60)',
+              boxShadow: '0 2px 14px rgba(60,120,255,0.22)',
+            }}>
+            <span style={{ fontSize: 15 }}>🔒</span>
+            <p className="font-penmanship font-bold text-white text-xs uppercase tracking-widest">
+              Controles Parentais
+            </p>
+          </div>
           <div className="space-y-2">
             <SectionRow icon={<Lock size={17} />} label="Alterar PIN" sublabel="Mude o PIN de acesso parental" onPress={() => { setPinStep('verify'); setPinInput(''); setNewPin(''); setPinError(''); setPinSuccess(false); go('pin'); }} />
             <SectionRow icon={<Clock size={17} />} label="Tempo de Tela" sublabel={screenTimeEnabled ? `Limite: ${dailyLimit} min/dia` : 'Desativado'} onPress={() => go('screenTime')} />
@@ -189,9 +197,17 @@ const ParentalAreaPage = ({ onNavigate }: ParentalAreaPageProps) => {
 
         {/* General settings */}
         <div>
-          <p className="font-penmanship font-bold text-white/80 text-xs uppercase tracking-wider mb-2 px-1">
-            ⚙️ Configurações Gerais
-          </p>
+          <div className="flex items-center gap-2.5 px-4 py-2.5 rounded-2xl mb-2"
+            style={{
+              background: 'rgba(15,45,130,0.80)',
+              border: '1.5px solid rgba(100,160,255,0.60)',
+              boxShadow: '0 2px 14px rgba(60,120,255,0.22)',
+            }}>
+            <span style={{ fontSize: 15 }}>⚙️</span>
+            <p className="font-penmanship font-bold text-white text-xs uppercase tracking-widest">
+              Configurações Gerais
+            </p>
+          </div>
           <div className="space-y-2">
             <SectionRow icon={<Bell size={17} />} label="Notificações" sublabel="Gerencie alertas do app" onPress={() => go('notifications')} />
             <SectionRow icon={<HardDrive size={17} />} label="Armazenamento" sublabel="Gerencie cache e dados" onPress={() => go('storage')} />
@@ -221,7 +237,7 @@ const ParentalAreaPage = ({ onNavigate }: ParentalAreaPageProps) => {
                 onClick={() => setAvatar(a)}
                 className="aspect-square rounded-2xl flex items-center justify-center text-3xl"
                 style={{
-                  background: avatar === a ? 'rgba(80,50,0,0.85)' : 'rgba(8,4,28,0.82)',
+                  background: avatar === a ? 'rgba(80,50,0,0.85)' : 'rgba(6,18,58,0.82)',
                   border: avatar === a ? '2px solid rgba(255,215,0,0.9)' : '1px solid rgba(255,255,255,0.4)',
                   filter: avatar === a ? GLOW : 'none',
                 }}
@@ -261,7 +277,7 @@ const ParentalAreaPage = ({ onNavigate }: ParentalAreaPageProps) => {
             <motion.button whileTap={{ scale: 0.97 }}
               onClick={() => { setTempName(childName); setEditingName(true); }}
               className="w-full flex items-center gap-3 px-4 py-3 rounded-2xl"
-              style={{ background: 'rgba(8,4,28,0.88)', border: '1px solid rgba(255,255,255,0.45)' }}>
+              style={{ background: 'rgba(6,18,58,0.88)', border: '1px solid rgba(100,160,255,0.45)' }}>
               <span className="font-penmanship text-white flex-1 text-left text-sm">{childName}</span>
               <Edit3 size={15} className="text-white/40" />
             </motion.button>
@@ -347,8 +363,8 @@ const ParentalAreaPage = ({ onNavigate }: ParentalAreaPageProps) => {
                     onClick={() => handlePinKey(k)}
                     className="aspect-square rounded-2xl flex items-center justify-center font-penmanship font-bold text-white text-xl"
                     style={{
-                      background: k === 'del' ? 'rgba(80,10,10,0.85)' : 'rgba(8,4,28,0.85)',
-                      border: '1px solid rgba(255,255,255,0.40)', cursor: 'pointer',
+                      background: k === 'del' ? 'rgba(80,10,10,0.85)' : 'rgba(6,18,58,0.85)',
+                      border: '1px solid rgba(100,160,255,0.40)', cursor: 'pointer',
                     }}>
                     {k === 'del' ? '⌫' : k}
                   </motion.button>
@@ -382,13 +398,13 @@ const ParentalAreaPage = ({ onNavigate }: ParentalAreaPageProps) => {
           {screenTimeEnabled && (
             <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }}
               className="rounded-2xl p-4 space-y-4"
-              style={{ background: 'rgba(8,4,28,0.88)', border: '1px solid rgba(255,255,255,0.45)' }}>
+              style={{ background: 'rgba(6,18,58,0.88)', border: '1px solid rgba(100,160,255,0.45)' }}>
               <p className="font-penmanship font-bold text-white text-sm">Limite por dia</p>
               <div className="flex items-center gap-4">
                 <motion.button whileTap={{ scale: 0.88 }}
                   onClick={() => setDailyLimit((l) => Math.max(15, l - 15))}
                   className="w-10 h-10 rounded-full flex items-center justify-center"
-                  style={{ background: 'rgba(8,4,28,0.82)', border: '1px solid rgba(255,255,255,0.38)' }}>
+                  style={{ background: 'rgba(6,18,58,0.82)', border: '1px solid rgba(100,160,255,0.38)' }}>
                   <Minus size={16} className="text-white" />
                 </motion.button>
                 <div className="flex-1 text-center">
@@ -398,7 +414,7 @@ const ParentalAreaPage = ({ onNavigate }: ParentalAreaPageProps) => {
                 <motion.button whileTap={{ scale: 0.88 }}
                   onClick={() => setDailyLimit((l) => Math.min(180, l + 15))}
                   className="w-10 h-10 rounded-full flex items-center justify-center"
-                  style={{ background: 'rgba(8,4,28,0.82)', border: '1px solid rgba(255,255,255,0.38)' }}>
+                  style={{ background: 'rgba(6,18,58,0.82)', border: '1px solid rgba(100,160,255,0.38)' }}>
                   <Plus size={16} className="text-white" />
                 </motion.button>
               </div>
@@ -407,7 +423,7 @@ const ParentalAreaPage = ({ onNavigate }: ParentalAreaPageProps) => {
 
           {/* Weekly chart */}
           <div className="rounded-2xl p-4 space-y-3"
-            style={{ background: 'rgba(8,4,28,0.88)', border: '1px solid rgba(255,255,255,0.45)' }}>
+            style={{ background: 'rgba(6,18,58,0.88)', border: '1px solid rgba(100,160,255,0.45)' }}>
             <p className="font-penmanship font-bold text-white text-sm">📊 Esta semana</p>
             <div className="flex items-end gap-2 h-24">
               {weekData.map((val, i) => {
@@ -469,7 +485,7 @@ const ParentalAreaPage = ({ onNavigate }: ParentalAreaPageProps) => {
         <BackBtn onBack={() => go('main')} label="💾 Armazenamento" />
         <div className="px-4 pb-8 space-y-4 pt-2">
           <div className="rounded-2xl p-4 space-y-3"
-            style={{ background: 'rgba(8,4,28,0.88)', border: '1px solid rgba(255,255,255,0.45)' }}>
+            style={{ background: 'rgba(6,18,58,0.88)', border: '1px solid rgba(100,160,255,0.45)' }}>
             <p className="font-penmanship font-bold text-white text-sm mb-1">Uso total: ~8.1 MB</p>
             {/* Stacked bar */}
             <div className="w-full h-4 rounded-full overflow-hidden flex" style={{ background: 'rgba(255,255,255,0.25)' }}>
@@ -495,7 +511,7 @@ const ParentalAreaPage = ({ onNavigate }: ParentalAreaPageProps) => {
           </motion.button>
           <motion.button whileTap={{ scale: 0.95 }}
             className="w-full py-3 rounded-2xl font-penmanship font-bold text-sm"
-            style={{ background: 'rgba(8,4,28,0.88)', border: '1px solid rgba(255,255,255,0.15)', color: 'rgba(255,255,255,0.7)', cursor: 'pointer' }}>
+            style={{ background: 'rgba(6,18,58,0.88)', border: '1px solid rgba(255,255,255,0.15)', color: 'rgba(255,255,255,0.7)', cursor: 'pointer' }}>
             📂 Redownload Bíblia Ilustrada
           </motion.button>
         </div>
@@ -536,7 +552,7 @@ const ParentalAreaPage = ({ onNavigate }: ParentalAreaPageProps) => {
                 style={{ background: 'rgba(255,215,0,0.25)', color: '#FFD700' }}>POPULAR</span>
             </p>
           </div>
-          <div className="px-4 py-3 space-y-2" style={{ background: 'rgba(8,4,28,0.60)' }}>
+          <div className="px-4 py-3 space-y-2" style={{ background: 'rgba(6,18,58,0.60)' }}>
             {['Bíblia ilustrada completa', 'Todos os mini-jogos', 'Vídeos BíbliaFlix ilimitados',
               'Perfis múltiplos (até 3 filhos)', 'Sem anúncios'].map((f) => (
               <div key={f} className="flex items-center gap-2">
@@ -570,11 +586,11 @@ const ParentalAreaPage = ({ onNavigate }: ParentalAreaPageProps) => {
         <div className="px-4 pb-8 space-y-4 pt-2">
           {faqs.map((faq, i) => (
             <div key={i} className="rounded-2xl overflow-hidden"
-              style={{ border: '1px solid rgba(255,255,255,0.45)' }}>
+              style={{ border: '1px solid rgba(100,160,255,0.45)' }}>
               <motion.button whileTap={{ scale: 0.98 }}
                 onClick={() => setOpenFaq(openFaq === i ? null : i)}
                 className="w-full flex items-center gap-3 px-4 py-3"
-                style={{ background: 'rgba(8,4,28,0.88)', cursor: 'pointer' }}>
+                style={{ background: 'rgba(6,18,58,0.88)', cursor: 'pointer' }}>
                 <span className="font-penmanship font-bold text-white text-sm flex-1 text-left">{faq.q}</span>
                 {openFaq === i ? <ChevronUp size={15} className="text-white/40 flex-shrink-0" /> : <ChevronDown size={15} className="text-white/40 flex-shrink-0" />}
               </motion.button>

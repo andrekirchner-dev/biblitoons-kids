@@ -138,29 +138,57 @@ function bfsPath(
 
 /* ─────────────────────────────────────────
    ITEM PLACEMENT
+   Traps (🌵) are NEVER placed on the BFS
+   solution path so no level is ever blocked.
 ───────────────────────────────────────── */
-function placeItems(rows: number, cols: number, seed: number): Map<string, ItemType> {
+function placeItems(
+  rows: number,
+  cols: number,
+  seed: number,
+  solutionPath: Set<string>
+): Map<string, ItemType> {
   const rng = mkRng(seed);
   const map = new Map<string, ItemType>();
-  const cells: string[] = [];
+  const pathCells: string[] = [];   // cells ON the solution path  → only beneficial items
+  const offCells: string[] = [];    // cells OFF the solution path → any item incl. traps
 
-  for (let r = 0; r < rows; r++)
-    for (let c = 0; c < cols; c++)
-      if (!(r === 0 && c === 0) && !(r === rows - 1 && c === cols - 1))
-        cells.push(`${r},${c}`);
+  for (let r = 0; r < rows; r++) {
+    for (let c = 0; c < cols; c++) {
+      const key = `${r},${c}`;
+      if (key === "0,0") continue;                          // skip start
+      if (r === rows - 1 && c === cols - 1) continue;      // skip exit
+      if (solutionPath.has(key)) pathCells.push(key);
+      else offCells.push(key);
+    }
+  }
 
-  const numItems = Math.max(3, Math.floor(cells.length * 0.1));
-  const shuffled = shuffle(cells, rng);
+  const numItems = Math.max(3, Math.floor((pathCells.length + offCells.length) * 0.10));
+  const shuffledPath = shuffle(pathCells, rng);
+  const shuffledOff  = shuffle(offCells,  rng);
 
-  for (let i = 0; i < numItems && i < shuffled.length; i++) {
+  // Place ~30 % of items on path (only beneficial), rest off-path (may be traps)
+  const onPathCount = Math.min(Math.floor(numItems * 0.30), shuffledPath.length);
+  const offCount    = Math.min(numItems - onPathCount, shuffledOff.length);
+
+  for (let i = 0; i < onPathCount; i++) {
     const roll = rng();
     let type: ItemType;
-    if (roll < 0.25) type = "heart";
-    else if (roll < 0.45) type = "compass";
-    else if (roll < 0.60) type = "water";
-    else type = "trap";
-    map.set(shuffled[i], type);
+    if (roll < 0.45) type = "heart";
+    else if (roll < 0.75) type = "compass";
+    else type = "water";
+    map.set(shuffledPath[i], type);
   }
+
+  for (let i = 0; i < offCount; i++) {
+    const roll = rng();
+    let type: ItemType;
+    if (roll < 0.22) type = "heart";
+    else if (roll < 0.40) type = "compass";
+    else if (roll < 0.55) type = "water";
+    else type = "trap";                  // traps only off the critical path
+    map.set(shuffledOff[i], type);
+  }
+
   return map;
 }
 
@@ -223,7 +251,17 @@ const MazeGame = ({ onNavigate }: MazeGameProps) => {
 
   // Deterministic maze + items per level
   const maze = useMemo(() => generateMaze(rows, cols, level * 1337 + 42), [level, rows, cols]);
-  const levelItems = useMemo(() => placeItems(rows, cols, level * 7919 + 13), [level, rows, cols]);
+
+  // Compute the canonical solution path so we can keep traps OFF it
+  const solutionPath = useMemo(
+    () => bfsPath(maze, rows, cols, 0, 0),
+    [maze, rows, cols]
+  );
+
+  const levelItems = useMemo(
+    () => placeItems(rows, cols, level * 7919 + 13, solutionPath),
+    [level, rows, cols, solutionPath]
+  );
 
   const [playerPos, setPlayerPos] = useState<[number, number]>([0, 0]);
   const [collected, setCollected] = useState<Set<string>>(new Set());

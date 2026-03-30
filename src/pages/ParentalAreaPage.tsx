@@ -233,7 +233,15 @@ const ParentalAreaPage = ({ onNavigate }: ParentalAreaPageProps) => {
       <div className="px-4 pb-8 space-y-5">
         {/* Avatar grid */}
         <div>
-          <p className="font-penmanship font-bold text-white text-sm mb-3">Escolha um Avatar</p>
+          <div className="flex items-center gap-2.5 px-4 py-2.5 rounded-2xl mb-3"
+            style={{
+              background: 'rgba(15,45,130,0.80)',
+              border: '1.5px solid rgba(100,160,255,0.60)',
+              boxShadow: '0 2px 14px rgba(60,120,255,0.22)',
+            }}>
+            <span style={{ fontSize: 15 }}>🎨</span>
+            <p className="font-penmanship font-bold text-white text-xs uppercase tracking-widest">Escolha um Avatar</p>
+          </div>
           <div className="grid grid-cols-5 gap-3">
             {AVATARS.map((a) => (
               <motion.button
@@ -530,12 +538,12 @@ const ParentalAreaPage = ({ onNavigate }: ParentalAreaPageProps) => {
       <div className="px-4 pb-8 space-y-4 pt-2">
         {/* Current plan */}
         <div className="rounded-2xl p-4"
-          style={{ background: 'rgba(255,215,0,0.1)', border: '1.5px solid rgba(255,215,0,0.35)' }}>
+          style={{ background: 'rgba(6,18,58,0.92)', border: '1.5px solid rgba(255,215,0,0.55)', boxShadow: '0 2px 14px rgba(255,184,0,0.15)' }}>
           <div className="flex items-center gap-3 mb-2">
             <div className="text-3xl">⭐</div>
             <div>
               <p className="font-penmanship font-bold text-white text-base">Plano Gratuito</p>
-              <p className="font-penmanship text-white/50 text-xs">Acesso limitado aos conteúdos</p>
+              <p className="font-penmanship text-white/60 text-xs">Acesso limitado aos conteúdos</p>
             </div>
           </div>
           <div className="flex gap-2 flex-wrap">

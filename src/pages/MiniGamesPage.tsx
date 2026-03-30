@@ -55,12 +55,12 @@ const GAMES = [
   },
   {
     id: "labirinto",
-    title: "Labirinto",
-    description: "Ajude Moisés a encontrar o caminho no deserto",
-    emoji: "🌀",
-    color: "#00BCD4",
-    border: "#006064",
-    available: false,
+    title: "Labirinto de Moisés",
+    description: "Ajude Moisés a atravessar o deserto em 50 fases!",
+    emoji: "🧎",
+    color: "#FF9800",
+    border: "#E65100",
+    available: true,
   },
 ];
 
@@ -108,21 +108,21 @@ const MiniGamesPage = ({ onNavigate }: MiniGamesPageProps) => {
         </h1>
       </div>
 
-      {/* Coming soon banner */}
+      {/* Banner */}
       <motion.div
         initial={{ opacity: 0, y: -8 }}
         animate={{ opacity: 1, y: 0 }}
         className="mx-4 rounded-2xl px-4 py-3 mb-4 flex items-center gap-3"
         style={{
-          background: "rgba(255,215,0,0.15)",
-          border: "1.5px solid rgba(255,215,0,0.4)",
+          background: "rgba(255,152,0,0.15)",
+          border: "1.5px solid rgba(255,152,0,0.45)",
         }}
       >
-        <span style={{ fontSize: 22 }}>🚀</span>
+        <span style={{ fontSize: 22 }}>🧎</span>
         <div>
-          <p className="font-penmanship font-bold text-white text-sm">Em breve!</p>
+          <p className="font-penmanship font-bold text-white text-sm">Labirinto de Moisés disponível!</p>
           <p className="font-penmanship text-white/70 text-xs">
-            Os jogos estão sendo criados com muito carinho para você!
+            50 fases, 3 vidas e poderes especiais te esperam!
           </p>
         </div>
       </motion.div>
@@ -136,6 +136,7 @@ const MiniGamesPage = ({ onNavigate }: MiniGamesPageProps) => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: i * 0.07 }}
             whileTap={{ scale: 0.97 }}
+            onClick={() => game.available && onNavigate(`game-${game.id}`)}
             className="rounded-2xl p-4 flex flex-col items-center text-center relative overflow-hidden cursor-pointer"
             style={{
               background: "rgba(30,20,10,0.72)",

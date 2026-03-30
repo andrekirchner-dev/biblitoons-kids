@@ -241,11 +241,19 @@ const SearchPage = ({ onNavigate }: SearchPageProps) => {
           <div className="flex-1 flex flex-col items-center justify-center px-5 pb-16">
             <div style={{ width: '100%' }}>
               {/* Hint text above the box */}
-              <div className="flex flex-col items-center gap-1 mb-5">
-                <p className="font-penmanship font-bold text-white text-lg text-center">
+              <div
+                className="flex flex-col items-center gap-1 mb-5 px-5 py-4 rounded-2xl"
+                style={{
+                  background: 'rgba(255,255,255,0.88)',
+                  backdropFilter: 'blur(8px)',
+                }}
+              >
+                <p className="font-penmanship font-bold text-center text-lg"
+                  style={{ color: '#0f0726' }}>
                   O que você quer encontrar hoje?
                 </p>
-                <p className="font-penmanship text-white/45 text-center text-xs px-6">
+                <p className="font-penmanship text-center text-xs px-2"
+                  style={{ color: 'rgba(15,7,38,0.55)' }}>
                   Exemplo: "João 3:16", "Gênesis 1", "amor"
                 </p>
               </div>

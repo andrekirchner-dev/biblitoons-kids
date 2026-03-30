@@ -240,6 +240,15 @@ const SearchPage = ({ onNavigate }: SearchPageProps) => {
         {!searched && (
           <div className="flex-1 flex flex-col items-center justify-center px-5 pb-16">
             <div style={{ width: '100%' }}>
+              {/* Hint text above the box */}
+              <div className="flex flex-col items-center gap-1 mb-5">
+                <p className="font-penmanship font-bold text-white text-lg text-center">
+                  O que você quer encontrar hoje?
+                </p>
+                <p className="font-penmanship text-white/45 text-center text-xs px-6">
+                  Exemplo: "João 3:16", "Gênesis 1", "amor"
+                </p>
+              </div>
               <SearchBox
                 query={query}
                 onChange={setQuery}

@@ -22,6 +22,7 @@ import ReflectPage from "@/pages/ReflectPage";
 import BibliaIlustradaPage from "@/pages/BibliaIlustradaPage";
 import ProductPage from "@/pages/ProductPage";
 import AddSiblingPage from "@/pages/AddSiblingPage";
+import MazeGame from "@/pages/MazeGame";
 
 interface ChildProfile {
   id: string;
@@ -152,6 +153,8 @@ const AppShell = () => {
         return <BibliaIlustradaPage onNavigate={handleNavigate} />;
       case "addSibling":
         return <AddSiblingPage onNavigate={handleNavigate} />;
+      case "game-labirinto":
+        return <MazeGame onNavigate={handleNavigate} />;
       case "product-avatar-leao":
       case "product-coroa":
       case "product-cores":

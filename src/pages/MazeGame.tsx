@@ -28,20 +28,31 @@ const ITEM_EMOJI: Record<ItemType, string> = {
   trap: "🌵",
 };
 
+// Rectangular mazes — wider than tall so they fill the screen landscape.
+// Each tier (10 levels) increases in size for greater difficulty.
 function getMazeSize(level: number): [number, number] {
-  if (level <= 10) return [5, 5];
-  if (level <= 20) return [7, 7];
-  if (level <= 30) return [9, 9];
-  if (level <= 40) return [11, 11];
-  return [13, 13];
+  if (level <= 10) return [5, 8];    // easy
+  if (level <= 20) return [7, 11];   // medium
+  if (level <= 30) return [9, 14];   // hard
+  if (level <= 40) return [11, 17];  // harder
+  return [13, 20];                   // expert
 }
 
 function getTimeLimit(level: number): number {
-  if (level <= 10) return 75;
-  if (level <= 20) return 100;
-  if (level <= 30) return 130;
+  if (level <= 10) return 90;
+  if (level <= 20) return 110;
+  if (level <= 30) return 135;
   if (level <= 40) return 160;
-  return 200;
+  return 190;
+}
+
+// Trap density increases every 10 levels
+function getTrapWeight(level: number): number {
+  if (level <= 10) return 0.32;
+  if (level <= 20) return 0.38;
+  if (level <= 30) return 0.43;
+  if (level <= 40) return 0.48;
+  return 0.52;
 }
 
 /* ─────────────────────────────────────────
@@ -145,8 +156,10 @@ function placeItems(
   rows: number,
   cols: number,
   seed: number,
-  solutionPath: Set<string>
+  solutionPath: Set<string>,
+  level: number
 ): Map<string, ItemType> {
+  const trapWeight = getTrapWeight(level);
   const rng = mkRng(seed);
   const map = new Map<string, ItemType>();
   const pathCells: string[] = [];   // cells ON the solution path  → only beneficial items
@@ -182,10 +195,11 @@ function placeItems(
   for (let i = 0; i < offCount; i++) {
     const roll = rng();
     let type: ItemType;
-    if (roll < 0.22) type = "heart";
-    else if (roll < 0.40) type = "compass";
-    else if (roll < 0.55) type = "water";
-    else type = "trap";                  // traps only off the critical path
+    // trapWeight grows each tier; beneficial items fill the rest
+    if (roll < trapWeight) type = "trap";
+    else if (roll < trapWeight + 0.22) type = "heart";
+    else if (roll < trapWeight + 0.38) type = "compass";
+    else type = "water";
     map.set(shuffledOff[i], type);
   }
 
@@ -222,11 +236,11 @@ function saveCoins(n: number) {
 }
 
 /* ─────────────────────────────────────────
-   CELL SIZE
+   CELL SIZE — based on cols (wider axis)
 ───────────────────────────────────────── */
-function cellSize(rows: number): number {
-  const available = Math.min(window.innerWidth - 32, 380);
-  return Math.floor(available / rows);
+function cellSize(cols: number): number {
+  const available = Math.min(window.innerWidth - 32, 390);
+  return Math.floor(available / cols);
 }
 
 /* ─────────────────────────────────────────
@@ -247,7 +261,7 @@ const MazeGame = ({ onNavigate }: MazeGameProps) => {
   const [gameState, setGameState] = useState<GameState>("playing");
 
   const [rows, cols] = getMazeSize(level);
-  const cs = cellSize(rows);
+  const cs = cellSize(cols); // size by wider axis so maze fills horizontally
 
   // Deterministic maze + items per level
   const maze = useMemo(() => generateMaze(rows, cols, level * 1337 + 42), [level, rows, cols]);
@@ -259,7 +273,7 @@ const MazeGame = ({ onNavigate }: MazeGameProps) => {
   );
 
   const levelItems = useMemo(
-    () => placeItems(rows, cols, level * 7919 + 13, solutionPath),
+    () => placeItems(rows, cols, level * 7919 + 13, solutionPath, level),
     [level, rows, cols, solutionPath]
   );
 
@@ -457,34 +471,31 @@ const MazeGame = ({ onNavigate }: MazeGameProps) => {
       <div style={{ maxWidth: 428, width: "100%", margin: "0 auto", flex: 1, display: "flex", flexDirection: "column", minHeight: 0 }}>
 
         {/* ── HEADER ── */}
-        <div className="flex items-center justify-between px-3 pt-3 pb-2 flex-shrink-0">
+        <div className="flex items-center px-3 pt-3 pb-2 flex-shrink-0" style={{ gap: 8 }}>
+          {/* Back button — fixed size, never shrinks */}
           <motion.button
             whileTap={{ scale: 0.88 }}
             onClick={() => onNavigate("miniGames")}
             style={{
-              width: 40, height: 40, borderRadius: "50%",
+              width: 40, height: 40, minWidth: 40, borderRadius: "50%",
               background: "rgba(0,0,0,0.4)", border: "2px solid rgba(255,215,0,0.5)",
-              display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer",
+              display: "flex", alignItems: "center", justifyContent: "center",
+              cursor: "pointer", flexShrink: 0,
             }}
           >
             <ChevronLeft className="text-white" size={20} />
           </motion.button>
 
-          {/* Level */}
-          <div className="flex flex-col items-center">
+          {/* Level label — centred, expands */}
+          <div className="flex-1 text-center">
             <span className="font-penmanship font-bold text-white text-sm">Nível {level}/50</span>
-            <div className="flex gap-0.5 mt-0.5">
-              {Array.from({ length: 50 }, (_, i) => (
-                <div key={i} style={{ width: 4, height: 4, borderRadius: "50%", background: i < level ? "#FFD700" : "rgba(255,255,255,0.2)" }} />
-              ))}
-            </div>
           </div>
 
-          {/* Lives + coins row */}
-          <div className="flex items-center gap-2">
-            <div className="flex items-center gap-0.5">
+          {/* Lives + coins — fixed min-width so hearts never overflow */}
+          <div style={{ minWidth: 108, display: "flex", alignItems: "center", gap: 6, justifyContent: "flex-end", flexShrink: 0 }}>
+            <div style={{ display: "flex", gap: 2 }}>
               {Array.from({ length: MAX_LIVES }, (_, i) => (
-                <span key={i} style={{ fontSize: 16, opacity: i < lives ? 1 : 0.25 }}>❤️</span>
+                <span key={i} style={{ fontSize: 18, opacity: i < lives ? 1 : 0.22, lineHeight: 1 }}>❤️</span>
               ))}
             </div>
             <div className="flex items-center gap-1 px-2 py-1 rounded-xl"

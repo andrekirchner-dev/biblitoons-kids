@@ -1,6 +1,6 @@
 import { useState, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronLeft, Search, X, BookOpen, Loader2 } from 'lucide-react';
+import { ChevronLeft, Search, X, Loader2 } from 'lucide-react';
 import { bibleApi, BibleBook, extractVerseText } from '@/services/bibleApi';
 import { useBibleBooks } from '@/hooks/useBible';
 
@@ -33,6 +33,73 @@ function parseReference(query: string, books: BibleBook[]): { book: BibleBook; c
   if (!book || chapterNum < 1 || chapterNum > book.numberOfChapters) return null;
   return { book, chapter: chapterNum, verse: verseNum };
 }
+
+/* ── Shared search box component ── */
+const SearchBox = ({
+  query, onChange, onKeyDown, onClear, onSearch, loading,
+}: {
+  query: string;
+  onChange: (v: string) => void;
+  onKeyDown: (e: React.KeyboardEvent) => void;
+  onClear: () => void;
+  onSearch: () => void;
+  loading: boolean;
+}) => (
+  /* Low-opacity wrapper box */
+  <div
+    className="rounded-3xl p-5"
+    style={{
+      background: 'rgba(255,255,255,0.04)',
+      border: '1px solid rgba(255,255,255,0.09)',
+      backdropFilter: 'blur(6px)',
+    }}
+  >
+    {/* Input row */}
+    <div
+      className="flex items-center gap-2 rounded-2xl px-4 py-3 mb-4"
+      style={{
+        background: 'rgba(6,18,58,0.88)',
+        border: '2px solid rgba(255,215,0,0.50)',
+        boxShadow: '0 4px 20px rgba(255,184,0,0.14)',
+      }}
+    >
+      <Search style={{ color: '#FFD700', filter: GLOW, flexShrink: 0 }} size={20} />
+      <input
+        type="text"
+        placeholder=""
+        value={query}
+        onChange={(e) => onChange(e.target.value)}
+        onKeyDown={onKeyDown}
+        className="flex-1 bg-transparent outline-none font-penmanship text-sm"
+        style={{ color: 'white' }}
+        autoFocus
+      />
+      {query ? (
+        <button onClick={onClear}>
+          <X className="text-white/60" size={16} />
+        </button>
+      ) : null}
+    </div>
+
+    {/* Buscar button */}
+    <div className="flex justify-center">
+      <motion.button
+        whileTap={{ scale: 0.96 }}
+        onClick={onSearch}
+        disabled={loading}
+        className="rounded-2xl px-10 py-2.5 font-penmanship font-bold text-white text-sm"
+        style={{
+          background: 'linear-gradient(180deg, #FFB800 0%, #FF8C00 100%)',
+          boxShadow: '0 4px 16px rgba(255,140,0,0.38)',
+          cursor: 'pointer',
+          border: 'none',
+        }}
+      >
+        {loading ? <Loader2 size={16} className="animate-spin" /> : '🔍 Buscar'}
+      </motion.button>
+    </div>
+  </div>
+);
 
 const SearchPage = ({ onNavigate }: SearchPageProps) => {
   const { data: books } = useBibleBooks();
@@ -84,9 +151,9 @@ const SearchPage = ({ onNavigate }: SearchPageProps) => {
     );
     setBookMatches(matchedBooks);
 
-    // 3. Verse keyword search — scan Genesis ch1 as a demo (full search would need backend)
+    // 3. Verse keyword search
     const keywordResults: SearchResult[] = [];
-    const topBooks = books.slice(0, 5); // Search first 5 books for performance
+    const topBooks = books.slice(0, 5);
     for (const book of topBooks) {
       if (keywordResults.length >= 10) break;
       try {
@@ -130,235 +197,195 @@ const SearchPage = ({ onNavigate }: SearchPageProps) => {
 
   return (
     <div
-      className="mx-auto flex flex-col"
       style={{
-        width: '100%',
-        maxWidth: 428,
-        minHeight: '100dvh',
+        position: 'fixed',
+        inset: 0,
+        display: 'flex',
+        flexDirection: 'column',
         paddingTop: 'env(safe-area-inset-top, 0px)',
-        paddingBottom: 'calc(68px + env(safe-area-inset-bottom, 0px))',
       }}
     >
-      {/* Header — back button row */}
       <div
-        className="flex items-center gap-2 px-3 pt-5 pb-2"
         style={{
-          background: 'linear-gradient(180deg, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.1) 100%)',
-          backdropFilter: 'blur(8px)',
+          maxWidth: 428, width: '100%', margin: '0 auto',
+          flex: 1, display: 'flex', flexDirection: 'column', minHeight: 0,
         }}
       >
-        <motion.button
-          whileTap={{ scale: 0.88 }}
-          onClick={() => onNavigate('home')}
-          className="flex items-center justify-center flex-shrink-0"
+        {/* Header */}
+        <div
+          className="flex items-center gap-2 px-3 pt-5 pb-2 flex-shrink-0"
           style={{
+            background: 'linear-gradient(180deg, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.1) 100%)',
+            backdropFilter: 'blur(8px)',
+          }}
+        >
+          <motion.button
+            whileTap={{ scale: 0.88 }}
+            onClick={() => onNavigate('home')}
+            style={{
               width: 44, height: 44, borderRadius: '50%',
               background: 'rgba(0,0,0,0.45)', border: '2px solid rgba(255,215,0,0.5)',
               filter: GLOW, cursor: 'pointer',
               display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
             }}
-        >
-          <ChevronLeft className="text-white" size={24} />
-        </motion.button>
-        <h1 className="font-penmanship font-bold text-white text-base flex-1 text-center mr-11">
-          🔍 Buscar na Bíblia
-        </h1>
-      </div>
-
-      {/* Centered prominent search bar */}
-      <div className="px-4 pt-4 pb-3">
-        <div
-          className="flex items-center gap-2 rounded-2xl px-4 py-3"
-          style={{
-            background: 'rgba(6,18,58,0.92)',
-            border: '2px solid rgba(255,215,0,0.55)',
-            boxShadow: '0 4px 20px rgba(255,184,0,0.18)',
-          }}
-        >
-          <Search style={{ color: '#FFD700', filter: GLOW, flexShrink: 0 }} size={20} />
-          <input
-            type="text"
-            placeholder="pesquise por livro, versículo, ou trecho da bíblia, exemplo joão 3:16..."
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            onKeyDown={handleKeyDown}
-            className="flex-1 bg-transparent outline-none font-penmanship text-sm"
-            style={{ color: 'white' }}
-            autoFocus
-          />
-          {query ? (
-            <button onClick={clearSearch}>
-              <X className="text-white/70" size={16} />
-            </button>
-          ) : null}
-        </div>
-        {/* Highlight text below the search bar */}
-        {!query && (
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            className="font-penmanship text-center mt-2 text-xs px-2"
-            style={{
-              background: 'linear-gradient(90deg, #FFB800, #FF8C00)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              backgroundClip: 'text',
-              fontWeight: 'bold',
-              letterSpacing: '0.01em',
-            }}
           >
-            pesquise por livro, versículo, ou trecho da bíblia, exemplo joão 3:16...
-          </motion.p>
-        )}
-        <div className="flex justify-center mt-3">
-          <motion.button
-            whileTap={{ scale: 0.96 }}
-            onClick={doSearch}
-            disabled={loading}
-            className="rounded-2xl px-8 py-2.5 font-penmanship font-bold text-white text-sm"
-            style={{
-              background: 'linear-gradient(180deg, #FFB800 0%, #FF8C00 100%)',
-              boxShadow: '0 4px 16px rgba(255,140,0,0.4)',
-              cursor: 'pointer',
-              border: 'none',
-            }}
-          >
-            {loading ? <Loader2 size={16} className="animate-spin" /> : '🔍 Buscar'}
+            <ChevronLeft className="text-white" size={24} />
           </motion.button>
+          <h1 className="font-penmanship font-bold text-white text-base flex-1 text-center mr-11">
+            🔍 Buscar na Bíblia
+          </h1>
         </div>
-      </div>
 
-      {/* Content */}
-      <div className="flex-1 overflow-y-auto px-4 py-3 space-y-4">
-        <AnimatePresence mode="wait">
-          {!searched && !loading && (
-            <motion.div
-              key="hint"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              className="flex flex-col items-center justify-center py-10 gap-3"
-            >
-              <BookOpen size={52} style={{ color: 'rgba(255,215,0,0.7)', filter: GLOW }} />
-              <p className="font-penmanship text-white/80 text-center text-base font-bold">
-                O que você quer encontrar hoje?
-              </p>
-              <p className="font-penmanship text-white/45 text-center text-xs px-8">
-                Exemplo: "João 3:16", "Gênesis 1", "amor"
-              </p>
-            </motion.div>
-          )}
+        {/* ── NOT YET SEARCHED: search box vertically centered ── */}
+        {!searched && (
+          <div className="flex-1 flex flex-col items-center justify-center px-5 pb-16">
+            <div style={{ width: '100%' }}>
+              <SearchBox
+                query={query}
+                onChange={setQuery}
+                onKeyDown={handleKeyDown}
+                onClear={clearSearch}
+                onSearch={doSearch}
+                loading={loading}
+              />
+            </div>
+          </div>
+        )}
 
-          {loading && (
-            <motion.div
-              key="loading"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              className="flex flex-col items-center justify-center py-16 gap-3"
-            >
-              <Loader2 size={36} className="animate-spin" style={{ color: '#FFD700', filter: GLOW }} />
-              <p className="font-penmanship text-white/70 text-sm">Buscando…</p>
-            </motion.div>
-          )}
+        {/* ── SEARCHED: search box at top + scrollable results ── */}
+        {searched && (
+          <div className="flex-1 flex flex-col" style={{ minHeight: 0 }}>
+            {/* Search box pinned at top */}
+            <div className="px-5 pt-4 pb-2 flex-shrink-0">
+              <SearchBox
+                query={query}
+                onChange={setQuery}
+                onKeyDown={handleKeyDown}
+                onClear={clearSearch}
+                onSearch={doSearch}
+                loading={loading}
+              />
+            </div>
 
-          {!loading && searched && (
-            <motion.div
-              key="results"
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0 }}
-              className="space-y-4"
+            {/* Scrollable results */}
+            <div
+              className="flex-1 overflow-y-auto px-4 py-3 space-y-4"
+              style={{ paddingBottom: 'calc(72px + env(safe-area-inset-bottom, 0px))' }}
             >
-              {/* Direct reference result */}
-              {refResult && (
-                <div>
-                  <p className="font-penmanship text-white/60 text-xs mb-2">VERSÍCULO ENCONTRADO</p>
+              <AnimatePresence mode="wait">
+                {loading && (
                   <motion.div
-                    whileTap={{ scale: 0.98 }}
-                    className="rounded-2xl p-4 cursor-pointer"
-                    style={{ background: 'rgba(255,215,0,0.15)', border: '1.5px solid rgba(255,215,0,0.4)' }}
+                    key="loading"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    className="flex flex-col items-center justify-center py-16 gap-3"
                   >
-                    <p className="font-penmanship font-bold text-yellow-300 text-sm mb-1">
-                      {refResult.reference}
-                    </p>
-                    <p className="font-penmanship text-white text-sm leading-relaxed">
-                      "{refResult.text}"
-                    </p>
+                    <Loader2 size={36} className="animate-spin" style={{ color: '#FFD700', filter: GLOW }} />
+                    <p className="font-penmanship text-white/70 text-sm">Buscando…</p>
                   </motion.div>
-                </div>
-              )}
+                )}
 
-              {/* Book matches */}
-              {bookMatches.length > 0 && (
-                <div>
-                  <p className="font-penmanship text-white/60 text-xs mb-2">LIVROS ENCONTRADOS</p>
-                  <div className="flex flex-wrap gap-2">
-                    {bookMatches.map((b) => (
-                      <motion.button
-                        key={b.id}
-                        whileTap={{ scale: 0.95 }}
-                        className="rounded-xl px-3 py-2 font-penmanship font-bold text-white text-xs"
-                        style={{
-                          background: b.order <= 39 ? '#4CAF50' : '#4A90D9',
-                          border: `2px solid ${b.order <= 39 ? '#2E7D32' : '#2B65A8'}`,
-                          boxShadow: '0 2px 8px rgba(0,0,0,0.3)',
-                        }}
-                        onClick={() => onNavigate('bible')}
-                      >
-                        {b.name}
-                      </motion.button>
-                    ))}
-                  </div>
-                </div>
-              )}
+                {!loading && (
+                  <motion.div
+                    key="results"
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0 }}
+                    className="space-y-4"
+                  >
+                    {/* Direct reference result */}
+                    {refResult && (
+                      <div>
+                        <p className="font-penmanship text-white/60 text-xs mb-2">VERSÍCULO ENCONTRADO</p>
+                        <motion.div
+                          whileTap={{ scale: 0.98 }}
+                          className="rounded-2xl p-4 cursor-pointer"
+                          style={{ background: 'rgba(255,215,0,0.15)', border: '1.5px solid rgba(255,215,0,0.4)' }}
+                        >
+                          <p className="font-penmanship font-bold text-yellow-300 text-sm mb-1">
+                            {refResult.reference}
+                          </p>
+                          <p className="font-penmanship text-white text-sm leading-relaxed">
+                            "{refResult.text}"
+                          </p>
+                        </motion.div>
+                      </div>
+                    )}
 
-              {/* Verse keyword results */}
-              {results.length > 0 && (
-                <div>
-                  <p className="font-penmanship text-white/60 text-xs mb-2">
-                    VERSÍCULOS COM "{query.toUpperCase()}"
-                  </p>
-                  <div className="space-y-2">
-                    {results.map((r, i) => (
-                      <motion.div
-                        key={i}
-                        initial={{ opacity: 0, y: 6 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: i * 0.05 }}
-                        whileTap={{ scale: 0.98 }}
-                        className="rounded-2xl p-3 cursor-pointer"
-                        style={{
-                          background: 'rgba(255,255,255,0.1)',
-                          border: '1px solid rgba(255,255,255,0.15)',
-                        }}
-                      >
-                        <p className="font-penmanship font-bold text-yellow-300 text-xs mb-1">
-                          {r.reference}
+                    {/* Book matches */}
+                    {bookMatches.length > 0 && (
+                      <div>
+                        <p className="font-penmanship text-white/60 text-xs mb-2">LIVROS ENCONTRADOS</p>
+                        <div className="flex flex-wrap gap-2">
+                          {bookMatches.map((b) => (
+                            <motion.button
+                              key={b.id}
+                              whileTap={{ scale: 0.95 }}
+                              className="rounded-xl px-3 py-2 font-penmanship font-bold text-white text-xs"
+                              style={{
+                                background: b.order <= 39 ? '#4CAF50' : '#4A90D9',
+                                border: `2px solid ${b.order <= 39 ? '#2E7D32' : '#2B65A8'}`,
+                                boxShadow: '0 2px 8px rgba(0,0,0,0.3)',
+                              }}
+                              onClick={() => onNavigate('bible')}
+                            >
+                              {b.name}
+                            </motion.button>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Verse keyword results */}
+                    {results.length > 0 && (
+                      <div>
+                        <p className="font-penmanship text-white/60 text-xs mb-2">
+                          VERSÍCULOS COM "{query.toUpperCase()}"
                         </p>
-                        <p className="font-penmanship text-white/80 text-sm leading-relaxed line-clamp-2">
-                          {r.text}
-                        </p>
-                      </motion.div>
-                    ))}
-                  </div>
-                </div>
-              )}
+                        <div className="space-y-2">
+                          {results.map((r, i) => (
+                            <motion.div
+                              key={i}
+                              initial={{ opacity: 0, y: 6 }}
+                              animate={{ opacity: 1, y: 0 }}
+                              transition={{ delay: i * 0.05 }}
+                              whileTap={{ scale: 0.98 }}
+                              className="rounded-2xl p-3 cursor-pointer"
+                              style={{
+                                background: 'rgba(255,255,255,0.1)',
+                                border: '1px solid rgba(255,255,255,0.15)',
+                              }}
+                            >
+                              <p className="font-penmanship font-bold text-yellow-300 text-xs mb-1">
+                                {r.reference}
+                              </p>
+                              <p className="font-penmanship text-white/80 text-sm leading-relaxed line-clamp-2">
+                                {r.text}
+                              </p>
+                            </motion.div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
 
-              {/* No results */}
-              {!refResult && bookMatches.length === 0 && results.length === 0 && (
-                <div className="flex flex-col items-center justify-center py-12 gap-3">
-                  <p className="font-penmanship text-white/60 text-center text-base">
-                    Nenhum resultado para "{query}"
-                  </p>
-                  <p className="font-penmanship text-white/40 text-center text-xs px-8">
-                    Tente buscar pelo nome do livro ou uma referência como "João 3:16"
-                  </p>
-                </div>
-              )}
-            </motion.div>
-          )}
-        </AnimatePresence>
+                    {/* No results */}
+                    {!refResult && bookMatches.length === 0 && results.length === 0 && (
+                      <div className="flex flex-col items-center justify-center py-12 gap-3">
+                        <p className="font-penmanship text-white/60 text-center text-base">
+                          Nenhum resultado para "{query}"
+                        </p>
+                        <p className="font-penmanship text-white/40 text-center text-xs px-8">
+                          Tente buscar pelo nome do livro ou uma referência como "João 3:16"
+                        </p>
+                      </div>
+                    )}
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

@@ -139,9 +139,9 @@ const SearchPage = ({ onNavigate }: SearchPageProps) => {
         paddingBottom: 'calc(68px + env(safe-area-inset-bottom, 0px))',
       }}
     >
-      {/* Header */}
+      {/* Header — back button row */}
       <div
-        className="flex items-center gap-2 px-3 pt-5 pb-4"
+        className="flex items-center gap-2 px-3 pt-5 pb-2"
         style={{
           background: 'linear-gradient(180deg, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.1) 100%)',
           backdropFilter: 'blur(8px)',
@@ -160,21 +160,30 @@ const SearchPage = ({ onNavigate }: SearchPageProps) => {
         >
           <ChevronLeft className="text-white" size={24} />
         </motion.button>
+        <h1 className="font-penmanship font-bold text-white text-base flex-1 text-center mr-11">
+          🔍 Buscar na Bíblia
+        </h1>
+      </div>
+
+      {/* Centered prominent search bar */}
+      <div className="px-4 pt-4 pb-3">
         <div
-          className="flex-1 flex items-center gap-2 rounded-2xl px-4 py-2.5"
+          className="flex items-center gap-2 rounded-2xl px-4 py-3"
           style={{
-            background: 'rgba(255,255,255,0.18)',
-            border: '1.5px solid rgba(255,255,255,0.3)',
+            background: 'rgba(6,18,58,0.92)',
+            border: '2px solid rgba(255,215,0,0.55)',
+            boxShadow: '0 4px 20px rgba(255,184,0,0.18)',
           }}
         >
-          <Search className="text-white/70 flex-shrink-0" size={18} />
+          <Search style={{ color: '#FFD700', filter: GLOW, flexShrink: 0 }} size={20} />
           <input
             type="text"
-            placeholder="Pesquise na Bíblia… ex: João 3:16"
+            placeholder="pesquise por livro, versículo, ou trecho da bíblia, exemplo joão 3:16..."
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             onKeyDown={handleKeyDown}
-            className="flex-1 bg-transparent text-white placeholder:text-white/50 outline-none font-penmanship text-sm"
+            className="flex-1 bg-transparent outline-none font-penmanship text-sm"
+            style={{ color: 'white' }}
             autoFocus
           />
           {query ? (
@@ -183,21 +192,40 @@ const SearchPage = ({ onNavigate }: SearchPageProps) => {
             </button>
           ) : null}
         </div>
-        <button
-          onClick={doSearch}
-          disabled={loading}
-          className="flex-shrink-0 rounded-xl px-3 py-2 font-penmanship font-bold text-sm"
-          style={{
-            background: 'linear-gradient(180deg, #FFB800 0%, #FF8C00 100%)',
-            borderBottom: '3px solid #CC6600',
-            color: 'white',
-            minHeight: 40,
-            border: 'none',
-            cursor: 'pointer',
-          }}
-        >
-          {loading ? <Loader2 size={16} className="animate-spin" /> : 'Buscar'}
-        </button>
+        {/* Highlight text below the search bar */}
+        {!query && (
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="font-penmanship text-center mt-2 text-xs px-2"
+            style={{
+              background: 'linear-gradient(90deg, #FFB800, #FF8C00)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              backgroundClip: 'text',
+              fontWeight: 'bold',
+              letterSpacing: '0.01em',
+            }}
+          >
+            pesquise por livro, versículo, ou trecho da bíblia, exemplo joão 3:16...
+          </motion.p>
+        )}
+        <div className="flex justify-center mt-3">
+          <motion.button
+            whileTap={{ scale: 0.96 }}
+            onClick={doSearch}
+            disabled={loading}
+            className="rounded-2xl px-8 py-2.5 font-penmanship font-bold text-white text-sm"
+            style={{
+              background: 'linear-gradient(180deg, #FFB800 0%, #FF8C00 100%)',
+              boxShadow: '0 4px 16px rgba(255,140,0,0.4)',
+              cursor: 'pointer',
+              border: 'none',
+            }}
+          >
+            {loading ? <Loader2 size={16} className="animate-spin" /> : '🔍 Buscar'}
+          </motion.button>
+        </div>
       </div>
 
       {/* Content */}
@@ -209,13 +237,13 @@ const SearchPage = ({ onNavigate }: SearchPageProps) => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="flex flex-col items-center justify-center py-16 gap-3"
+              className="flex flex-col items-center justify-center py-10 gap-3"
             >
-              <BookOpen size={48} style={{ color: 'rgba(255,215,0,0.6)', filter: GLOW }} />
-              <p className="font-penmanship text-white/70 text-center text-base">
-                Pesquise por livro, versículo ou trecho da Bíblia
+              <BookOpen size={52} style={{ color: 'rgba(255,215,0,0.7)', filter: GLOW }} />
+              <p className="font-penmanship text-white/80 text-center text-base font-bold">
+                O que você quer encontrar hoje?
               </p>
-              <p className="font-penmanship text-white/40 text-center text-xs px-8">
+              <p className="font-penmanship text-white/45 text-center text-xs px-8">
                 Exemplo: "João 3:16", "Gênesis 1", "amor"
               </p>
             </motion.div>

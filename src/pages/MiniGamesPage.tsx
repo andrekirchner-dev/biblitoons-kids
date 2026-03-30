@@ -64,8 +64,6 @@ const GAMES = [
   },
 ];
 
-/* Sandy mountains SVG background */
-const SAND_BG = `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 428 260' preserveAspectRatio='none'%3E%3Cdefs%3E%3ClinearGradient id='sky' x1='0' y1='0' x2='0' y2='1'%3E%3Cstop offset='0%25' stop-color='%23C8840A'/%3E%3Cstop offset='100%25' stop-color='%23E8A020'/%3E%3C/linearGradient%3E%3ClinearGradient id='dune1' x1='0' y1='0' x2='0' y2='1'%3E%3Cstop offset='0%25' stop-color='%23C8860E'/%3E%3Cstop offset='100%25' stop-color='%23A06010'/%3E%3C/linearGradient%3E%3ClinearGradient id='dune2' x1='0' y1='0' x2='0' y2='1'%3E%3Cstop offset='0%25' stop-color='%23D99820'/%3E%3Cstop offset='100%25' stop-color='%23B07018'/%3E%3C/linearGradient%3E%3ClinearGradient id='dune3' x1='0' y1='0' x2='0' y2='1'%3E%3Cstop offset='0%25' stop-color='%23E8AA30'/%3E%3Cstop offset='100%25' stop-color='%23C08828'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='428' height='260' fill='url(%23sky)'/%3E%3Cellipse cx='214' cy='220' rx='260' ry='90' fill='url(%23dune1)'/%3E%3Cellipse cx='80' cy='240' rx='180' ry='80' fill='url(%23dune2)'/%3E%3Cellipse cx='360' cy='245' rx='170' ry='75' fill='url(%23dune3)'/%3E%3Cellipse cx='214' cy='260' rx='240' ry='60' fill='%23C8900C'/%3E%3C/svg%3E")`;
 
 const MiniGamesPage = ({ onNavigate }: MiniGamesPageProps) => {
   return (
@@ -77,10 +75,6 @@ const MiniGamesPage = ({ onNavigate }: MiniGamesPageProps) => {
         minHeight: "100dvh",
         paddingTop: "env(safe-area-inset-top, 0px)",
         paddingBottom: "calc(68px + env(safe-area-inset-bottom, 0px))",
-        backgroundImage: SAND_BG,
-        backgroundSize: "100% auto",
-        backgroundRepeat: "no-repeat",
-        backgroundPosition: "bottom center",
       }}
     >
       {/* Header */}

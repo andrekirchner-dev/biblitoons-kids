@@ -1,0 +1,23 @@
+// ── Firestore Security Rules — Bibloo ─────────────────────────────────────
+// Deploy: firebase deploy --only firestore:rules
+
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Usuário só acessa o próprio documento
+    match /users/{userId} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+
+      // Subcoleção siblings — mesmo owner
+      match /siblings/{siblingId} {
+        allow read, write: if request.auth != null && request.auth.uid == userId;
+      }
+    }
+
+    // Negar todo o resto por padrão
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

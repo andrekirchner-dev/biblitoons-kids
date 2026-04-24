@@ -2,17 +2,31 @@ import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Mail, Phone, Loader2 } from "lucide-react";
 import LogoApp1 from "@/assets/LogoApp1.png";
+import { signInWithGoogle } from "@/lib/firebase";
+import { useAuth } from "@/contexts/AuthContext";
 
 interface SignupPageProps {
   onNavigate: (page: string, userData?: { name?: string; email?: string }) => void;
 }
 
 const SignupPage = ({ onNavigate }: SignupPageProps) => {
+  const { firebaseUser, profile } = useAuth();
   const [phoneValue, setPhoneValue] = useState("");
   const [emailValue, setEmailValue] = useState("");
   const [showForm, setShowForm] = useState(false);
   const [googleLoading, setGoogleLoading] = useState(false);
   const [googleError, setGoogleError] = useState("");
+
+  // Se já está logado, redireciona direto para home ou onboarding
+  useEffect(() => {
+    if (firebaseUser) {
+      if (profile?.gender && profile?.ageGroup) {
+        onNavigate("home");
+      } else {
+        onNavigate("gender", { name: profile?.name ?? "", email: profile?.email ?? "" });
+      }
+    }
+  }, [firebaseUser, profile]);
 
   useEffect(() => {
     const timer = setTimeout(() => setShowForm(true), 800);
@@ -23,21 +37,15 @@ const SignupPage = ({ onNavigate }: SignupPageProps) => {
     setGoogleLoading(true);
     setGoogleError("");
     try {
-      const { signInWithGoogle } = await import("@/lib/firebase");
       const user = await signInWithGoogle();
+      // AuthContext vai detectar o login e o useEffect acima cuida do redirect
       onNavigate("gender", { name: user.name, email: user.email });
     } catch (err: unknown) {
       const message = err instanceof Error ? err.message : String(err);
-      if (
-        message.includes("REPLACE_WITH_YOUR_KEY") ||
-        message.includes("auth/configuration-not-found") ||
-        message.includes("not-initialized")
-      ) {
-        setGoogleError(
-          "Configure o Firebase no arquivo src/lib/firebase.ts para ativar o login com Google."
-        );
-      } else if (message.includes("auth/popup-closed-by-user")) {
+      if (message.includes("auth/popup-closed-by-user") || message.includes("auth/cancelled-popup-request")) {
         setGoogleError("Login cancelado.");
+      } else if (message.includes("auth/configuration-not-found") || message.includes("auth/invalid-api-key")) {
+        setGoogleError("Firebase não configurado. Adicione as credenciais no .env.local.");
       } else {
         setGoogleError("Erro ao entrar com o Google. Tente novamente.");
       }
